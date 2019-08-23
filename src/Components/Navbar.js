@@ -4,8 +4,8 @@ import { withRouter } from "react-router-dom";
 
 class Navbar extends React.Component {
   componentDidMount() {
-    var elem = document.querySelector(".sidenav");
-    var instance = M.Sidenav.init(elem, {
+    let elem = document.querySelector(".sidenav");
+    let instance = M.Sidenav.init(elem, {
       edge: "left",
       inDuration: 250
     });
@@ -15,62 +15,94 @@ class Navbar extends React.Component {
     return (
       <div className="sideNavBar">
         <nav>
-          <div class="nav-wrapper">
-            <a href="#" data-target="slide-out" class="left sidenav-trigger show-on-large">
-              <i class="material-icons">menu</i>
+          <div className="nav-wrapper" style={{ backgroundColor: "#14293D" }}>
+            <a
+              href="#"
+              data-target="slide-out"
+              className="sidenav-trigger show-on-medium-and-down"
+            >
+              <i className="material-icons ">menu</i>
             </a>
-            <a href="#" class="brand-logo left" >
-              Logo
+            {/* <a
+              className="btn-flat left"
+              style={{ marginLeft: "20px",marginRight: '10px',paddingBottom:'70px' }}
+            >
+              <i className="material-icons" style={{ color: "white", fontSize: '40px' }}>
+                cloud_queue
+              </i>
             </a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down ">
+            <a
+              href="#"
+              className="brand-logo left"
+            >
+              ATMO IO
+            </a> */}
+
+            <a href="#!" class="brand-logo left" style={{marginLeft:'40px'}}>
+              <i class="material-icons show-on-medium-and-up" style={{color:'#0ACAF5', fontSize: '40px'}}>cloud_queue</i>ATMO IO
+            </a>
+
+            {/* desk-top navbar icon */}
+            <ul
+              id="nav"
+              className="right hide-on-small-only show-on-medium-and-up"
+            >
               <li>
-                <a href="sass.html">Sass</a>
-              </li>
-              <li>
-                <a href="badges.html">Components</a>
+                <a>Components</a>
               </li>
               <li>
                 <a href="collapsible.html">JavaScript</a>
               </li>
             </ul>
+            {/* mobile navbar icon */}
+            <ul id="nav-mobile" className="right hide-on-med-and-up">
+              <li>
+                <a
+                  class="btn-flat waves-effect waves-light"
+                  style={{ margin: "0px" }}
+                >
+                  <i class="material-icons" style={{ color: "white" }}>
+                    person
+                  </i>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="btn-flat waves-effect waves-light"
+                  style={{ margin: "0px" }}
+                >
+                  <i class="material-icons" style={{ color: "white" }}>
+                    person
+                  </i>
+                </a>
+              </li>
+            </ul>
           </div>
         </nav>
-        <ul id="slide-out" class="sidenav">
+        <ul
+          id="slide-out"
+          className="sidenav sidenav-fixed hide-on-large-only"
+          style={{ width: "65%" }}
+        >
           <li>
-            <div class="user-view">
-              <div class="background" />
-              <a href="#user" />
-              <a href="#name">
-                <span class="white-text name">John Doe</span>
-              </a>
-              <a href="#email">
-                <span class="white-text email">jdandturk@gmail.com</span>
-              </a>
-            </div>
+            <a href="#!">1 Sidebar Link</a>
           </li>
           <li>
-            <a href="#!">
-              <i class="material-icons">cloud</i>First Link With Icon
-            </a>
-          </li>
-          <li>
-            <a href="#!">Second Link</a>
-          </li>
-          <li>
-            <div class="divider" />
-          </li>
-          <li>
-            <a class="subheader">Subheader</a>
-          </li>
-          <li>
-            <a class="waves-effect" href="#!">
-              Third Link With Waves
-            </a>
+            <a href="#!">2 Sidebar Link</a>
           </li>
         </ul>
-        {/* <a href="#" data-target="slide-out" class="sidenav-trigger">
-          <i class="material-icons">menu</i>
-        </a> */}
+        <ul
+          id="slide-out"
+          className="sidenav sidenav-fixed hide-on-med-and-down"
+          style={{ width: "300px" }}
+        >
+          <li>
+            <a href="#!">1 Sidebar Link</a>
+          </li>
+          <li>
+            <a href="#!">2 Sidebar Link</a>
+          </li>
+        </ul>
       </div>
     );
   }
