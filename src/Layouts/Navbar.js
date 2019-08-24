@@ -1,14 +1,22 @@
 import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
+// import { compose } from "redux";
+import { connect } from "react-redux";
+import { updateSidenavInfo } from "../Store/actions/sidenavInfoActions";
 
 class Navbar extends React.Component {
   componentDidMount() {
     let elem = document.querySelector(".sidenav");
-    let instance = M.Sidenav.init(elem, {
+    M.Sidenav.init(elem, {
       edge: "left",
       inDuration: 250
     });
+  }
+
+  handleUpdateSidenav(e){
+    e.preventDefault();
+    this.props.updateSidenavInfo();
   }
 
   render() {
@@ -38,8 +46,19 @@ class Navbar extends React.Component {
               ATMO IO
             </a> */}
 
-            <a href="#!" class="brand-logo left" style={{marginLeft:'40px'}}>
-              <i class="material-icons show-on-medium-and-up" style={{color:'#0ACAF5', fontSize: '40px'}}>cloud_queue</i>ATMO IO
+            <a
+              href="#!"
+              className="brand-logo left"
+              style={{ marginLeft: "40px", fontSize: "20px" }}
+              onClick={(e) => this.handleUpdateSidenav(e)}
+            >
+              <i
+                className="material-icons show-on-medium-and-up"
+                style={{ color: "#0ACAF5", fontSize: "40px" }}
+              >
+                cloud_queue
+              </i>
+              ATMO IO
             </a>
 
             {/* desk-top navbar icon */}
@@ -48,7 +67,7 @@ class Navbar extends React.Component {
               className="right hide-on-small-only show-on-medium-and-up"
             >
               <li>
-                <a>Components</a>
+                <a href="collapsible.html">Components</a>
               </li>
               <li>
                 <a href="collapsible.html">JavaScript</a>
@@ -58,53 +77,87 @@ class Navbar extends React.Component {
             <ul id="nav-mobile" className="right hide-on-med-and-up">
               <li>
                 <a
-                  class="btn-flat waves-effect waves-light"
+                  className="btn-flat waves-effect waves-light"
                   style={{ margin: "0px" }}
                 >
-                  <i class="material-icons" style={{ color: "white" }}>
+                  <i className="material-icons" style={{ color: "white" }}>
                     person
                   </i>
                 </a>
               </li>
               <li>
                 <a
-                  class="btn-flat waves-effect waves-light"
+                  className="btn-flat waves-effect waves-light"
                   style={{ margin: "0px" }}
                 >
-                  <i class="material-icons" style={{ color: "white" }}>
-                    person
+                  <i className="material-icons" style={{ color: "white" }}>
+                    language
                   </i>
                 </a>
               </li>
             </ul>
           </div>
         </nav>
+        {/* mobile sidenav */}
         <ul
           id="slide-out"
-          className="sidenav sidenav-fixed hide-on-large-only"
-          style={{ width: "65%" }}
+          className="sidenav sidenav-fixed hide-on-large-only collection"
+          style={{ width: "150px" }}
         >
           <li>
-            <a href="#!">1 Sidebar Link</a>
+            <a href="#!" className="collection-item">
+              <span className="badge">1</span>Alan
+            </a>
           </li>
           <li>
-            <a href="#!">2 Sidebar Link</a>
+            <a href="#!" className="collection-item">
+              <span className="badge">1</span>Alan
+            </a>
           </li>
         </ul>
+        {/* desk-top sidenav */}
         <ul
           id="slide-out"
           className="sidenav sidenav-fixed hide-on-med-and-down"
-          style={{ width: "300px" }}
+          style={{ width: "200px" }}
         >
           <li>
-            <a href="#!">1 Sidebar Link</a>
+            <a href="#!" className="collection-item">
+              <span className="badge">1</span>Alan
+            </a>
           </li>
           <li>
-            <a href="#!">2 Sidebar Link</a>
+            <a href="#!" className="collection-item">
+              <span className="badge">1</span>Alan
+            </a>
           </li>
         </ul>
       </div>
     );
   }
 }
-export default withRouter(Navbar);
+
+const mapStateToProps = state => {
+  return {
+    sidenavInfo: state.sidenavInfo
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSidenavInfo: () => dispatch(updateSidenavInfo())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);
+
+// export default compose(
+//   withRouter,
+//   connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+//   )
+// )(Navbar);

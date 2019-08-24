@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 class Home extends Component {
-  render(){
+  render() {
     return (
-      <div className="mainLayout">
-        <h1>123</h1>
+      <div className="row mainLayout container" id="container">
+        <div className="col s6" style={{color:'white'}}>Grid 1</div>
+        <div className="col s6" style={{color:'white'}}>Grid 2</div>
       </div>
-    )
+    );
   }
 }
 
-export default Home
+export default Home;

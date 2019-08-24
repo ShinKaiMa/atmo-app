@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./Components/Navbar";
+import Navbar from "./Layouts/Navbar";
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import Home from './Layouts/Home'
 
