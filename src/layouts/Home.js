@@ -1,14 +1,20 @@
-import React, { Component } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import M from "materialize-css/dist/js/materialize.min.js";
 
-class Home extends Component {
-  render() {
-    return (
+const Home = () => {
+  useEffect(() => {
+    let elems = document.querySelectorAll('.datepicker');
+    let instances = M.Datepicker.init(elems);
+    // instances[0].open();
+  }, [])
+  return (
+    <div >
       <div className="row mainLayout container" id="container">
-        <div className="col s6" style={{color:'white'}}>Grid 1</div>
-        <div className="col s6" style={{color:'white'}}>Grid 2</div>
+        <div className="col s6" style={{ color: 'white' }}>Grid 1</div>
+        <div className="col s6" style={{ color: 'white' }}>Grid 2</div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Home;

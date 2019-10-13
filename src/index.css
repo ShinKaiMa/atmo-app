@@ -30,10 +30,10 @@ code {
   }
 }
 
-.col {
+/* .col {
   background-color: #0ACAF5;
   border:1px white solid;
-}
+} */
 
 #container {
   margin-top: 10px;
@@ -42,3 +42,23 @@ code {
   width: 95%;
 }
 
+/* #sideNavOption {
+  color:black !important;
+} */
+/* 
+.collapsible-header , #selected{
+  background-color: "#0ACAF5" !important;
+} */
+
+.breadcrumb {
+  background-color: #ffffff !important; 
+  color: black !important;
+}
+
+.breadcrumb:before {
+  color: black !important;
+}
+
+nav {
+  background-color: #ffffff !important; 
+}
