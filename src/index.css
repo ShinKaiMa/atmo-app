@@ -52,7 +52,13 @@ code {
 
 .breadcrumb {
   background-color: #ffffff !important; 
-  color: black !important;
+  color: gray !important;
+}
+
+a.breadcrumb::before {
+  color:rgba(50,50,50,0.3) !important;
+  vertical-align: middle !important;
+  font-size: 20px;
 }
 
 .breadcrumb:before {
