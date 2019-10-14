@@ -2,28 +2,26 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link, withRouter } from 'react-router-dom'
 import { SideNavContext } from '../contexts/SideNavContext';
 import M from "materialize-css/dist/js/materialize.min.js";
+import MobileSideNavbar from "../components/MobileSideNavbar";
+import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
 // import M from "materialize-css";
 
 const Navbar = (props) => {
+  const [collapsibles, setCollapsibles] = useState();
+
   console.log(`props: ${JSON.stringify(props.location.pathname)}`);
   // const [collapsibleItem, setCollapsibleItem] = useState();
   const { sideNavOptions, dispatch } = useContext(SideNavContext);
   useEffect(() => {
-    let elem = document.querySelector(".sidenav");
-    M.Sidenav.init(elem, {
-      edge: "left",
-      inDuration: 250
-    });
+    // let elem = document.querySelectorAll(".sidenav");
+    // let sidenavs = M.Sidenav.init(elem, {
+    //   edge: "left",
+    //   inDuration: 250,
+    //   draggable: true
+    // });
 
-    let collapsibleElem = document.querySelectorAll('.collapsible');
-    let collapsible = M.Collapsible.init(collapsibleElem, {
-      accordion: false
-    });
-    // let collapsible = M.Collapsible.getInstance(elem);
-    var instance = M.Collapsible.getInstance(collapsibleElem);
-    // instance.open();
-    // console.log("collapsible: " + collapsible)
-    // setCollapsibleItem(M.Collapsible.init(collapsibleElem, {
+    // let collapsibleElem = document.querySelectorAll('.collapsible');
+    // setCollapsibles(M.Collapsible.init(collapsibleElem, {
     //   accordion: false
     // }));
   }, []);
@@ -95,62 +93,37 @@ const Navbar = (props) => {
         </div>
       </nav>
       {/* mobile sidenav */}
-      <ul
+      {/* <ul
         id="slide-out"
         className="sidenav sidenav-fixed hide-on-large-only collection"
-        style={{ width: "150px" }}
+        style={{ width: "350px" }}
       >
-        <li>
-          <a href="#!" className="collection-item">
-            <span className="badge">1</span>Alan
-          </a>
-        </li>
-        <li>
-          <a href="#!" className="collection-item">
-            <span className="badge">1</span>Alan
-            </a>
-        </li>
-      </ul>
-      {/* desk-top sidenav */}
-      <ul
-        id="slide-out"
-        className="sidenav sidenav-fixed hide-on-med-and-down"
-        style={{ width: "200px" }}>
         <ul className="collapsible collapsible-accordion">
           <li className="active">
             <div className="collapsible-header waves-effect waves-gray" style={{ fontSize: "12px", fontWeight: "bold" }}>
               <i className="material-icons" style={{ fontSize: "16px" }}>language</i>
               Global Model
-              {/* <span class="new badge red">4</span> */}
             </div>
             <div className="collapsible-body">
-              <Link to="/model/global/forcast/GFS">
                 <li>
-                  <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "1px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
+                  <a className="collection-item" style={{ fontSize: "12px", color:"black", lineHeight:"45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5"}} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
                 </li>
-              </Link>
-              <Link to="/model/global/analysis/ECMWF">
                 <li>
-                  <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "1px", backgroundColor: "#0ACAF5" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
+                  <a className="collection-item" style={{ fontSize: "12px", color:"black", lineHeight:"45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
                 </li>
-              </Link>
             </div>
           </li>
           <li className="active">
             <div className="collapsible-header waves-effect waves-gray" style={{ fontSize: "12px", fontWeight: "bold" }}>
               <i className="material-icons" style={{ fontSize: "16px" }}>gps_fixed</i>
               Regional Model
-              {/* <span class="new badge red">4</span> */}
             </div>
             <div className="collapsible-body">
-              <Link to="/model/regional/forcast/CWBWRF">
                 <li>
-                  <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "1px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
+                  <a className="collection-item" style={{ fontSize: "12px", color:"black", lineHeight:"45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
                 </li>
-              </Link>
             </div>
           </li>
-          {/* {console.log(`props.location.pathname === '/obsevation': ${props.location.pathname === '/obsevation'}`)} */}
           <li className={props.location.pathname === '/overview' ? "active" : ""}
             onClick={(e) => {
               e.preventDefault();
@@ -165,7 +138,56 @@ const Navbar = (props) => {
             </div>
           </li>
         </ul>
-      </ul>
+      </ul> */}
+      <MobileSideNavbar props/>
+      {/* desk-top sidenav */}
+      <DeskTopSideNavbar props/>
+      {/* <ul
+        id="slide-out"
+        className="sidenav sidenav-fixed hide-on-med-and-down"
+        style={{ width: "200px" }}>
+        <ul className="collapsible collapsible-accordion">
+          <li className="active">
+            <div className="collapsible-header waves-effect waves-gray" style={{ fontSize: "12px", fontWeight: "bold" }}>
+              <i className="material-icons" style={{ fontSize: "16px" }}>language</i>
+              Global Model
+            </div>
+            <div className="collapsible-body">
+                <li onClick={()=>props.history.push('/model/global/forcast/GFS')}>
+                  <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5"}} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
+                </li>
+                <li onClick={()=>props.history.push('/model/global/analysis/ECMWF')}>
+                  <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
+                </li>
+            </div>
+          </li>
+          <li className="active">
+            <div className="collapsible-header waves-effect waves-gray" style={{ fontSize: "12px", fontWeight: "bold" }}>
+              <i className="material-icons" style={{ fontSize: "16px" }}>gps_fixed</i>
+              Regional Model
+              <span class="new badge red">4</span>
+            </div>
+            <div className="collapsible-body">
+                <li  onClick={()=>props.history.push('/model/global/forcast/CWBWRF')}>
+                  <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
+                </li>
+            </div>
+          </li>
+          <li className={props.location.pathname === '/overview' ? "active" : ""}
+            onClick={(e) => {
+              e.preventDefault();
+              if (props.location.pathname !== '/overview')
+                props.history.push('/overview');
+            }}>
+            <div className="collapsible-header waves-effect waves-gray" style={{ fontSize: "12px", fontWeight: "bold", color: "black" }} >
+              <i className="material-icons" style={{ fontSize: "16px" }}>apps</i>
+              Weather Overview
+            </div>
+            <div className="collapsible-body">
+            </div>
+          </li>
+        </ul>
+      </ul> */}
     </div>
   )
 };

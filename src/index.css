@@ -52,19 +52,31 @@ code {
 
 .breadcrumb {
   background-color: #ffffff !important; 
-  color: gray !important;
+  color: rgba(50,50,50,0.4) !important;
+}
+
+.breadcrumb.active {
+  color: #0ACAF5 !important;
+  /* font-weight: bold; */
 }
 
 a.breadcrumb::before {
   color:rgba(50,50,50,0.3) !important;
   vertical-align: middle !important;
   font-size: 20px;
-}
-
-.breadcrumb:before {
-  color: black !important;
+  margin-left: 3px !important;
+  margin-right: 3px !important;
 }
 
 nav {
   background-color: #ffffff !important; 
 }
+
+.breadcrumb.pointer{
+  cursor: pointer; 
+}
+/* 
+.chip {
+  padding-top: 5px ;
+  margin-bottom: 0px !important;
+} */

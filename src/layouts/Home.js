@@ -10,8 +10,8 @@ const Home = () => {
   return (
     <div >
       <div className="row mainLayout container" id="container">
-        <div className="col s6" style={{ color: 'white' }}>Grid 1</div>
-        <div className="col s6" style={{ color: 'white' }}>Grid 2</div>
+        <div className="col s6" style={{ color: 'white', backgroundColor:"#0ACAF5", border:"1px white solid" }}>Grid 1</div>
+        <div className="col s6" style={{ color: 'white', backgroundColor:"#0ACAF5", border:"1px white solid"  }}>Grid 2</div>
       </div>
     </div>
   );
