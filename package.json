@@ -5,6 +5,7 @@
   "dependencies": {
     "material-design-icons": "^3.0.1",
     "materialize-css": "^1.0.0-rc.2",
+    "nouislider": "^14.0.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.0",

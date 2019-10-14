@@ -34,10 +34,10 @@ const DeskTopSideNavbar = (props) => {
             </div>
                     <div className="collapsible-body">
                         <li onClick={() => props.history.push('/model/global/forcast/GFS')}>
-                            <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
+                            <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
                         </li>
                         <li onClick={() => props.history.push('/model/global/analysis/ECMWF')}>
-                            <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
+                            <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
                         </li>
                     </div>
                 </li>
@@ -48,7 +48,7 @@ const DeskTopSideNavbar = (props) => {
                     </div>
                     <div className="collapsible-body">
                         <li onClick={() => props.history.push('/model/global/forcast/CWBWRF')}>
-                            <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
+                            <a className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500"  }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
                         </li>
                     </div>
                 </li>

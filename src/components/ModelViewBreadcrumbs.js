@@ -40,7 +40,7 @@ const ModelViewBreadcrumbs = (props) => {
 
 
     return (
-        <nav className="z-depth-0 col s12" style={{ height: "20px", lineHeight: "20px" }}>
+        <nav className="z-depth-0 col s12" style={{ height: "20px", lineHeight: "20px", marginBottom:"20px" }}>
             <div className="nav-wrapper" style={{ height: "20px", paddingTop: "10px" }}>
                 <div style={{ height: "20px" }}>
                     <a className="breadcrumb pointer" onClick={() => props.history.push('/')}>
