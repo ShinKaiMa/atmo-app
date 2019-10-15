@@ -11,7 +11,7 @@ const MobileSideNavbar = (props) => {
         let sidenavs = M.Sidenav.init(elem, {
             edge: "left",
             inDuration: 350,
-            closeOnClick: true
+            draggable: true
         });
 
         let collapsibleElem = document.querySelectorAll('.collapsible');
@@ -23,7 +23,7 @@ const MobileSideNavbar = (props) => {
     return (
         <ul
             id="slide-out"
-            className="sidenav sidenav-close hide-on-large-only collection"
+            className="sidenav sidenav-close hide-on-large-only"
             style={{ width: "280px" }}
         >
             <ul className="collapsible collapsible-accordion">

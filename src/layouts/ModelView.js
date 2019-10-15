@@ -6,23 +6,41 @@ import { unaryExpression } from "@babel/types";
 import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
 import noUiSlider from "nouislider";
 import "nouislider/distribute/nouislider.css";
+import ModelViewSlider from '../components/ModelViewSlider'
 
 const ModelView = props => {
   useEffect(() => {
-    let slider = document.getElementById("slider");
-    noUiSlider.create(slider, {
-      connect: true,
-      range: {
-        min: 0,
-        max: 78
-      },
-      start: 0,
-      step: 6,
-      tooltips : [{to: (value) => {
-        let result = Math.round(parseInt(value)).toString();
-        return result + ' Hour';
-      }}]
-    });
+    // let slider = document.getElementById("slider");
+    // noUiSlider.create(slider, {
+    //   connect: true,
+    //   // range: {
+    //   //   min: 0,
+    //   //   max: 78
+    //   // },
+    //   range: {
+    //     min: 0,
+    //     "13%": 6,
+    //     "26%": 12,
+    //     "39%": 18,
+    //     max: 78
+    //   },
+    //   pips: {
+    //     mode: "values",
+    //     values: [0, 6, 12, 18, 78],
+    //     density: 100
+    //   },
+    //   snap: true,
+    //   start: 0,
+    //   step: 6,
+    //   tooltips: [
+    //     {
+    //       to: value => {
+    //         let result = Math.round(parseInt(value)).toString();
+    //         return result + " Hour";
+    //       }
+    //     }
+    //   ]
+    // });
   }, []);
 
   return (
@@ -30,9 +48,20 @@ const ModelView = props => {
       <div className="row">
         <ModelViewBreadcrumbs props />
       </div>
-      <div className="row">
-        <div id="slider" className="col s4 " style={{height:"6px", marginTop:"10px", marginLeft:"16px"}}></div>
-      </div>
+      {/* <div>
+        <div
+          id="slider"
+          // style={{ height: "6px", marginTop: "10px", marginLeft: "32px", width:"300px" }}
+          style={{
+            height: "6px",
+            marginTop: "10px",
+            marginLeft: "16px",
+            marginBottom: "50px",
+            width: "270px"
+          }}
+        ></div>
+      </div> */}
+      <ModelViewSlider/>
     </div>
   );
 };
