@@ -8,6 +8,8 @@ const ModelViewSlider = props => {
   const [width, height] = useWindowSize();
 
   useEffect(() => {
+    const brokeHour = [12];
+
     let sliderDom = document.getElementById("slider");
     noUiSlider.create(sliderDom, {
       connect: true,
@@ -30,7 +32,12 @@ const ModelViewSlider = props => {
       pips: {
         mode: "values",
         values: [0, 6],
-        density: 100
+        density: 100,
+        filter: (value, type) => {
+          if (type === 0) return 0;
+          console.log(brokeHour.includes(value))
+          return brokeHour.includes(value) ? 2 : 1;
+        }
       },
       snap: true,
       start: 0,
@@ -63,28 +70,46 @@ const ModelViewSlider = props => {
     //     });
     // }, 2000);
 
+
     setTimeout(() => {
-    console.log(`value1 : ${sliderDom.noUiSlider.get()}`);
+      console.log(`value1 : ${sliderDom.noUiSlider.get()}`);
       sliderDom.noUiSlider.updateOptions({
         range: {
           min: 0,
-          "33%": 6,
-          max: 18
+          "50%": 6,
+          max: 12
         },
         pips: {
           mode: "values",
-          values: [0, 6, 18],
-          density: 100
+          values: [0, 6, 12],
+          density: 100,
+          filter: (value, type) => {
+            if (type === 0) return 0;
+            console.log(brokeHour.includes(value))
+            return brokeHour.includes(value) ? 2 : 1;
+          }
+        },
+        filter: (value, type) => {
+          if (type === 0) return 0;
+          console.log(brokeHour.includes(value))
+          return brokeHour.includes(value) ? 2 : 1;
         }
       });
     }, 5000);
 
-    sliderDom.noUiSlider.on('change',()=>console.log(sliderDom.noUiSlider.get()))
+    sliderDom.noUiSlider.on('update', () => {
+      console.log(sliderDom.noUiSlider.get());
+    })
+    sliderDom.noUiSlider.on('change', () => {
+      console.log(sliderDom.noUiSlider.get());
+      if (sliderDom.noUiSlider.get() >= 12)
+        sliderDom.noUiSlider.set(6);
+    })
   }, []);
 
   return (
     <div>
-      {console.log(`final ${(width > height ? width : height) / 2.5}`)}
+      {/* {console.log(`final ${(width > height ? width : height) / 2.5}`)} */}
       <div
         id="slider"
         // style={{ height: "6px", marginTop: "10px", marginLeft: "32px", width:"300px" }}
@@ -93,7 +118,8 @@ const ModelViewSlider = props => {
           marginTop: "10px",
           marginLeft: "16px",
           marginBottom: "50px",
-          width: (width > height ? width : height) / 2.5
+          // width: (width > height ? width : height) / 2.5
+          width: width / 2
         }}
       ></div>
     </div>
