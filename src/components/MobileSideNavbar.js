@@ -23,7 +23,7 @@ const MobileSideNavbar = (props) => {
     return (
         <ul
             id="slide-out"
-            className="sidenav sidenav-close hide-on-large-only"
+            className="sidenav hide-on-large-only"
             style={{ width: "280px" }}
         >
             <ul className="collapsible collapsible-accordion">

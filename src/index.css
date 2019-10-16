@@ -74,6 +74,25 @@ nav {
   background-color: #ffffff !important; 
 }
 
+.tabs .tab a{
+  color: gray !important; 
+} /*color to the text*/
+
+.tabs .tab a:hover {
+  background-color:rgba(1,1,1,0.05) !important; 
+  color:#0ACAF5 !important; 
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+  background-color: rgba(50,50,50,0.1) !important; 
+  color: #0ACAF5 !important; 
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+  background-color:#0ACAF5 !important;
+  height: 6px !important;
+} /*Color of underline*/
+
 .breadcrumb.pointer{
   cursor: pointer; 
 }
@@ -98,4 +117,15 @@ nav {
 
 .noUi-handle::before {
   height: 10px !important; 
+}
+
+.noUi-value-sub {
+  color: rgba(205,145,120,1);
+  font-weight: bold;
+  cursor: not-allowed;; 
+}
+
+.noUi-marker-sub {
+  background-color: rgba(205,145,120,1);
+  cursor: not-allowed;; 
 }

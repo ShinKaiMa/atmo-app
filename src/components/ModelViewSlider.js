@@ -5,107 +5,90 @@ import noUiSlider from "nouislider";
 const ModelViewSlider = props => {
   // const [collapsibles, setCollapsibles] = useState();
   // const [sidenavs, setSidenavs] = useState();
+  let [sliderDom, setSliderDom] = useState();
   const [width, height] = useWindowSize();
 
   useEffect(() => {
-    const brokeHour = [12];
-
-    let sliderDom = document.getElementById("slider");
-    noUiSlider.create(sliderDom, {
-      connect: true,
-      //   range: {
-      //     min: 0,
-      //     "13%": 6,
-      //     "26%": 12,
-      //     "39%": 18,
-      //     max: 78
-      //   },
-      //   pips: {
-      //     mode: "values",
-      //     values: [0, 6, 12, 18, 78],
-      //     density: 100
-      //   },
-      range: {
-        min: 0,
-        max: 6
-      },
-      pips: {
-        mode: "values",
-        values: [0, 6],
-        density: 100,
-        filter: (value, type) => {
-          if (type === 0) return 0;
-          console.log(brokeHour.includes(value))
-          return brokeHour.includes(value) ? 2 : 1;
-        }
-      },
-      snap: true,
-      start: 0,
-      step: 6,
-      tooltips: [
-        {
-          to: value => {
-            let result = Math.round(parseInt(value)).toString();
-            return result + " Hour";
-          }
-        }
-      ]
-    });
-
-    // setTimeout(() => {
-    //     sliderDom.noUiSlider.updateOptions({
-    //         range: {
-    //             min: 0,
-    //             "13%": 6,
-    //             "26%": 12,
-    //             "39%": 18,
-    //             "65%": 30,
-    //             max: 78
-    //         },
-    //         pips: {
-    //             mode: "values",
-    //             values: [0, 6, 12, 18, 30, 78],
-    //             density: 100
-    //           }
-    //     });
-    // }, 2000);
-
-
-    setTimeout(() => {
-      console.log(`value1 : ${sliderDom.noUiSlider.get()}`);
-      sliderDom.noUiSlider.updateOptions({
+    const brokeHour = [3, 12];
+    if (!sliderDom) {
+      sliderDom = document.getElementById("slider");
+      noUiSlider.create(sliderDom, {
+        connect: true,
+        //   range: {
+        //     min: 0,
+        //     "13%": 6,
+        //     "26%": 12,
+        //     "39%": 18,
+        //     max: 78
+        //   },
+        //   pips: {
+        //     mode: "values",
+        //     values: [0, 6, 12, 18, 78],
+        //     density: 100
+        //   },
         range: {
           min: 0,
-          "50%": 6,
-          max: 12
+          max: 6
         },
         pips: {
           mode: "values",
-          values: [0, 6, 12],
+          values: [0, 6],
           density: 100,
           filter: (value, type) => {
             if (type === 0) return 0;
-            console.log(brokeHour.includes(value))
+            console.log(brokeHour.includes(value));
             return brokeHour.includes(value) ? 2 : 1;
           }
         },
-        filter: (value, type) => {
-          if (type === 0) return 0;
-          console.log(brokeHour.includes(value))
-          return brokeHour.includes(value) ? 2 : 1;
-        }
+        snap: true,
+        start: 0,
+        step: 6,
+        tooltips: [
+          {
+            to: value => {
+              let result = Math.round(parseInt(value)).toString();
+              return result + " Hour";
+            }
+          }
+        ]
       });
-    }, 5000);
 
-    sliderDom.noUiSlider.on('update', () => {
-      console.log(sliderDom.noUiSlider.get());
-    })
-    sliderDom.noUiSlider.on('change', () => {
-      console.log(sliderDom.noUiSlider.get());
-      if (sliderDom.noUiSlider.get() >= 12)
-        sliderDom.noUiSlider.set(6);
-    })
-  }, []);
+      sliderDom.noUiSlider.on("slide", () => {
+        console.log("before: " + sliderDom.noUiSlider.get());
+        if (sliderDom.noUiSlider.get() >= 12) sliderDom.noUiSlider.set(6);
+        console.log("after: " + sliderDom.noUiSlider.get());
+      });
+
+      setSliderDom(sliderDom);
+    }else{
+      setTimeout(() => {
+        console.log(`value1 : ${sliderDom.noUiSlider.get()}`);
+        sliderDom.noUiSlider.updateOptions({
+          range: {
+            min: 0,
+            "50%": 6,
+            max: 12
+          },
+          pips: {
+            mode: "values",
+            values: [0,3, 6, 12],
+            density: 100,
+            filter: (value, type) => {
+              if (type === 0) return 0;
+              console.log(brokeHour.includes(value));
+              return brokeHour.includes(value) ? 2 : 1;
+            }
+          },
+          filter: (value, type) => {
+            if (type === 0) return 0;
+            console.log(brokeHour.includes(value));
+            return brokeHour.includes(value) ? 2 : 1;
+          }
+        });
+      }, 2000);
+    }
+    console.log('re render slider')
+  }, [props,sliderDom]);
 
   return (
     <div>
