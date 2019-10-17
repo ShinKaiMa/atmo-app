@@ -122,10 +122,23 @@ nav {
 .noUi-value-sub {
   color: rgba(205,145,120,1);
   font-weight: bold;
-  cursor: not-allowed;; 
+  cursor: not-allowed;
 }
 
 .noUi-marker-sub {
   background-color: rgba(205,145,120,1);
-  cursor: not-allowed;; 
+  cursor: not-allowed; 
+}
+
+.dropdown-content {
+  background-color: #FFFFFF !important; 
+  margin: 0 !important; 
+  min-width: 300px !important;  /* Changed this to accomodate content width */
+  max-height: auto !important; 
+	margin-left: -1px !important;  /* Add this to keep dropdown in line with edge of navbar */
+  overflow: hidden !important;  /* Changed this from overflow-y:auto; to overflow:hidden; */
+  position: absolute !important; 
+  white-space: nowrap !important; 
+  z-index: 999 !important; 
+  will-change: width, height !important; 
 }
