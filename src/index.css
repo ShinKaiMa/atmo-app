@@ -88,7 +88,7 @@ nav {
   color: #0ACAF5 !important; 
 } /*Background and text color when a tab is active*/
 
-.tabs .indicator {
+.tabs.indicator {
   background-color:#0ACAF5 !important;
   height: 6px !important;
 } /*Color of underline*/
@@ -130,15 +130,38 @@ nav {
   cursor: not-allowed; 
 }
 
-.dropdown-content {
+/* .dropdown-content {
   background-color: #FFFFFF !important; 
   margin: 0 !important; 
-  min-width: 300px !important;  /* Changed this to accomodate content width */
   max-height: auto !important; 
-	margin-left: -1px !important;  /* Add this to keep dropdown in line with edge of navbar */
-  overflow: hidden !important;  /* Changed this from overflow-y:auto; to overflow:hidden; */
+	margin-left: -1px !important;  
+  overflow: hidden !important;  
   position: absolute !important; 
   white-space: nowrap !important; 
   z-index: 999 !important; 
   will-change: width, height !important; 
+} */
+
+.dropdown-trigger.btn {
+  box-shadow: none !important;
+}
+
+.dropdown-content .collection{
+  width: 33.333333% !important;
+  min-width: 33.333333% !important;
+  margin: 0px 10px 0px 0px !important;
+}
+
+.bottomNav {
+  box-shadow: 0 -1px 3px -1px rgba(0,0,0,0.1) !important;
+}
+
+.dropdown-content {
+  margin: 0px 10px 0px 0px !important;
+}
+
+.indicator {
+  background-color:#0ACAF5 !important;
+  height: 6px !important;
+  z-index: 999 !important;
 }
