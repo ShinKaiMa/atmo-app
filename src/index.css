@@ -74,25 +74,6 @@ nav {
   background-color: #ffffff !important; 
 }
 
-.tabs .tab a{
-  color: gray !important; 
-} /*color to the text*/
-
-.tabs .tab a:hover {
-  background-color:rgba(1,1,1,0.05) !important; 
-  color:#0ACAF5 !important; 
-} /*Text color on hover*/
-
-.tabs .tab a.active {
-  background-color: rgba(50,50,50,0.1) !important; 
-  color: #0ACAF5 !important; 
-} /*Background and text color when a tab is active*/
-
-.tabs.indicator {
-  background-color:#0ACAF5 !important;
-  height: 6px !important;
-} /*Color of underline*/
-
 .breadcrumb.pointer{
   cursor: pointer; 
 }
@@ -130,38 +111,78 @@ nav {
   cursor: not-allowed; 
 }
 
-/* .dropdown-content {
-  background-color: #FFFFFF !important; 
-  margin: 0 !important; 
-  max-height: auto !important; 
-	margin-left: -1px !important;  
-  overflow: hidden !important;  
-  position: absolute !important; 
-  white-space: nowrap !important; 
-  z-index: 999 !important; 
-  will-change: width, height !important; 
-} */
-
 .dropdown-trigger.btn {
   box-shadow: none !important;
 }
 
-.dropdown-content .collection{
-  width: 33.333333% !important;
-  min-width: 33.333333% !important;
-  margin: 0px 10px 0px 0px !important;
-}
-
-.bottomNav {
-  box-shadow: 0 -1px 3px -1px rgba(0,0,0,0.1) !important;
+#bottomNav {
+  box-shadow: 0 -1px 10px -1px rgba(0,0,0,0.3) !important;
 }
 
 .dropdown-content {
-  margin: 0px 10px 0px 0px !important;
+  border: none !important;
+  /* box-shadow: none !important; */
+  position: fixed !important;
+  /* z-index: 0 !important; */
+  /* top: calc(-200% - 45px) !important; */
+  /* top: -200% !important; */
+  /* top: -130px !important; */
+  /* top:525px !important; */
+  /* top: 439px !important; */
+  top: calc(100% - 146px) !important;
+  bottom: 45px !important;
+  /* margin: 0 0 0 0 !important; */
+  /* transform: none !important; */
+  transform: scale(1,1) !important;
 }
 
-.indicator {
-  background-color:#0ACAF5 !important;
-  height: 6px !important;
-  z-index: 999 !important;
+/* model view bottom nav */
+.btn:hover {
+background-color: rgba(230,230,230,1) !important;
 }
+
+.btn.active {
+  border-bottom: #0ACAF5 6px solid !important;
+  background-color: rgba(240,240,240,1) !important;
+  line-height: 39px !important; 
+}
+
+#bottomNav > .btn {
+  border-radius: 0;
+}
+
+#bottomNav > .btn:not(.active) {
+  line-height: 40px !important; 
+}
+
+#bottomNav > a:not(.active) {
+  color:rgba(50,50,50,0.7) !important; 
+}
+
+.dropdown-content.collection {
+  box-shadow: none;
+  border-bottom: rgba(50,50,50,0.5) 1px solid !important;
+}
+
+.dropdown-content.collection > .collection-item > a {
+  font-size: 10px;
+  padding: 0;
+  text-align: center;
+  color:rgba(50,50,50,0.7);
+  font-weight: bold;
+}
+
+.dropdown-content.collection > li {
+  height: 20px;
+  padding: 10px;
+  margin: 0 0 0 0;
+  line-height: 10px;
+}
+
+.dropdown-content.collection > li > a {
+  line-height: 29px;
+}
+
+
+
+
