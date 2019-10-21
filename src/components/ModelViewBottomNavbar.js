@@ -1,31 +1,37 @@
 import React, { useState, useContext, useEffect } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
+import Skeleton, { SkeletonTheme }  from 'react-loading-skeleton';
 
 const ModelViewBottomNavbar = props => {
-    const [width, height] = useWindowSize();
-    useEffect(() => {
-        var dropdowns = document.querySelectorAll(".dropdown-trigger");
-        if (width !== 0) {
-          var dropdownsInstances = M.Dropdown.init(dropdowns, {
-            hover: width > 1080 ? true : false,
-            // hover: false,
-            inDuration: 500,
-            outDuration: 0,
-            constrainWidth: true,
-            // coverTrigger: false,
-            alignment:"top"
-          });
-        }
-      }, [width, height, props]);
+  const [width, height] = useWindowSize();
 
-    return(
-        <div>
-        <div
+  const [currentIdx, setCurrentIdx] = useState(1);
+
+  const handleChangeNavIdx = (num) => {
+    setCurrentIdx(num);
+  }
+
+  useEffect(() => {
+    var dropdowns = document.querySelectorAll(".dropdown-trigger.botTrigger");
+    if (width !== 0) {
+      var dropdownsInstances = M.Dropdown.init(dropdowns, {
+        hover: width > 1080 ? true : false,
+        inDuration: 300,
+        outDuration: 300,
+        constrainWidth: true,
+        coverTrigger: false,
+      });
+    }
+  }, [width, height, props]);
+
+  return (
+    <div>
+      <div
         class="row"
         style={{
           position: "fixed",
-          bottom: "0",
+          bottom: "0px",
           left: "0px",
           right: "0px",
           // left:width,
@@ -38,13 +44,13 @@ const ModelViewBottomNavbar = props => {
           // padding:"0px",
           paddingLeft: width > 993 ? "200px" : "0px",
           width: width > 993 ? width : "100%",
-        //   height: "45px",
+          //   height: "45px",
           zIndex: "500"
         }}
       >
-        <div id="bottomNav" style={{height:"45px"}}>
+        <div id="bottomNav" style={{ height: "45px" }}>
           <a
-            class="dropdown-trigger btn active col s4"
+            className = {`dropdown-trigger botTrigger btn col s4 ${currentIdx === 1? "active":""}`}
             data-alignment="top"
             data-target="precipitationBotNav"
             style={{
@@ -53,13 +59,14 @@ const ModelViewBottomNavbar = props => {
               color: "#0ACAF5",
               borderRadius: "0px",
               border: "90px",
-              textTransform:" none",
+              textTransform: " none",
             }}
           >
             Precipitation
+            {/* <Skeleton width={"80%"} color="rgba(250,250,250,1)" highlightColor="rgba(240,240,240,1)"/> */}
           </a>
           <a
-            class="dropdown-trigger btn col s4"
+            className = {`dropdown-trigger botTrigger btn col s4  ${currentIdx === 2? "active":""}`}
             data-target="wind"
             style={{
               height: "45px",
@@ -67,13 +74,13 @@ const ModelViewBottomNavbar = props => {
               color: "#0ACAF5",
               borderRadius: "0px",
               border: "0px",
-              textTransform:" none"
+              textTransform: " none",
             }}
           >
             Wind
           </a>
           <a
-            class="dropdown-trigger btn col s4"
+            className = {`dropdown-trigger botTrigger btn col s4  ${currentIdx === 3? "active":""}`}
             data-target="temperature"
             style={{
               height: "45px",
@@ -81,7 +88,7 @@ const ModelViewBottomNavbar = props => {
               color: "#0ACAF5",
               borderRadius: "0px",
               border: "0px",
-              textTransform:" none"
+              textTransform: " none",
             }}
           >
             Temperature
@@ -89,11 +96,12 @@ const ModelViewBottomNavbar = props => {
         </div>
 
 
-        
+
       </div>
       <ul
         id="precipitationBotNav"
-        class="dropdown-content collection"
+        class="dropdown-content collection two botNav"
+        onClick={()=>handleChangeNavIdx(1)}
       >
         <li className="collection-item">
           <a >Total Precip</a>
@@ -104,10 +112,11 @@ const ModelViewBottomNavbar = props => {
       </ul>
       <ul
         id="wind"
-        class="dropdown-content collection"
+        class="dropdown-content collection five botNav"
+        onClick={()=>handleChangeNavIdx(2)}
       >
         <li className="collection-item">
-          <a  > Surface Wind Speed</a>
+          <a> Surface Wind Speed</a>
         </li>
         <li className="collection-item">
           <a  >850hPa Wind Speed</a>
@@ -124,17 +133,18 @@ const ModelViewBottomNavbar = props => {
       </ul>
       <ul
         id="temperature"
-        class="dropdown-content collection"
+        class="dropdown-content collection right two botNav"
+        onClick={()=>handleChangeNavIdx(3)}
       >
         <li className="collection-item">
-          <a  >Surface Temperature</a>
+          <a  >Surface Temp</a>
         </li>
         <li className="collection-item">
-          <a  >850hPa Temperature</a>
+          <a  >850hPa Temp</a>
         </li>
       </ul>
-      </div>
-    )
+    </div>
+  )
 }
 
 

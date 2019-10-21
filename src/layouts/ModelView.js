@@ -4,6 +4,7 @@ import { SideNavContext } from "../contexts/SideNavContext";
 import M from "materialize-css/dist/js/materialize.min.js";
 import { unaryExpression } from "@babel/types";
 import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
+import ModelViewAreaSelector from "../components/ModelViewAreaSelector";
 import noUiSlider from "nouislider";
 import "nouislider/distribute/nouislider.css";
 import ModelViewSlider from "../components/ModelViewSlider";
@@ -12,13 +13,17 @@ import useWindowSize from "../hooks/useWindowSize";
 
 const ModelView = props => {
 
+
   return (
     <div>
-      <div className="mainLayout container" id="container" style={{marginBottom:"45px"}}>
+      <div className="mainLayout container" id="container" style={{ marginBottom: "46px" }}>
         <div className="row">
           <ModelViewBreadcrumbs props />
         </div>
-        <ModelViewSlider />
+        <div className="row">
+          <ModelViewSlider />
+          {/* <ModelViewAreaSelector/> */}
+        </div>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti
           praesentium illo ut, esse exercitationem nulla sunt natus dignissimos
@@ -97,10 +102,10 @@ const ModelView = props => {
           tenetur? Fuga ipsum repudiandae neque dicta temporibus harum. Facilis
           impedit iusto consectetur?
         </p>
-        
+
       </div>
 
-      <ModelViewBottomNavbar props/>
+      <ModelViewBottomNavbar props />
       {/* <div
           class="row"
           style={{

@@ -91,7 +91,7 @@ const ModelViewSlider = props => {
   }, [props,sliderDom]);
 
   return (
-    <div>
+    <div >
       {/* {console.log(`final ${(width > height ? width : height) / 2.5}`)} */}
       <div
         id="slider"

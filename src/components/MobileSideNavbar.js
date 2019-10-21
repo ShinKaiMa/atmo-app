@@ -49,7 +49,7 @@ const MobileSideNavbar = (props) => {
                         Regional Model
                     </div>
                     <div className="collapsible-body">
-                        <li onClick={() => props.history.push('/model/global/forcast/CWBWRF')}>
+                        <li onClick={() => props.history.push('/model/regional/forcast/CWBWRF')}>
                             <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
                         </li>
                     </div>

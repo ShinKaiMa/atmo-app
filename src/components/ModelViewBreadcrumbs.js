@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+import ModelViewAreaSelector from "../components/ModelViewAreaSelector";
+import M from "materialize-css/dist/js/materialize.min.js";
 
 const ModelViewBreadcrumbs = (props) => {
     const [breadcrumbs, setBreadcrumbs] = useState();
@@ -36,12 +38,16 @@ const ModelViewBreadcrumbs = (props) => {
                 setBreadcrumbs(newBreadcrumbs);
             }
         }
+        var elems = document.querySelectorAll('.dropdown-trigger.area');
+        var instances = M.Dropdown.init(elems, {
+            coverTrigger: false
+        });
     }, [props]);
 
 
     return (
-        <nav className="z-depth-0 col s12" style={{ height: "20px", lineHeight: "20px", marginBottom:"20px" }}>
-            <div className="nav-wrapper" style={{ height: "20px", paddingTop: "10px" }}>
+        <nav className="z-depth-0 col s12" style={{ height: "20px", lineHeight: "20px", marginBottom: "20px" }}>
+            <div className="nav-wrapper " style={{ height: "20px", paddingTop: "10px" }}>
                 <div style={{ height: "20px" }}>
                     <a className="breadcrumb pointer" onClick={() => props.history.push('/')}>
                         <i className="material-icons" style={{ color: "rgba(50,50,50,0.4)", lineHeight: "20px", fontSize: "21px" }}>home</i>
@@ -52,8 +58,21 @@ const ModelViewBreadcrumbs = (props) => {
                     <a className="breadcrumb active" style={{ fontSize: "18px" }}>
                         {breadcrumbs ? breadcrumbs[1] : ""}
                     </a>
+                    <a class='breadcrumb'>
+                        <a class='dropdown-trigger btn area' data-target='area' style={{ backgroundColor: "transparent", color: "gray", height: "25px", lineHeight: "20px" }}>
+                        <i class="material-icons right" style={{lineHeight: "25px"}}>keyboard_arrow_down</i>Area
+                    </a>
+                    </a>
                 </div>
             </div>
+            <ul id='area' class='dropdown-content'>
+                <li><a href="#!">one</a></li>
+                <li><a href="#!">two</a></li>
+                <li class="divider" tabindex="-1"></li>
+                <li><a href="#!">three</a></li>
+                <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+            </ul>
         </nav>
     );
 }
