@@ -5,6 +5,7 @@ import Home from './layouts/Home'
 import ModelView from './layouts/ModelView'
 import SideNavContextProvider from './contexts/SideNavContext';
 import 'materialize-css/dist/css/materialize.min.css';
+import Test from "./layouts/test";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/model/:area/:type/:model' component={ModelView}/>
+            <Route path='/test' component={Test}/>
         </Switch>
       </div>
     </BrowserRouter>
