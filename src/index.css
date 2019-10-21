@@ -164,7 +164,7 @@ background-color: rgba(230,230,230,1) !important;
   border-bottom: rgba(50,50,50,0.5) 1px solid !important;
 }
 .dropdown-content.collection.botNav > .collection-item > a {
-  font-size: 3px;
+  font-size: 10px;
   padding: 0;
   text-align: center;
   color:rgba(50,50,50,0.7);
@@ -180,3 +180,10 @@ background-color: rgba(230,230,230,1) !important;
   line-height: 29px;
 }
 
+
+.dropdown-content.area {
+  width: 120px !important;
+}
+.dropdown-content.area > li > a{
+  color: gray !important;
+}
