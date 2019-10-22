@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import ModelViewAreaSelector from "../components/ModelViewAreaSelector";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
 
@@ -62,7 +61,6 @@ const ModelViewBreadcrumbs = props => {
             className="breadcrumb pointer"
             onClick={() => props.history.push("/")}
           >
-            {/* <i className="material-icons" style={{ color: "rgba(50,50,50,0.4)", lineHeight: "20px", fontSize: "21px" }}>home</i> */}
             <i
               className="material-icons"
               style={{
@@ -74,7 +72,6 @@ const ModelViewBreadcrumbs = props => {
               home
             </i>
           </a>
-          {/* <a className="breadcrumb" style={{ fontSize: "18px" }}> */}
           <a
             className="breadcrumb"
             style={{
@@ -83,7 +80,6 @@ const ModelViewBreadcrumbs = props => {
           >
             {breadcrumbs ? breadcrumbs[0] : ""}
           </a>
-          {/* <a className="breadcrumb active" style={{ fontSize: "18px" }}> */}
           <a
             className="breadcrumb active"
             style={{
@@ -92,11 +88,6 @@ const ModelViewBreadcrumbs = props => {
           >
             {breadcrumbs ? breadcrumbs[1] : ""}
           </a>
-          {/* <a class='breadcrumb'>
-                        <a class='dropdown-trigger btn area' data-target='area' style={{ backgroundColor: "transparent", color: "gray", height: "25px", lineHeight: "20px" }}>
-                        <i class="material-icons right" style={{lineHeight: "25px"}}>keyboard_arrow_down</i>Area
-                    </a>
-                    </a> */}
           <a class="breadcrumb">
             <a
               class="dropdown-trigger btn area"

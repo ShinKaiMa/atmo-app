@@ -1,15 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { SideNavContext } from "../contexts/SideNavContext";
-import M from "materialize-css/dist/js/materialize.min.js";
-import { unaryExpression } from "@babel/types";
+import React from "react";
+import {  withRouter } from "react-router-dom";
 import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
-import ModelViewAreaSelector from "../components/ModelViewAreaSelector";
-import noUiSlider from "nouislider";
 import "nouislider/distribute/nouislider.css";
 import ModelViewSlider from "../components/ModelViewSlider";
 import ModelViewBottomNavbar from '../components/ModelViewBottomNavbar'
-import useWindowSize from "../hooks/useWindowSize";
 
 const ModelView = props => {
 
@@ -22,7 +16,6 @@ const ModelView = props => {
         </div>
         <div className="row">
           <ModelViewSlider />
-          {/* <ModelViewAreaSelector/> */}
         </div>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti
