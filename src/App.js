@@ -3,13 +3,13 @@ import Navbar from "./layouts/Navbar";
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import Home from './layouts/Home'
 import ModelView from './layouts/ModelView'
-import SideNavContextProvider from './contexts/SideNavContext';
+import ModelViewContextProvider from './contexts/ModelViewContext';
 import 'materialize-css/dist/css/materialize.min.css';
 import Test from "./layouts/test";
 
 function App() {
   return (
-    <SideNavContextProvider>
+    <ModelViewContextProvider>
     <BrowserRouter>
       <div className="App">
         <Navbar />
@@ -20,7 +20,7 @@ function App() {
         </Switch>
       </div>
     </BrowserRouter>
-    </SideNavContextProvider>
+    </ModelViewContextProvider>
   );
 }
 

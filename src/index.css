@@ -186,8 +186,9 @@ background-color: rgba(230,230,230,1) !important;
 
 
 .dropdown-content.area {
-  width: 120px !important;
+  border-radius: 10px;
 }
 .dropdown-content.area > li > a{
   color: gray !important;
+  font-size: 10px !important;
 }

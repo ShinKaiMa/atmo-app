@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { SideNavContext } from "../contexts/SideNavContext";
+import { ModelViewContext } from "../contexts/ModelViewContext";
 import M from "materialize-css/dist/js/materialize.min.js";
 import MobileSideNavbar from "../components/MobileSideNavbar";
 import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
@@ -11,7 +11,7 @@ const Navbar = props => {
 
   console.log(`props: ${JSON.stringify(props.location.pathname)}`);
   // const [collapsibleItem, setCollapsibleItem] = useState();
-  const { sideNavOptions, dispatch } = useContext(SideNavContext);
+  // const { sideNavOptions, dispatch } = useContext(SideNavContext);
   useEffect(() => {
     // let elem = document.querySelectorAll(".sidenav");
     // let sidenavs = M.Sidenav.init(elem, {

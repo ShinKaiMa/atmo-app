@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
+import { ModelViewContext } from '../contexts/ModelViewContext'
 
 const ModelViewBreadcrumbs = props => {
+  const { modelViewInfo, dispatchModelViewInfo } = useContext(ModelViewContext);
   const [breadcrumbs, setBreadcrumbs] = useState();
   const [area, setArea] = useState();
   const [width, height] = useWindowSize();
@@ -65,7 +67,7 @@ const ModelViewBreadcrumbs = props => {
               className="material-icons"
               style={{
                 color: "rgba(50,50,50,0.4)",
-                lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "20px" : "20px",
+                lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "28px" : "25px",
                 fontSize: width > THRESHOLD_WIDTH_PIXEL ? "21px" : "21px"
               }}
             >
@@ -88,43 +90,46 @@ const ModelViewBreadcrumbs = props => {
           >
             {breadcrumbs ? breadcrumbs[1] : ""}
           </a>
-          <a class="breadcrumb">
+          <a className="breadcrumb">
             <a
-              class="dropdown-trigger btn area"
+              className="dropdown-trigger btn area waves-effect waves-gray "
               data-target="area"
               style={{
-                backgroundColor: "transparent",
-                width: width > THRESHOLD_WIDTH_PIXEL ? "120px" : "70px",
+                backgroundColor: "rgba(50,50,50,0.1)",
+                width: width > THRESHOLD_WIDTH_PIXEL ? "110px" : "85px",
                 color: "gray",
-                height: width > THRESHOLD_WIDTH_PIXEL ? "25px" : "20px",
-                lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "20px" : "18px",
-                fontSize: width > THRESHOLD_WIDTH_PIXEL ? "18px" : "10px",
-                padding: "0 0 0 3px",
-                color:"#0ACAF5"
+                height: width > THRESHOLD_WIDTH_PIXEL ? "30px" : "25px",
+                lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "15px" : "25px",
+                fontSize: width > THRESHOLD_WIDTH_PIXEL ? "12px" : "7px",
+                padding: width > THRESHOLD_WIDTH_PIXEL ? "6px 6px 6px 10px" :　"0 0 0 8px",
+                borderRadius:"16px",
+                marginBottom: width > THRESHOLD_WIDTH_PIXEL ? "3px" : "0px"
               }}
             >
               <i
-                class="material-icons right"
+                className="material-icons right"
                 style={{
-                  lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "21px" : "20px",
+                  lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "25px",
                   fontSize: "13px",
-                  color:"gray"
+                  color:"gray",
+                  paddingRight:"10px",
+                  margin:"0px"
                 }}
               >
                 keyboard_arrow_down
               </i>
-              Area
+              {modelViewInfo.selected.area}
             </a>
           </a>
         </div>
       </div>
-      <ul id="area" class="dropdown-content area">
+      <ul id="area" className="dropdown-content area" style={{zIndex:10}}>
         <li>
-          <a style={{fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",}}>Near Taiwan</a>
+          <a style={{fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",}} onClick={ (e) => dispatchModelViewInfo({type: 'SET_AREA', payload: e.target.innerHTML }) }>Near TW</a>
         </li>
-        <li class="divider" tabindex="-1"></li>
+        <li className="divider" tabindex="-1"></li>
         <li>
-          <a style={{fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",}}>Taiwan</a>
+          <a style={{fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px"} } onClick={ (e) => dispatchModelViewInfo({type: 'SET_AREA', payload: e.target.innerHTML }) }>TW</a>
         </li>
       </ul>
     </nav>

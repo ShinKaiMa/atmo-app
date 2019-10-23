@@ -28,7 +28,7 @@ const ModelViewBottomNavbar = props => {
   return (
     <div>
       <div
-        class="row"
+        className="row"
         style={{
           position: "fixed",
           bottom: "0px",
@@ -100,7 +100,7 @@ const ModelViewBottomNavbar = props => {
       </div>
       <ul
         id="precipitationBotNav"
-        class="dropdown-content collection two botNav"
+        className="dropdown-content collection two botNav"
         onClick={()=>handleChangeNavIdx(1)}
       >
         <li className="collection-item">
@@ -112,7 +112,7 @@ const ModelViewBottomNavbar = props => {
       </ul>
       <ul
         id="wind"
-        class="dropdown-content collection five botNav"
+        className="dropdown-content collection five botNav"
         onClick={()=>handleChangeNavIdx(2)}
       >
         <li className="collection-item">
@@ -133,7 +133,7 @@ const ModelViewBottomNavbar = props => {
       </ul>
       <ul
         id="temperature"
-        class="dropdown-content collection right two botNav"
+        className="dropdown-content collection right two botNav"
         onClick={()=>handleChangeNavIdx(3)}
       >
         <li className="collection-item">
