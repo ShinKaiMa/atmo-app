@@ -139,7 +139,7 @@ const ModelViewBreadcrumbs = props => {
               >
                 keyboard_arrow_down
               </i>
-              {modelViewInfo.selected.area}
+              {modelViewInfo.selected? modelViewInfo.selected.area : ""}
             </a>
           </a>
         </div>
@@ -153,8 +153,8 @@ const ModelViewBreadcrumbs = props => {
               <li key={index}>
                 <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px", }} onClick={(e) => dispatchModelViewInfo({ type: 'SET_AREA', payload: e.target.innerHTML })}>{area}</a>
               </li>
-              {array.length - 1 === index ? "" : <li key={index} className="divider" tabindex="-1"></li>}
-              </React.Fragment>
+              {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
+            </React.Fragment>
             )
         }):""
       }

@@ -16,7 +16,8 @@ const ModelViewBottomNavbar = props => {
     var dropdowns = document.querySelectorAll(".dropdown-trigger.botTrigger");
     if (width !== 0) {
       var dropdownsInstances = M.Dropdown.init(dropdowns, {
-        hover: width > 1080 ? true : false,
+        hover:  false,
+        // hover: width > 1080 ? true : false,
         inDuration: 300,
         outDuration: 300,
         constrainWidth: true,
