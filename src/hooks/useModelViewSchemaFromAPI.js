@@ -24,16 +24,15 @@ export const useModelViewSchemaFromAPI = ({queryModel,queryArea}) => {
                     console.log(`content : ${JSON.stringify({ model:mapRouterModelParamToRequestModel(queryModel), area:queryArea })}`);
                     let response = await fetchModelViewSchema({ model:mapRouterModelParamToRequestModel(queryModel), area:queryArea });
                     let newModelViewSchema = response.data;
-                    console.log(`return newModelViewSchema : ${newModelViewSchema}`);
-                    if(newModelViewSchema){
+                    console.log(`return newModelViewSchema detail length : ${Object.keys(newModelViewSchema.dataTypes).length}`);
+                    if(newModelViewSchema && Object.keys(newModelViewSchema.dataTypes).length > 0 && newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]){
                         setModelViewSchema(newModelViewSchema);
-                        // dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload:areas[0]});
+                        dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]});
                     }
                 }
+                dispatchAppStatus({type: 'SET_IS_LOADING', paylaod:false });
             } catch (err) {
                 console.error(err);
-            } finally{
-                dispatchAppStatus({type: 'SET_IS_LOADING', paylaod:false });
             }
         }
         fetchAndSetModelViewSchema(queryModel);

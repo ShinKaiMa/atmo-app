@@ -201,3 +201,12 @@ background-color: rgba(230,230,230,1) !important;
   color: gray !important;
   font-size: 10px !important;
 }
+
+#botNavCollection.collection-item.active{
+  background-color: rgba(240,240,240,1)!important;
+  color: #0ACAF5 !important;
+}
+#botNavCollection.collection-item.active > a{
+  color: #0ACAF5 !important;
+  font-weight: normal !important;
+}
