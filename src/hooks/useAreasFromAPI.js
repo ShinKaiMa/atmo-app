@@ -1,24 +1,27 @@
 import { useContext, useState, useEffect } from "react";
 import { fetchAreas } from "../api/atmoAPI"
 import { constants } from "../config/constant"
-import { ModelViewContext } from '../contexts/ModelViewContext'
+import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 export const useAreasFromAPI = queryModel => {
-    const { modelViewInfo, dispatchModelViewInfo } = useContext(ModelViewContext);
+    const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+    const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
     const [areas, setAreas] = useState();
 
     useEffect(() => {
-        async function fetchAreasFromAPI(queryModel){
+        async function fetchAndSetAreas(queryModel){
             try {
+                dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
                 console.log(`get queryModel : ${queryModel}`);
                 if (queryModel) {
                     let response = await fetchAreas({ model: mapRouterModelParamToRequestModel(queryModel) });
-                    let areas = response.data;
-                    console.log(`return areas : ${areas}`);
-                    console.log(`return areas[0] : ${areas[0]}`);
-                    setAreas(areas);
-                    if(!modelViewInfo.selected && areas.length > 0){
-                        dispatchModelViewInfo({ type: 'SET_AREA', payload:areas[0]});
+                    let newAreas = response.data;
+                    console.log(`return newAreas : ${newAreas}`);
+                    console.log(`return newAreas[0] : ${newAreas[0]}`);
+                    if(newAreas && newAreas.length > 0){
+                        setAreas(newAreas);
+                        dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload:newAreas[0]});
                     }
                 } else {
                     return null;
@@ -26,9 +29,11 @@ export const useAreasFromAPI = queryModel => {
             } catch (err) {
                 console.error(err);
                 return null;
+            } finally{
+                dispatchAppStatus({type: 'SET_IS_LOADING', paylaod:false });
             }
         }
-        fetchAreasFromAPI(queryModel);
+        fetchAndSetAreas(queryModel);
     }, [queryModel])
 
     return areas;

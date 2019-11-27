@@ -2,15 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
-import { ModelViewContext } from '../contexts/ModelViewContext'
+import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
+
 import { useAreasFromAPI } from "../hooks/useAreasFromAPI"
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const ModelViewBreadcrumbs = props => {
-  const { modelViewInfo, dispatchModelViewInfo } = useContext(ModelViewContext);
-  const [breadcrumbs, setBreadcrumbs] = useState();
-  const [queryModel, setQueryModel] = useState();
-  const [area, setArea] = useState();
-  const [width, height] = useWindowSize();
+  const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+
+  const [ breadcrumbs, setBreadcrumbs ] = useState();
+  const [ queryModel, setQueryModel ] = useState();
+  const [ area, setArea ] = useState();
+  const [ width, height ] = useWindowSize();
   const areas = useAreasFromAPI(queryModel);
   const THRESHOLD_WIDTH_PIXEL = 500;
 
@@ -110,6 +113,8 @@ const ModelViewBreadcrumbs = props => {
           >
             {breadcrumbs ? breadcrumbs[1] : ""}
           </a>
+
+
           <a className="breadcrumb">
             <a
               className="dropdown-trigger btn area waves-effect waves-gray "
@@ -139,9 +144,11 @@ const ModelViewBreadcrumbs = props => {
               >
                 keyboard_arrow_down
               </i>
-              {modelViewInfo.selected? modelViewInfo.selected.area : ""}
+              {selectedModelViewInfo.area? selectedModelViewInfo.area : "loading..." }
             </a>
           </a>
+
+          
         </div>
       </div>
       <ul  id="area" className="dropdown-content area" style={{ zIndex: 10 }}>
@@ -151,7 +158,7 @@ const ModelViewBreadcrumbs = props => {
           return (
             <React.Fragment>
               <li key={index}>
-                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px", }} onClick={(e) => dispatchModelViewInfo({ type: 'SET_AREA', payload: e.target.innerHTML })}>{area}</a>
+                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px", }} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: e.target.innerHTML })}>{area}</a>
               </li>
               {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
             </React.Fragment>

@@ -1,15 +1,15 @@
 import React, { createContext, useReducer } from 'react';
-import { ModelViewReducer } from '../reducers/ModelViewReducer';
+import { UserSelectedModelViewReducer } from '../reducers/UserSelectedModelViewReducer';
 
-export const ModelViewContext = createContext();
+export const UserSelectedModelViewContext = createContext();
 
 const ModelViewContextProvider = (props) => {
-  const [modelViewInfo, dispatchModelViewInfo] = useReducer(ModelViewReducer,{selected:undefined} );
+  const [selectedModelViewInfo, dispatchSelectedModelViewInfo] = useReducer(UserSelectedModelViewReducer,{ model:null, area:null, dataTypes:null, detailType:null, startDate:null } );
 
   return (
-    <ModelViewContext.Provider value={{ modelViewInfo, dispatchModelViewInfo }}>
+    <UserSelectedModelViewContext.Provider value={{ selectedModelViewInfo, dispatchSelectedModelViewInfo }}>
       {props.children}
-    </ModelViewContext.Provider>
+    </UserSelectedModelViewContext.Provider>
   );
 }
  

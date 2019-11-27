@@ -40,7 +40,7 @@ code {
 } */
 
 #container {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 10px;
   margin-left: 0;
   margin-right: 0;
@@ -131,8 +131,17 @@ nav {
   transform: scale(1,1) !important;
   box-shadow: 0 -1px 10px -1px rgba(0,0,0,0.3) !important;
 }
+.dropdown-content.one.botNav {
+  top: calc(100% - 96px) !important;
+}
 .dropdown-content.two.botNav {
   top: calc(100% - 146px) !important;
+}
+.dropdown-content.three.botNav {
+  top: calc(100% - 196px) !important;
+}
+.dropdown-content.four.botNav {
+  top: calc(100% - 246px) !important;
 }
 .dropdown-content.five.botNav {
   top: calc(100% - 296px) !important;

@@ -25,7 +25,7 @@ const Test = () => {
                     <label>Materialize Select</label>
                 </div>
             </div>
-
+            <Skeleton width={100}/>
         </div>
     )
 }

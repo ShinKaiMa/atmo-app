@@ -1,12 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
-import Skeleton, { SkeletonTheme }  from 'react-loading-skeleton';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { UserSelectedModelViewContext } from '../contexts/ModelViewContext';
+import { useModelViewSchemaFromAPI } from "../hooks/useModelViewSchemaFromAPI"
 
 const ModelViewBottomNavbar = props => {
   const [width, height] = useWindowSize();
-
   const [currentIdx, setCurrentIdx] = useState(1);
+  const [queryModelAndArea, setQueryModelAndArea] = useState({ queryModel: "", queryArea: "" });
+  const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+  const modelViewSchema = useModelViewSchemaFromAPI(queryModelAndArea);
 
   const handleChangeNavIdx = (num) => {
     setCurrentIdx(num);
@@ -14,9 +18,20 @@ const ModelViewBottomNavbar = props => {
 
   useEffect(() => {
     var dropdowns = document.querySelectorAll(".dropdown-trigger.botTrigger");
-    if (width !== 0) {
+    console.log(dropdowns)
+    if (dropdowns && width !== 0 && modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3) {
+      // sleep(3000).then(()=>{
+      //   var dropdownsInstances = M.Dropdown.init(dropdowns, {
+      //     hover: false,
+      //     // hover: width > 1080 ? true : false,
+      //     inDuration: 300,
+      //     outDuration: 300,
+      //     constrainWidth: true,
+      //     coverTrigger: false,
+      //   });
+      // });
       var dropdownsInstances = M.Dropdown.init(dropdowns, {
-        hover:  false,
+        hover: false,
         // hover: width > 1080 ? true : false,
         inDuration: 300,
         outDuration: 300,
@@ -24,7 +39,12 @@ const ModelViewBottomNavbar = props => {
         coverTrigger: false,
       });
     }
-  }, [width, height, props]);
+  }, [width, height, props, modelViewSchema]);
+
+  useEffect(() => {
+    if (selectedModelViewInfo.model && selectedModelViewInfo.area)
+      setQueryModelAndArea({ queryModel: selectedModelViewInfo.model, queryArea: selectedModelViewInfo.area })
+  }, [selectedModelViewInfo])
 
   return (
     <div>
@@ -51,9 +71,9 @@ const ModelViewBottomNavbar = props => {
       >
         <div id="bottomNav" style={{ height: "45px" }}>
           <a
-            className = {`dropdown-trigger botTrigger btn col s4 ${currentIdx === 1? "active":""}`}
+            className={`dropdown-trigger botTrigger btn col s4 ${currentIdx === 1 ? "active" : ""}`}
             data-alignment="top"
-            data-target="precipitationBotNav"
+            data-target={`${modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ? Object.keys(modelViewSchema.dataTypes)[0] : ""}`}
             style={{
               height: "45px",
               backgroundColor: "white",
@@ -63,12 +83,11 @@ const ModelViewBottomNavbar = props => {
               textTransform: " none",
             }}
           >
-            Precipitation
-            {/* <Skeleton width={"80%"} color="rgba(250,250,250,1)" highlightColor="rgba(240,240,240,1)"/> */}
+            {modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ? Object.keys(modelViewSchema.dataTypes)[0] : <SkeletonTheme duration={0.1} color="rgba(200,200,200,1)" highlightColor="rgba(240,240,240,1)"><Skeleton width={"40%"} /></SkeletonTheme>}
           </a>
           <a
-            className = {`dropdown-trigger botTrigger btn col s4  ${currentIdx === 2? "active":""}`}
-            data-target="wind"
+            className={`dropdown-trigger botTrigger btn col s4  ${currentIdx === 2 ? "active" : ""}`}
+            data-target={`${modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ? Object.keys(modelViewSchema.dataTypes)[1] : ""}`}
             style={{
               height: "45px",
               backgroundColor: "white",
@@ -78,11 +97,11 @@ const ModelViewBottomNavbar = props => {
               textTransform: " none",
             }}
           >
-            Wind
+            {modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ? Object.keys(modelViewSchema.dataTypes)[1] : <SkeletonTheme duration={0.1} color="rgba(200,200,200,1)" highlightColor="rgba(240,240,240,1)"><Skeleton width={"40%"} /></SkeletonTheme>}
           </a>
           <a
-            className = {`dropdown-trigger botTrigger btn col s4  ${currentIdx === 3? "active":""}`}
-            data-target="temperature"
+            className={`dropdown-trigger botTrigger btn col s4  ${currentIdx === 3 ? "active" : ""}`}
+            data-target={`${modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ? Object.keys(modelViewSchema.dataTypes)[2] : ""}`}
             style={{
               height: "45px",
               backgroundColor: "white",
@@ -92,17 +111,20 @@ const ModelViewBottomNavbar = props => {
               textTransform: " none",
             }}
           >
-            Temperature
+            {modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ? Object.keys(modelViewSchema.dataTypes)[2] : <SkeletonTheme duration={0.1} color="rgba(200,200,200,1)" highlightColor="rgba(240,240,240,1)"><Skeleton width={"40%"} /></SkeletonTheme>}
           </a>
+
         </div>
 
 
 
       </div>
-      <ul
-        id="precipitationBotNav"
+
+
+      {/* <ul
+        id="Precipitation"
         className="dropdown-content collection two botNav"
-        onClick={()=>handleChangeNavIdx(1)}
+        onClick={() => handleChangeNavIdx(1)}
       >
         <li className="collection-item">
           <a >Total Precip</a>
@@ -112,9 +134,9 @@ const ModelViewBottomNavbar = props => {
         </li>
       </ul>
       <ul
-        id="wind"
+        id="Wind"
         className="dropdown-content collection five botNav"
-        onClick={()=>handleChangeNavIdx(2)}
+        onClick={() => handleChangeNavIdx(2)}
       >
         <li className="collection-item">
           <a> Surface Wind Speed</a>
@@ -133,9 +155,9 @@ const ModelViewBottomNavbar = props => {
         </li>
       </ul>
       <ul
-        id="temperature"
+        id="Temperature"
         className="dropdown-content collection right two botNav"
-        onClick={()=>handleChangeNavIdx(3)}
+        onClick={() => handleChangeNavIdx(3)}
       >
         <li className="collection-item">
           <a  >Surface Temp</a>
@@ -143,10 +165,60 @@ const ModelViewBottomNavbar = props => {
         <li className="collection-item">
           <a  >850hPa Temp</a>
         </li>
-      </ul>
+      </ul> */}
+
+      {modelViewSchema && Object.keys(modelViewSchema.dataTypes).length === 3 ?
+        Object.keys(modelViewSchema.dataTypes).map((key, index, array) => {
+          console.log(key);
+          return (
+            <ul
+              key={key}
+              id={key}
+              className={`dropdown-content collection botNav ${getCorespondedClassName(modelViewSchema.dataTypes[key].length)} ${index === array.length-1? "right" : ""}`}
+              onClick={() => handleChangeNavIdx(index+1)}
+            >
+              {modelViewSchema.dataTypes[key].map(detailType => {
+                console.log(detailType);
+                return (
+                  <li className="collection-item">
+                    <a>{detailType}</a>
+                  </li>
+                )
+              })}
+            </ul>
+
+          )
+        }) : 
+        <ul>
+          <li className="collection-item">
+            <a>loading</a>
+          </li>
+        </ul>
+      }
+
+
     </div>
   )
 }
 
+const sleep = (second) => {
+  return new Promise((resolve, reject)=>{
+    setTimeout(resolve,second);
+  })
+}
+
+const getCorespondedClassName = (detailTypeNum) => {
+  if(detailTypeNum === 1){
+    return "one"
+  }else if(detailTypeNum === 2){
+    return "two"
+  }else if(detailTypeNum === 3){
+    return "three"
+  }else if(detailTypeNum === 4){
+    return "four"
+  }else if(detailTypeNum === 5){
+    return "five"
+  }
+}
 
 export default ModelViewBottomNavbar;

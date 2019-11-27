@@ -4,27 +4,10 @@ import { ModelViewContext } from "../contexts/ModelViewContext";
 import M from "materialize-css/dist/js/materialize.min.js";
 import MobileSideNavbar from "../components/MobileSideNavbar";
 import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
-// import M from "materialize-css";
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const Navbar = props => {
-  const [collapsibles, setCollapsibles] = useState();
-
-  console.log(`props: ${JSON.stringify(props.location.pathname)}`);
-  // const [collapsibleItem, setCollapsibleItem] = useState();
-  // const { sideNavOptions, dispatch } = useContext(SideNavContext);
-  useEffect(() => {
-    // let elem = document.querySelectorAll(".sidenav");
-    // let sidenavs = M.Sidenav.init(elem, {
-    //   edge: "left",
-    //   inDuration: 250,
-    //   draggable: true
-    // });
-    // let collapsibleElem = document.querySelectorAll('.collapsible');
-    // setCollapsibles(M.Collapsible.init(collapsibleElem, {
-    //   accordion: false
-    // }));
-  }, []);
-
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   return (
     <div>
       <div className="sideNavBar navbar-fixed">
@@ -87,22 +70,19 @@ const Navbar = props => {
                 </a>
               </li>
             </ul>
-            <div
-              class="progress"
-              style={{
-                backgroundColor: "#bef2fe",
-                height: "7px",
-                display: "none"
-              }}
-            >
-              <div
-                class="indeterminate"
-                style={{ backgroundColor: "#0da3c5" }}
-              ></div>
-            </div>
+
+            {/* preloader */}
+            {appStatus.isLoading?
+             <div class="progress"  style={{ backgroundColor: "#0ACAF5", height: "6px", display: "" }}>
+              <div class="indeterminate" style={{backgroundColor: "white"}}></div>
+            </div> : ""}
+            
           </div>
         </nav>
       </div>
+        {/* <div class="progress" style={{padding:0,margin:0}}>
+          <div class="indeterminate"></div>
+        </div> */}
       <MobileSideNavbar props />
       <DeskTopSideNavbar props />
     </div>
