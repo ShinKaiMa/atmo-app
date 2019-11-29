@@ -224,7 +224,7 @@ const ModelViewBottomNavbar = props => {
         Object.keys(modelViewSchema.dataTypes).map((key, index, array) => {
           return (
             <ul
-              key={key}
+              key={index}
               id={key}
               className={`dropdown-content collection botNav ${getCorespondedClassName(
                 modelViewSchema.dataTypes[key].length
@@ -232,11 +232,8 @@ const ModelViewBottomNavbar = props => {
               onClick={() => handleChangeNavIdx(index + 1)}
             >
               {modelViewSchema.dataTypes[key].map(detailType => {
-                console.log(`detailType : ${detailType}`)
-                console.log(`selectedModelViewInfo.detailType : ${selectedModelViewInfo.detailType}`)
                 return (
                   <li
-                    key={detailType}
                     id="botNavCollection"
                     className={`collection-item ${selectedModelViewInfo.detailType === detailType? "active" : ""}`}
                     // className="collection-item"

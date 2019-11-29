@@ -51,13 +51,10 @@ const ModelViewBreadcrumbs = props => {
     }
 
     var elems = document.querySelectorAll(".dropdown-trigger.area");
-    console.log(`areas: ${areas}`)
     
     if(areas)
-      console.log(`1area length: ${areas.length}`)
 
     if(areas && areas.length > 0){
-      console.log(`area length: ${areas.length}`)
       var instances = M.Dropdown.init(elems, {
         coverTrigger: false
       });
@@ -67,7 +64,6 @@ const ModelViewBreadcrumbs = props => {
 
   useEffect(() => {
     if(props && props.match && props.match.params && props.match.params.model){
-      console.log(`setQueryModel: ${props.match.params.model}`)
       setQueryModel(props.match.params.model);
     }
   },[props])
@@ -166,16 +162,6 @@ const ModelViewBreadcrumbs = props => {
         }):""
       }
       </ul>
-
-      {/* <ul id="area" className="dropdown-content area" style={{zIndex:10}}>
-        <li>
-          <a style={{fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",}} onClick={ (e) => dispatchModelViewInfo({type: 'SET_AREA', payload: e.target.innerHTML }) }>Near TW</a>
-        </li>
-        <li className="divider" tabindex="-1"></li>
-        <li>
-          <a style={{fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px"} } onClick={ (e) => dispatchModelViewInfo({type: 'SET_AREA', payload: e.target.innerHTML }) }>TW</a>
-        </li>
-      </ul> */}
     </nav>
   );
 };

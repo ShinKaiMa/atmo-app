@@ -13,12 +13,9 @@ export const useAreasFromAPI = queryModel => {
         async function fetchAndSetAreas(queryModel){
             try {
                 dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
-                console.log(`get queryModel : ${queryModel}`);
                 if (queryModel) {
                     let response = await fetchAreas({ model: mapRouterModelParamToRequestModel(queryModel) });
                     let newAreas = response.data;
-                    console.log(`return newAreas : ${newAreas}`);
-                    console.log(`return newAreas[0] : ${newAreas[0]}`);
                     if(newAreas && newAreas.length > 0){
                         setAreas(newAreas);
                         dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload:newAreas[0]});

@@ -54,15 +54,12 @@ const ModelViewSlider = props => {
       });
 
       sliderDom.noUiSlider.on("slide", () => {
-        console.log("before: " + sliderDom.noUiSlider.get());
         if (sliderDom.noUiSlider.get() >= 12) sliderDom.noUiSlider.set(6);
-        console.log("after: " + sliderDom.noUiSlider.get());
       });
 
       setSliderDom(sliderDom);
     }else{
       setTimeout(() => {
-        console.log(`value1 : ${sliderDom.noUiSlider.get()}`);
         sliderDom.noUiSlider.updateOptions({
           range: {
             min: 0,
@@ -75,19 +72,16 @@ const ModelViewSlider = props => {
             density: 100,
             filter: (value, type) => {
               if (type === 0) return 0;
-              console.log(brokeHour.includes(value));
               return brokeHour.includes(value) ? 2 : 1;
             }
           },
           filter: (value, type) => {
             if (type === 0) return 0;
-            console.log(brokeHour.includes(value));
             return brokeHour.includes(value) ? 2 : 1;
           }
         });
       }, 2000);
     }
-    console.log('re render slider')
   }, [props,sliderDom]);
 
   return (
