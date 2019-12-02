@@ -7,3 +7,4 @@ const atmoRequest = axios.create({
 
 export const fetchAreas = request => atmoRequest.post('/api/modelView/area', request);
 export const fetchModelViewSchema = request => atmoRequest.post('/api/modelView/schema', request);
+export const fetchWeathermaps = request => atmoRequest.post('/api/modelView/weathermap', request);

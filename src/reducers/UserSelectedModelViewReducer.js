@@ -9,6 +9,9 @@ export const UserSelectedModelViewReducer = (selectedModelViewInfo, action) => {
     case "SET_DETAIL_TYPE":
       console.log("SET_DETAIL_TYPE!");
       return { ...selectedModelViewInfo, detailType: action.payload };
+    case "SET_BOT_NAV_IDX":
+        console.log("SET_BOT_NAV_IDX! val:" + action.payload);
+        return { ...selectedModelViewInfo, bottomNavIdx: action.payload };
     default:
       return selectedModelViewInfo;
   }

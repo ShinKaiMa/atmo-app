@@ -12,7 +12,8 @@ const ModelViewContextProvider = props => {
     area: null,
     dataTypes: null,
     detailType: null,
-    startDate: null
+    startDate: null,
+    bottomNavIdx: 0
   });
 
   return (

@@ -9,7 +9,7 @@ import { constants } from "../config/constant"
  * @param {queryModel} queryModel 
  * @param {queryArea} queryArea 
  */
-export const useModelViewSchemaFromAPI = ({queryModel,queryArea}) => {
+export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
     const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
     const [ modelViewSchema, setModelViewSchema ] = useState();
@@ -24,6 +24,7 @@ export const useModelViewSchemaFromAPI = ({queryModel,queryArea}) => {
                     if(newModelViewSchema && Object.keys(newModelViewSchema.dataTypes).length > 0 && newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]){
                         setModelViewSchema(newModelViewSchema);
                         dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]});
+                        dispatchSelectedModelViewInfo({type:"SET_BOT_NAV_IDX", payload:0})
                     }
                 }
                 dispatchAppStatus({type: 'SET_IS_LOADING', paylaod:false });

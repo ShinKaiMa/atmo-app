@@ -4,7 +4,7 @@ import { constants } from "../config/constant"
 import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
 import { AppStatusContext } from '../contexts/AppStatusContext'
 
-export const useAreasFromAPI = queryModel => {
+export const useAreasFromAtmo = queryModel => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
     const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
     const [areas, setAreas] = useState();

@@ -4,7 +4,7 @@ import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
 import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
 
-import { useAreasFromAPI } from "../hooks/useAreasFromAPI"
+import { useAreasFromAtmo } from "../hooks/useAreasFromAtmo"
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const ModelViewBreadcrumbs = props => {
@@ -14,7 +14,7 @@ const ModelViewBreadcrumbs = props => {
   const [ queryModel, setQueryModel ] = useState();
   const [ area, setArea ] = useState();
   const [ width, height ] = useWindowSize();
-  const areas = useAreasFromAPI(queryModel);
+  const areas = useAreasFromAtmo(queryModel);
   const THRESHOLD_WIDTH_PIXEL = 500;
 
   useEffect(() => {

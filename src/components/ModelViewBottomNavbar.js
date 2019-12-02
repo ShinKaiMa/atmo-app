@@ -3,17 +3,16 @@ import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { UserSelectedModelViewContext } from "../contexts/ModelViewContext";
-import { useModelViewSchemaFromAPI } from "../hooks/useModelViewSchemaFromAPI";
+import { useModelViewSchemaFromAtmo } from "../hooks/useModelViewSchemaFromAtmo";
 
 const ModelViewBottomNavbar = props => {
   const [width, height] = useWindowSize();
-  const [currentIdx, setCurrentIdx] = useState(1);
   const [queryModelAndArea, setQueryModelAndArea] = useState({queryModel: "", queryArea: ""});
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext( UserSelectedModelViewContext );
-  const modelViewSchema = useModelViewSchemaFromAPI(queryModelAndArea);
+  const modelViewSchema = useModelViewSchemaFromAtmo(queryModelAndArea);
 
   const handleChangeNavIdx = num => {
-    setCurrentIdx(num);
+    dispatchSelectedModelViewInfo({type:'SET_BOT_NAV_IDX', payload:num});
   };
 
   const handleChangeDetailType = detailType => {
@@ -75,7 +74,7 @@ const ModelViewBottomNavbar = props => {
         <div id="bottomNav" style={{ height: "45px" }}>
           <a
             className={`dropdown-trigger botTrigger btn col s4 ${
-              currentIdx === 1 ? "active" : ""
+              selectedModelViewInfo.bottomNavIdx === 0 ? "active" : ""
             }`}
             data-alignment="top"
             data-target={`${
@@ -108,7 +107,7 @@ const ModelViewBottomNavbar = props => {
           </a>
           <a
             className={`dropdown-trigger botTrigger btn col s4  ${
-              currentIdx === 2 ? "active" : ""
+              selectedModelViewInfo.bottomNavIdx === 1 ? "active" : ""
             }`}
             data-target={`${
               modelViewSchema &&
@@ -140,7 +139,7 @@ const ModelViewBottomNavbar = props => {
           </a>
           <a
             className={`dropdown-trigger botTrigger btn col s4  ${
-              currentIdx === 3 ? "active" : ""
+              selectedModelViewInfo.bottomNavIdx === 2 ? "active" : ""
             }`}
             data-target={`${
               modelViewSchema &&
@@ -229,7 +228,7 @@ const ModelViewBottomNavbar = props => {
               className={`dropdown-content collection botNav ${getCorespondedClassName(
                 modelViewSchema.dataTypes[key].length
               )} ${index === array.length - 1 ? "right" : ""}`}
-              onClick={() => handleChangeNavIdx(index + 1)}
+              onClick={() => handleChangeNavIdx(index)}
             >
               {modelViewSchema.dataTypes[key].map(detailType => {
                 return (
