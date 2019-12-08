@@ -4,7 +4,7 @@ import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
 import "nouislider/distribute/nouislider.css";
 import ModelViewSlider from "../components/ModelViewSlider";
 import ModelViewBottomNavbar from '../components/ModelViewBottomNavbar'
-import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContextProvider';
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext';
 
 const ModelView = props => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);

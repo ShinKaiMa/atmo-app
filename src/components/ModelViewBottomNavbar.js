@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContextProvider";
+import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { useModelViewSchemaFromAtmo } from "../hooks/useModelViewSchemaFromAtmo";
 
 const ModelViewBottomNavbar = props => {

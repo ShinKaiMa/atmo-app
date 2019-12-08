@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
-import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContextProvider'
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext'
 
 import { useAreasFromAtmo } from "../hooks/useAreasFromAtmo"
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';

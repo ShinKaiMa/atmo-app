@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { fetchModelViewSchema } from "../api/atmoAPI"
-import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContextProvider'
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext'
+import { ModelViewShemaContext } from '../contexts/ModelViewSchemaContext'
 import { AppStatusContext } from '../contexts/AppStatusContext'
 import { constants } from "../config/constant"
 
@@ -11,19 +12,21 @@ import { constants } from "../config/constant"
  */
 export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+    const { modelViewSchema, dispatchModelViewSchema } = useContext(ModelViewShemaContext);
     const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
-    const [ modelViewSchema, setModelViewSchema ] = useState();
+    // const [ modelViewSchema, setModelViewSchema ] = useState();
 
     useEffect(() => {
-        async function fetchAndSetModelViewSchema(){
+        async function fetchAndDispatchModelViewSchema(){
             try {
                 dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
                 if (queryModel && queryArea) {
                     let response = await fetchModelViewSchema({ model:mapRouterModelParamToRequestModel(queryModel), area:queryArea });
                     let newModelViewSchema = response.data;
                     if(newModelViewSchema && Object.keys(newModelViewSchema.dataTypes).length > 0 && newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]){
-                        setModelViewSchema(newModelViewSchema);
+                        // setModelViewSchema(newModelViewSchema);
                         dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]});
+                        dispatchModelViewSchema({type:'SET_MODEL_VIEW', payload:newModelViewSchema})
                         dispatchSelectedModelViewInfo({type:"SET_BOT_NAV_IDX", payload:0})
                     }
                 }
@@ -32,7 +35,7 @@ export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
                 console.error(err);
             }
         }
-        fetchAndSetModelViewSchema(queryModel);
+        fetchAndDispatchModelViewSchema(queryModel);
     }, [queryModel,queryArea])
 
     return modelViewSchema;
