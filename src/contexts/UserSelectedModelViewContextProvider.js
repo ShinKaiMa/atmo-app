@@ -3,7 +3,7 @@ import { UserSelectedModelViewReducer } from "../reducers/UserSelectedModelViewR
 
 export const UserSelectedModelViewContext = createContext();
 
-const ModelViewContextProvider = props => {
+const UserSelectedModelViewContextProvider = props => {
   const [
     selectedModelViewInfo,
     dispatchSelectedModelViewInfo
@@ -25,4 +25,4 @@ const ModelViewContextProvider = props => {
   );
 };
 
-export default ModelViewContextProvider;
+export default UserSelectedModelViewContextProvider;

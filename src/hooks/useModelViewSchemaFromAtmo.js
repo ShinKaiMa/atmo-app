@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { fetchModelViewSchema } from "../api/atmoAPI"
-import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContextProvider'
 import { AppStatusContext } from '../contexts/AppStatusContext'
 import { constants } from "../config/constant"
 

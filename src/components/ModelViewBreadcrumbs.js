@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
-import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContextProvider'
 
 import { useAreasFromAtmo } from "../hooks/useAreasFromAtmo"
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
@@ -110,6 +110,39 @@ const ModelViewBreadcrumbs = props => {
             {breadcrumbs ? breadcrumbs[1] : ""}
           </a>
 
+
+          <a className="breadcrumb">
+            <a
+              className="dropdown-trigger btn area waves-effect waves-gray "
+              data-target="area"
+              style={{
+                backgroundColor: "rgba(50,50,50,0.1)",
+                width: width > THRESHOLD_WIDTH_PIXEL ? "110px" : "85px",
+                color: "gray",
+                height: width > THRESHOLD_WIDTH_PIXEL ? "30px" : "25px",
+                lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "15px" : "25px",
+                fontSize: width > THRESHOLD_WIDTH_PIXEL ? "12px" : "7px",
+                padding: width > THRESHOLD_WIDTH_PIXEL ? "6px 6px 6px 10px" : "0 0 0 8px",
+                borderRadius: "16px",
+                marginBottom: width > THRESHOLD_WIDTH_PIXEL ? "3px" : "0px",
+                textTransform: "none"
+              }}
+            >
+              <i
+                className="material-icons right"
+                style={{
+                  lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "25px",
+                  fontSize: "13px",
+                  color: "gray",
+                  paddingRight: "10px",
+                  margin: "0px",
+                }}
+              >
+                keyboard_arrow_down
+              </i>
+              {selectedModelViewInfo.area? selectedModelViewInfo.area : "loading..." }
+            </a>
+          </a>
 
           <a className="breadcrumb">
             <a

@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { fetchAreas } from "../api/atmoAPI"
 import { constants } from "../config/constant"
-import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContextProvider'
 import { AppStatusContext } from '../contexts/AppStatusContext'
 
 export const useAreasFromAtmo = queryModel => {

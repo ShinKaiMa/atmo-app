@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { ModelViewContext } from "../contexts/ModelViewContext";
+import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContextProvider";
 import M from "materialize-css/dist/js/materialize.min.js";
 import MobileSideNavbar from "../components/MobileSideNavbar";
 import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
