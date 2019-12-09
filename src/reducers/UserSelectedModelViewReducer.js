@@ -12,6 +12,9 @@ export const UserSelectedModelViewReducer = (selectedModelViewInfo, action) => {
     case "SET_BOT_NAV_IDX":
         console.log("SET_BOT_NAV_IDX! val:" + action.payload);
         return { ...selectedModelViewInfo, bottomNavIdx: action.payload };
+    case "SET_START_DATE":
+      console.log("SET_START_DATE!");
+      return {...selectedModelViewInfo, startDate: action.payload };
     default:
       return selectedModelViewInfo;
   }

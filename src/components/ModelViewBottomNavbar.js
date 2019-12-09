@@ -28,13 +28,13 @@ const ModelViewBottomNavbar = props => {
       modelViewSchema &&
       Object.keys(modelViewSchema.dataTypes).length === 3
     ) {
-      var dropdownsInstances = M.Dropdown.init(dropdowns, {
+      let dropdownsInstances = M.Dropdown.init(dropdowns, {
         hover: false,
         // hover: width > 1080 ? true : false,
         inDuration: 300,
         outDuration: 300,
         constrainWidth: true,
-        coverTrigger: false
+        coverTrigger: false,
       });
     }
   }, [width, height, props, modelViewSchema]);

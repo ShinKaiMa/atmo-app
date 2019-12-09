@@ -17,7 +17,7 @@ export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
     // const [ modelViewSchema, setModelViewSchema ] = useState();
 
     useEffect(() => {
-        async function fetchAndDispatchModelViewSchema(){
+        async function fetchAndDispatchModelViewSchema(queryModel, queryArea){
             try {
                 dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
                 if (queryModel && queryArea) {
@@ -26,8 +26,10 @@ export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
                     if(newModelViewSchema && Object.keys(newModelViewSchema.dataTypes).length > 0 && newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]){
                         // setModelViewSchema(newModelViewSchema);
                         dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]});
-                        dispatchModelViewSchema({type:'SET_MODEL_VIEW', payload:newModelViewSchema})
-                        dispatchSelectedModelViewInfo({type:"SET_BOT_NAV_IDX", payload:0})
+                        dispatchSelectedModelViewInfo({type:"SET_BOT_NAV_IDX", payload:0});
+                        dispatchModelViewSchema({type:'SET_MODEL_VIEW_SCHEMA', payload:newModelViewSchema});
+                        if(newModelViewSchema.startDate && newModelViewSchema.startDate.length > 0)
+                            dispatchSelectedModelViewInfo({type:"SET_START_DATE", payload:newModelViewSchema.startDate[0]})
                     }
                 }
                 dispatchAppStatus({type: 'SET_IS_LOADING', paylaod:false });
@@ -35,7 +37,7 @@ export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
                 console.error(err);
             }
         }
-        fetchAndDispatchModelViewSchema(queryModel);
+        fetchAndDispatchModelViewSchema(queryModel, queryArea);
     }, [queryModel,queryArea])
 
     return modelViewSchema;

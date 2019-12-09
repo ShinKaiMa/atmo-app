@@ -3,16 +3,17 @@ import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useWindowSize from "../hooks/useWindowSize";
 import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext'
-
+import { ModelViewShemaContext } from '../contexts/ModelViewSchemaContext'
 import { useAreasFromAtmo } from "../hooks/useAreasFromAtmo"
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import * as dateformat from 'dateformat';
 
 const ModelViewBreadcrumbs = props => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
-
+  const { modelViewSchema, dispatchModelViewSchema } = useContext(ModelViewShemaContext);
   const [ breadcrumbs, setBreadcrumbs ] = useState();
   const [ queryModel, setQueryModel ] = useState();
-  const [ area, setArea ] = useState();
+  const [ dropdownInstances, setDropdownInstances ] = useState();
   const [ width, height ] = useWindowSize();
   const areas = useAreasFromAtmo(queryModel);
   const THRESHOLD_WIDTH_PIXEL = 500;
@@ -50,17 +51,13 @@ const ModelViewBreadcrumbs = props => {
       }
     }
 
-    var elems = document.querySelectorAll(".dropdown-trigger.area");
-    
-    if(areas)
-
-    if(areas && areas.length > 0){
-      var instances = M.Dropdown.init(elems, {
-        coverTrigger: false
+    var elems = document.querySelectorAll(".dropdown-trigger.area, .dropdown-trigger.startDate");
+    if(areas && areas.length > 0 && modelViewSchema){
+      let instances = M.Dropdown.init(elems, {
+        coverTrigger: false,
       });
     }
-    
-  }, [areas] );
+  }, [areas, modelViewSchema] );
 
   useEffect(() => {
     if(props && props.match && props.match.params && props.match.params.model){
@@ -144,13 +141,13 @@ const ModelViewBreadcrumbs = props => {
             </a>
           </a>
 
-          <a className="breadcrumb">
+          <a className="breadcrumb hide-on-med-and-down">
             <a
-              className="dropdown-trigger btn area waves-effect waves-gray "
-              data-target="area"
+              className="dropdown-trigger btn startDate waves-effect waves-gray "
+              data-target="startDate"
               style={{
                 backgroundColor: "rgba(50,50,50,0.1)",
-                width: width > THRESHOLD_WIDTH_PIXEL ? "110px" : "85px",
+                width: width > THRESHOLD_WIDTH_PIXEL ? "190px" : "125px",
                 color: "gray",
                 height: width > THRESHOLD_WIDTH_PIXEL ? "30px" : "25px",
                 lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "15px" : "25px",
@@ -173,7 +170,7 @@ const ModelViewBreadcrumbs = props => {
               >
                 keyboard_arrow_down
               </i>
-              {selectedModelViewInfo.area? selectedModelViewInfo.area : "loading..." }
+              {selectedModelViewInfo && selectedModelViewInfo.startDate? dateformat(new Date(selectedModelViewInfo.startDate), "UTC:yyyy/mm/dd HHMMZ") : "loading..." }
             </a>
           </a>
 
@@ -187,7 +184,26 @@ const ModelViewBreadcrumbs = props => {
           return (
             <React.Fragment>
               <li key={index}>
-                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px", }} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: e.target.innerHTML })}>{area}</a>
+                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",  textAlign:"center"}} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: e.target.innerHTML })}>{area}</a>
+              </li>
+              {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
+            </React.Fragment>
+            )
+        }):""
+      }
+      </ul>
+
+      <ul  id="startDate" className="dropdown-content startDate" style={{ zIndex: 10 }}>
+      {
+      modelViewSchema && modelViewSchema.startDate ?
+      modelViewSchema.startDate.map((startDate, index, array) => {
+          return (
+            <React.Fragment>
+              <li key={startDate}>
+                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px", textAlign:"center"}}
+                  onClick={(e) => dispatchSelectedModelViewInfo({type:"SET_START_DATE", payload:startDate})}>
+                    {dateformat(new Date(startDate), "UTC:yyyy/mm/dd HHMMZ")}
+                </a>
               </li>
               {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
             </React.Fragment>

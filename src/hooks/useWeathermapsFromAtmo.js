@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { fetchAreas } from "../api/atmoAPI"
+import { fetchWeathermaps } from "../api/atmoAPI"
 import { constants } from "../config/constant"
 import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
 import { AppStatusContext } from '../contexts/AppStatusContext'
@@ -14,8 +14,8 @@ export const useWeathermapsFromAtmo = (queryModel, queryArea, queryDetailType, q
             try {
                 dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
                 if (queryModel && queryArea && queryDetailType && queryStartDateString) {
-                    let response = await fetchAreas({ model: mapRouterModelParamToRequestModel(queryModel) });
-                    let newAreas = response.data;
+                    let response = await fetchWeathermaps({ model: mapRouterModelParamToRequestModel(queryModel), area:queryArea, startDateString:queryStartDateString });
+                    let newWeathermaps = response.data;
                     if(newWeathermaps && newWeathermaps.length > 0){
                         setWeathermaps(newWeathermaps);
                         dispatchSelectedModelViewInfo({ type: 'SET_WEATHERMAP', payload:newWeathermaps[0]});
