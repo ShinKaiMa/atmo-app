@@ -172,52 +172,6 @@ const ModelViewBottomNavbar = props => {
         </div>
       </div>
 
-      {/* <ul
-        id="Precipitation"
-        className="dropdown-content collection two botNav"
-        onClick={() => handleChangeNavIdx(1)}
-      >
-        <li className="collection-item">
-          <a >Total Precip</a>
-        </li>
-        <li className="collection-item">
-          <a >6-Hourly Precip</a>
-        </li>
-      </ul>
-      <ul
-        id="Wind"
-        className="dropdown-content collection five botNav"
-        onClick={() => handleChangeNavIdx(2)}
-      >
-        <li className="collection-item">
-          <a> Surface Wind Speed</a>
-        </li>
-        <li className="collection-item">
-          <a  >850hPa Wind Speed</a>
-        </li>
-        <li className="collection-item">
-          <a  >850hPa Vorticity</a>
-        </li>
-        <li className="collection-item">
-          <a  >500Pa Vorticity</a>
-        </li>
-        <li className="collection-item">
-          <a  >200Pa Wind Speed</a>
-        </li>
-      </ul>
-      <ul
-        id="Temperature"
-        className="dropdown-content collection right two botNav"
-        onClick={() => handleChangeNavIdx(3)}
-      >
-        <li className="collection-item">
-          <a  >Surface Temp</a>
-        </li>
-        <li className="collection-item">
-          <a  >850hPa Temp</a>
-        </li>
-      </ul> */}
-
       {modelViewSchema &&
       Object.keys(modelViewSchema.dataTypes).length === 3 ? (
         Object.keys(modelViewSchema.dataTypes).map((key, index, array) => {

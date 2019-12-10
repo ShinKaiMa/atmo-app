@@ -84,7 +84,8 @@ const ModelViewBreadcrumbs = props => {
               style={{
                 color: "rgba(50,50,50,0.4)",
                 lineHeight: width > THRESHOLD_WIDTH_PIXEL ? "28px" : "25px",
-                fontSize: width > THRESHOLD_WIDTH_PIXEL ? "21px" : "21px"
+                fontSize: width > THRESHOLD_WIDTH_PIXEL ? "21px" : "21px",
+                height:"20px"
               }}
             >
               home
@@ -184,7 +185,7 @@ const ModelViewBreadcrumbs = props => {
           return (
             <React.Fragment>
               <li key={index}>
-                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",  textAlign:"center"}} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: e.target.innerHTML })}>{area}</a>
+                <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",  textAlign:"center"}} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: area })}>{area}</a>
               </li>
               {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
             </React.Fragment>

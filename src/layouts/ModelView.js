@@ -4,10 +4,13 @@ import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
 import "nouislider/distribute/nouislider.css";
 import ModelViewSlider from "../components/ModelViewSlider";
 import ModelViewBottomNavbar from '../components/ModelViewBottomNavbar'
+import ModelViewPanel from '../components/ModelViewPanel';
 import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext';
+import useWindowSize from "../hooks/useWindowSize";
 
 const ModelView = props => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+  const [width, height] = useWindowSize();
 
   useEffect(() => {
     if (
@@ -23,15 +26,14 @@ const ModelView = props => {
 
   return (
     <div>
-      <div className="mainLayout container" id="container" style={{ marginBottom: "46px" }}>
+      <div className="mainLayout container" id="container" style={{ marginBottom: "46px", height: height}}>
         <div className="row">
           <ModelViewBreadcrumbs props />
         </div>
         <div className="row">
-          <ModelViewSlider />
+          <ModelViewPanel/>
+          <ModelViewSlider props/>
         </div>
-        
-
       </div>
 
       <ModelViewBottomNavbar props />

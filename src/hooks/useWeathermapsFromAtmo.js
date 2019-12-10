@@ -1,39 +1,44 @@
 import { useContext, useState, useEffect } from "react";
 import { fetchWeathermaps } from "../api/atmoAPI"
 import { constants } from "../config/constant"
-import { UserSelectedModelViewContext } from '../contexts/ModelViewContext'
+import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { AppStatusContext } from '../contexts/AppStatusContext'
+import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext'
 
-export const useWeathermapsFromAtmo = (queryModel, queryArea, queryDetailType, queryStartDateString) => {
+export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, queryStartDateString}) => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+    const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
     const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
     const [weathermaps, setWeathermaps] = useState();
 
     useEffect(() => {
-        async function fetchWeathermaps(queryModel, queryArea, queryDetailType, queryStartDateString){
+        async function fetchWeathermapsFromAtmo(queryModel, queryArea, queryDetailType, queryStartDateString){
             try {
                 dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
                 if (queryModel && queryArea && queryDetailType && queryStartDateString) {
-                    let response = await fetchWeathermaps({ model: mapRouterModelParamToRequestModel(queryModel), area:queryArea, startDateString:queryStartDateString });
-                    let newWeathermaps = response.data;
-                    if(newWeathermaps && newWeathermaps.length > 0){
-                        setWeathermaps(newWeathermaps);
-                        dispatchSelectedModelViewInfo({ type: 'SET_WEATHERMAP', payload:newWeathermaps[0]});
+                    console.log(`going to fetch weathermap`);
+                    let response = await fetchWeathermaps({ model: mapRouterModelParamToRequestModel(queryModel), area:queryArea, detailType:queryDetailType, startDateString:queryStartDateString });
+                    let newWeathermapsInfo = response.data;
+                    if(newWeathermapsInfo && !newWeathermapsInfo.error && newWeathermapsInfo.availableFcstHour.length > 0){
+                        dispatchWeathermapInfo({ type: 'SET_INFO', payload:newWeathermapsInfo});
+                        dispatchSelectedModelViewInfo({ type: 'SET_FCST_HOUR', payload:newWeathermapsInfo.weathermapsInfo[0].fcstHour});
+                    } else {
+                        // TODO: handle error
                     }
                 } else {
-                    return weathermaps;
+                    // TODO: handle error
                 }
             } catch (err) {
                 console.error(err);
-                return weathermaps;
+                // TODO: handle error
             } finally{
-                dispatchAppStatus({type: 'SET_IS_LOADING', paylaod:false });
+                dispatchAppStatus({type: 'SET_IS_LOADING', payload:false });
             }
         }
-        fetchWeathermaps(queryModel, queryArea, queryDetailType, queryStartDateString);
+        fetchWeathermapsFromAtmo(queryModel, queryArea, queryDetailType, queryStartDateString);
     }, [queryModel, queryArea, queryDetailType, queryStartDateString])
 
-    return newWeathermaps;
+    return weathermapInfo;
 }
 
 const mapRouterModelParamToRequestModel = (modelFromRouter) => {

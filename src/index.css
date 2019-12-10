@@ -17,7 +17,7 @@ code {
 
 .mainLayout {
   padding-left: 220px;
-  margin: 0px
+  margin: 0px; 
 }
 
 @media only screen and (max-width: 992px) {
@@ -44,7 +44,7 @@ code {
   margin-bottom: 10px;
   margin-left: 0;
   margin-right: 0;
-  max-width: 1680px;
+  max-width: 100%;
   width: 95%;
 }
 
@@ -92,17 +92,20 @@ nav {
   display: block;
 }
 
-.noUi-handle {
-  height: 18px !important; 
+/* .noUi-handle {
+  margin-top: 10px !important; 
+  height: 30px !important; 
 }
 
 .noUi-handle::after {
-  height: 10px !important; 
+  height: 0px !important; 
 }
 
 .noUi-handle::before {
-  height: 10px !important; 
-}
+  height: 0px !important; 
+} */
+
+
 
 .noUi-value-sub {
   color: rgba(205,145,120,1);
