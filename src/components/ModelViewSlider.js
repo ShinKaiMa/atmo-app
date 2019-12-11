@@ -1,40 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import noUiSlider from "nouislider";
+import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 
 const ModelViewSlider = props => {
-  // const [collapsibles, setCollapsibles] = useState();
-  // const [sidenavs, setSidenavs] = useState();
-  let [sliderDom, setSliderDom] = useState();
+  const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const [sliderDom, setSliderDom] = useState();
   const [width, height] = useWindowSize();
+  const [range, setRange] = useState({min: 0, max: 84});
+  const [brokeHour, setBrokeHour] = useState([3,12]);
+  let basePips = {
+    mode: "values",
+    density: 100,
+    filter: (value, type) => {
+    if (type === 0) return 0;
+    console.log(brokeHour.includes(value));
+    return brokeHour.includes(value) ? 2 : 1;
+  }}
 
   useEffect(() => {
-    const brokeHour = [3, 12];
     if (!sliderDom) {
       let sliderDomTMP = document.getElementById("slider");
       noUiSlider.create(sliderDomTMP, {
         connect: true,
-        //   range: {
-        //     min: 0,
-        //     "13%": 6,
-        //     "26%": 12,
-        //     "39%": 18,
-        //     max: 78
-        //   },
-        //   pips: {
-        //     mode: "values",
-        //     values: [0, 6, 12, 18, 78],
-        //     density: 100
-        //   },
-        orientation: 'vertical',
-        direction: 'rtl',
-        range: {
-          min: 0,
-          max: 6
-        },
+        orientation: "vertical",
+        direction: "rtl",
+        range: range,
         pips: {
           mode: "values",
-          values: [0, 6],
+          values: [0, 84],
           density: 100,
           filter: (value, type) => {
             if (type === 0) return 0;
@@ -44,7 +38,7 @@ const ModelViewSlider = props => {
         },
         snap: true,
         start: 0,
-        step: 6,
+        step: 6
         // tooltips: [
         //   {
         //     to: value => {
@@ -61,32 +55,45 @@ const ModelViewSlider = props => {
 
       setSliderDom(sliderDomTMP);
     }
-    // else{
-    //   setTimeout(() => {
-    //     sliderDom.noUiSlider.updateOptions({
-    //       orientation: 'vertical',
-    //       direction: 'rtl',
-    //       range: {
-    //         min: 0,
-    //         "50%": 6,
-    //         max: 12
-    //       },
-    //       pips: {
-    //         mode: "values",
-    //         values: [0,3, 6, 12],
-    //         density: 100,
-    //         filter: (value, type) => {
-    //           if (type === 0) return 0;
-    //           return brokeHour.includes(value) ? 2 : 1;
-    //         }
-    //       },
-    //     });
-    //   }, 2000);
-    // }
-  }, [props,sliderDom]);
+    else{
+      setTimeout(() => {
+        sliderDom.noUiSlider.updateOptions({
+          orientation: 'vertical',
+          direction: 'rtl',
+          range: {
+            min: 0,
+            "50%": 6,
+            max: 12
+          },
+          pips: {
+            mode: "values",
+            values: [0,3, 6, 12],
+            density: 100,
+            filter: (value, type) => {
+              if (type === 0) return 0;
+              return brokeHour.includes(value) ? 2 : 1;
+            }
+          },
+        });
+      }, 2000);
+    }
+  }, [props, sliderDom, weathermapInfo]);
+
+
+  useEffect(() => {
+
+  },[weathermapInfo])
+
+
+  const handleUpdatePip = (weathermapInfo) => {
+    if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.missingFcstHour){
+      let newRange = {};
+
+    }
+  }
 
   return (
-    <div >
+    <div>
       {/* {console.log(`final ${(width > height ? width : height) / 2.5}`)} */}
       <div
         id="slider"
@@ -100,7 +107,11 @@ const ModelViewSlider = props => {
         //   width: width / 2
         // }}
         className="right"
-        style={{height: height/1.3, marginRight: width < 1500 ? "45px" : "0px", marginTop:"0"}}
+        style={{
+          height: height / 1.3,
+          marginRight: width < 1500 ? "45px" : "0px",
+          marginTop: "0"
+        }}
       ></div>
     </div>
   );
