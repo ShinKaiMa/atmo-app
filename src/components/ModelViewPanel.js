@@ -17,6 +17,7 @@ const ModelViewPanel = props => {
   const weathermapInfo = useWeathermapsFromAtmo(queryWeathermapsInfoParam);
   const [width, height] = useWindowSize();
   const [isLandScapeMode, setIsLandScapeMode] = useState(true);
+  const [currentIMGIdx, setCurrentIMGIdx] = useState();
   // const [isMobileDevice, setIsMobileDevice] = useState(true);
   useEffect(() => {
     if (width > height) {
@@ -43,7 +44,16 @@ const ModelViewPanel = props => {
   }, [selectedModelViewInfo]);
 
   // Component update content effect
-  useEffect(() => {}, [weathermapInfo]);
+  useEffect(() => {
+    if(weathermapInfo && weathermapInfo.weathermapsInfo){
+      console.log(`idx ${weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour)}`);
+      console.log(`selectedModelViewInfo fcstHour ${JSON.stringify(selectedModelViewInfo.fcstHour)}`);
+      console.log(`weathermapsInfo ${JSON.stringify(weathermapInfo.weathermapsInfo)}`);
+      let newIdx = weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour);
+      if(newIdx!==-1)
+        setCurrentIMGIdx(weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour));
+    }
+  }, [selectedModelViewInfo]);
 
   // return weathermapInfo && !weathermapInfo.error && weathermapInfo.weathermapsInfo ? (
   //   weathermapInfo.weathermapsInfo.length > 0 ? (
@@ -86,6 +96,7 @@ const ModelViewPanel = props => {
         width: isLandScapeMode ? "" : width / 1.2
       }}
       src={weathermapInfo.weathermapsInfo[0].url}
+      // src={weathermapInfo && weathermapInfo.weathermapsInfo? weathermapInfo.weathermapsInfo[weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour)].url :""}
     />
   ) : (
     <span>No available weather map</span>

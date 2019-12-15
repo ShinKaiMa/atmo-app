@@ -187,7 +187,7 @@ const ModelViewBreadcrumbs = props => {
               <li key={index}>
                 <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",  textAlign:"center"}} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: area })}>{area}</a>
               </li>
-              {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
+              {array.length - 1 === index ? "" : <li className="divider" tabIndex="-1"></li>}
             </React.Fragment>
             )
         }):""
@@ -206,7 +206,7 @@ const ModelViewBreadcrumbs = props => {
                     {dateformat(new Date(startDate), "UTC:yyyy/mm/dd HHMMZ")}
                 </a>
               </li>
-              {array.length - 1 === index ? "" : <li className="divider" tabindex="-1"></li>}
+              {array.length - 1 === index ? "" : <li className="divider" tabIndex="-1"></li>}
             </React.Fragment>
             )
         }):""

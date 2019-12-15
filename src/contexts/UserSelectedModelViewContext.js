@@ -14,7 +14,7 @@ const UserSelectedModelViewContextProvider = props => {
     detailType: null,
     startDate: null,
     bottomNavIdx: 0,
-    fcstHour: null,
+    fcstHour: 0,
   });
 
   return (
