@@ -7,8 +7,9 @@ const ModelViewSlider = props => {
   const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const [sliderDom, setSliderDom] = useState();
   const [width, height] = useWindowSize();
-  const [range, setRange] = useState({min: 0, max: 84});
-  const [brokeHour, setBrokeHour] = useState([3,12]);
+  const [range, setRange] = useState({min: 0, "50%" : 42, max: 84});
+  const [brokeHour, setBrokeHour] = useState([0, 84]);
+  const [disabled, isDisabled] = useState(true);
   let basePips = {
     mode: "values",
     density: 100,
@@ -17,6 +18,15 @@ const ModelViewSlider = props => {
     console.log(brokeHour.includes(value));
     return brokeHour.includes(value) ? 2 : 1;
   }}
+  let initialBrokeHour = [0, 84];
+
+  const handleSlide1 = () =>{
+    console.log(`slider1: ${sliderDom.noUiSlider.get()}`)
+  }
+
+  const handleSlide2 = () =>{
+    console.log(`slider2: ${sliderDom.noUiSlider.get()}`)
+  }
 
   useEffect(() => {
     if (!sliderDom) {
@@ -28,17 +38,18 @@ const ModelViewSlider = props => {
         range: range,
         pips: {
           mode: "values",
-          values: [0, 84],
+          values: [0,42, 84],
           density: 100,
           filter: (value, type) => {
+            // console.log(`value : ${value}`)
+            // console.log(`type : ${type}`)
             if (type === 0) return 0;
-            console.log(brokeHour.includes(value));
-            return brokeHour.includes(value) ? 2 : 1;
+            return initialBrokeHour.includes(value) ? 2 : 1;
           }
         },
         snap: true,
         start: 0,
-        step: 6
+        step: 6,
         // tooltips: [
         //   {
         //     to: value => {
@@ -49,35 +60,44 @@ const ModelViewSlider = props => {
         // ]
       });
 
-      sliderDomTMP.noUiSlider.on("slide", () => {
-        if (sliderDomTMP.noUiSlider.get() >= 12) sliderDomTMP.noUiSlider.set(6);
-      });
+      const handleIni = () => {
+        console.log("11111")
+        if (sliderDomTMP.noUiSlider.get() >= 50) sliderDomTMP.noUiSlider.set(0);
+      }
+      // sliderDomTMP.noUiSlider.on("slide", () => {
+      //   console.log("11111")
+      //   if (sliderDomTMP.noUiSlider.get() >= 50) sliderDomTMP.noUiSlider.set(0);
+      // });
+      sliderDomTMP.noUiSlider.on("slide", handleIni);
+
+      // sliderDomTMP.noUiSlider.on("slide", handleSlide1);
 
       setSliderDom(sliderDomTMP);
     }
     else{
-      setTimeout(() => {
-        sliderDom.noUiSlider.updateOptions({
-          orientation: 'vertical',
-          direction: 'rtl',
-          range: {
-            min: 0,
-            "50%": 6,
-            max: 12
-          },
-          pips: {
-            mode: "values",
-            values: [0,3, 6, 12],
-            density: 100,
-            filter: (value, type) => {
-              if (type === 0) return 0;
-              return brokeHour.includes(value) ? 2 : 1;
-            }
-          },
-        });
-      }, 2000);
+      sliderDom.noUiSlider.on("slide", handleSlide2);
+      // setTimeout(() => {
+      //   sliderDom.noUiSlider.updateOptions({
+      //     orientation: 'vertical',
+      //     direction: 'rtl',
+      //     range: {
+      //       min: 0,
+      //       "50%": 6,
+      //       max: 12
+      //     },
+      //     pips: {
+      //       mode: "values",
+      //       values: [0,3, 6, 12],
+      //       density: 100,
+      //       filter: (value, type) => {
+      //         if (type === 0) return 0;
+      //         return brokeHour.includes(value) ? 2 : 1;
+      //       }
+      //     },
+      //   });
+      // }, 2000);
     }
-  }, [props, sliderDom, weathermapInfo]);
+  }, [weathermapInfo]);
 
 
   useEffect(() => {
@@ -107,8 +127,9 @@ const ModelViewSlider = props => {
         //   width: width / 2
         // }}
         className="right"
+        // disabled
         style={{
-          height: height / 1.3,
+          height: height / 1.5,
           marginRight: width < 1500 ? "45px" : "0px",
           marginTop: "0"
         }}
