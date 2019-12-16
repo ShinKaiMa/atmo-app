@@ -50,10 +50,13 @@ const ModelViewPanel = props => {
       console.log(`selectedModelViewInfo fcstHour ${JSON.stringify(selectedModelViewInfo.fcstHour)}`);
       console.log(`weathermapsInfo ${JSON.stringify(weathermapInfo.weathermapsInfo)}`);
       let newIdx = weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour);
-      if(newIdx!==-1)
+      if(newIdx!==-1){
         setCurrentIMGIdx(weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour));
+      } else {
+        setCurrentIMGIdx(0);
+      }
     }
-  }, [selectedModelViewInfo]);
+  }, [selectedModelViewInfo, weathermapInfo]);
 
   // return weathermapInfo && !weathermapInfo.error && weathermapInfo.weathermapsInfo ? (
   //   weathermapInfo.weathermapsInfo.length > 0 ? (
@@ -95,7 +98,7 @@ const ModelViewPanel = props => {
         height: isLandScapeMode ? height / 1.4 : "",
         width: isLandScapeMode ? "" : width / 1.2
       }}
-      src={weathermapInfo.weathermapsInfo[0].url}
+      src={weathermapInfo.weathermapsInfo[currentIMGIdx >= 0 ? currentIMGIdx : 0].url}
       // src={weathermapInfo && weathermapInfo.weathermapsInfo? weathermapInfo.weathermapsInfo[weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour)].url :""}
     />
   ) : (

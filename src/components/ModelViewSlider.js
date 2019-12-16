@@ -42,13 +42,14 @@ const ModelViewSlider = props => {
 
     //update range
     if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.totalFcstHour){
-      let newRange = {...baseRange};
+      let newRange = {min: weathermapInfo.iniFcstHour, max:weathermapInfo.totalFcstHour};
       weathermapInfo.availableFcstHour.forEach(hour => {
         newRange = {
           ...newRange,
-          [`${(hour/weathermapInfo.totalFcstHour)*100}%`]:hour
+          [`${((hour - weathermapInfo.iniFcstHour)/(weathermapInfo.totalFcstHour - weathermapInfo.iniFcstHour))*100}%`]:hour
         }
         console.log(`newRange ${JSON.stringify(newRange)}`)
+        
         setRange(newRange);
       });
     }
@@ -56,7 +57,7 @@ const ModelViewSlider = props => {
     //update pips
     if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.totalFcstHour && weathermapInfo.fcstHourIncrement){
       let newValues = [];
-      for(let hour = 0 ; hour <= weathermapInfo.totalFcstHour ; hour+=weathermapInfo.fcstHourIncrement){
+      for(let hour = weathermapInfo.iniFcstHour ; hour <= weathermapInfo.totalFcstHour ; hour+=weathermapInfo.fcstHourIncrement){
         newValues.push(hour);
       }
       console.log(`pips newValues ${newValues}`)
@@ -77,13 +78,13 @@ const ModelViewSlider = props => {
     if(weathermapInfo && weathermapInfo.totalFcstHour && weathermapInfo.availableFcstHour){
       // normal situation
       if(weathermapInfo.totalFcstHour === weathermapInfo.availableFcstHour[weathermapInfo.availableFcstHour.length-1]){
-        dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:sliderDom.noUiSlider.get()});
+        dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:parseInt(sliderDom.noUiSlider.get())});
       }
       // handle max value is not available situation
       else {
         //set to available value, skip dispatch fcst hour
         if(!weathermapInfo.availableFcstHour.includes(weathermapInfo.totalFcstHour) && sliderDom.noUiSlider.get() >= weathermapInfo.totalFcstHour){
-          sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[weathermapInfo.availableFcstHour.length-2] || 0);
+          sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[weathermapInfo.availableFcstHour.length-1] || 0);
         } else if(!weathermapInfo.availableFcstHour.includes(0) && sliderDom.noUiSlider.get() === 0){
           sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[0] || 0);
         } else {
@@ -91,6 +92,13 @@ const ModelViewSlider = props => {
         }
       }
     }
+
+    //handle min
+    // if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.availableFcstHour.length > 0 && weathermapInfo.iniFcstHour){
+    //   if(weathermapInfo.availableFcstHour[0] <){
+
+    //   }
+    // }
   }
 
   useEffect(() => {
@@ -132,6 +140,7 @@ const ModelViewSlider = props => {
         range,
         pips
       })
+      sliderDom.noUiSlider.set(weathermapInfo.iniFcstHour);
       // setTimeout(() => {
       //   sliderDom.noUiSlider.updateOptions({
       //     orientation: 'vertical',

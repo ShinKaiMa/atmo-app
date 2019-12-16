@@ -121,6 +121,8 @@ const ModelViewBottomNavbar = props => {
               color: "#0ACAF5",
               borderRadius: "0px",
               border: "0px",
+              borderRight : "1px solid rgba(200,200,200,0.5)",
+              borderLeft : "1px solid rgba(200,200,200,0.5)",
               textTransform: " none"
             }}
           >

@@ -92,6 +92,24 @@ nav {
   display: block;
 }
 
+.noUi-handle {
+  border-radius: 20px !important;
+  border: 1px solid #0ACAF5 !important;
+  width: 30px !important;
+  height: 30px !important;
+  outline: none !important;
+}
+
+.noUi-handle::after {
+  background: #0ACAF5;
+  /* height: 0px !important;  */
+}
+
+.noUi-handle::before {
+  background: #0ACAF5;
+  /* height: 0px !important;  */
+}
+
 /* .noUi-handle {
   margin-top: 10px !important; 
   height: 30px !important; 
