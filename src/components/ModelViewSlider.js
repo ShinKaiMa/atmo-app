@@ -16,7 +16,6 @@ const ModelViewSlider = props => {
     console.log(brokeHour.includes(value));
     return brokeHour.includes(value) ? 2 : 1;
   }}
-  const baseRange = {min:0, max: defaultMaxFcstHour};
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
@@ -83,7 +82,7 @@ const ModelViewSlider = props => {
       // handle max value is not available situation
       else {
         //set to available value, skip dispatch fcst hour
-        if(!weathermapInfo.availableFcstHour.includes(weathermapInfo.totalFcstHour) && sliderDom.noUiSlider.get() >= weathermapInfo.totalFcstHour){
+        if(!weathermapInfo.availableFcstHour.includes(weathermapInfo.totalFcstHour) && sliderDom.noUiSlider.get() > weathermapInfo.totalFcstHour){
           sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[weathermapInfo.availableFcstHour.length-1] || 0);
         } else if(!weathermapInfo.availableFcstHour.includes(0) && sliderDom.noUiSlider.get() === 0){
           sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[0] || 0);

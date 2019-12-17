@@ -20,8 +20,9 @@ export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, 
                     let response = await fetchWeathermaps({ model: mapRouterModelParamToRequestModel(queryModel), area:queryArea, detailType:queryDetailType, startDateString:queryStartDateString });
                     let newWeathermapsInfo = response.data;
                     if(newWeathermapsInfo && !newWeathermapsInfo.error && newWeathermapsInfo.availableFcstHour.length > 0){
-                        dispatchWeathermapInfo({ type: 'SET_INFO', payload:newWeathermapsInfo});
+                        // must dispatch slider fcst hour first
                         dispatchSelectedModelViewInfo({ type: 'SET_FCST_HOUR', payload:newWeathermapsInfo.weathermapsInfo[0].fcstHour});
+                        dispatchWeathermapInfo({ type: 'SET_INFO', payload:newWeathermapsInfo});
                     } else {
                         // TODO: handle error
                     }
