@@ -5,6 +5,7 @@ import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 
 const ModelViewSlider = props => {
+  const [brokeHour, setBrokeHour] = useState([0, 84]);
   const defaultMaxFcstHour = 84;
   const initialBrokeHour = [0, 84];
   const basePips = {
@@ -13,6 +14,7 @@ const ModelViewSlider = props => {
     values:[0,84],
     filter: (value, type) => {
     if (type === 0) return 0;
+    console.log(`brokeHour in filter(): ${brokeHour}`);
     console.log(brokeHour.includes(value));
     return brokeHour.includes(value) ? 2 : 1;
   }}
@@ -24,7 +26,6 @@ const ModelViewSlider = props => {
   const [width, height] = useWindowSize();
   const [pips, setPips] = useState(basePips);
   const [range, setRange] = useState({min: 0,  max: defaultMaxFcstHour});
-  const [brokeHour, setBrokeHour] = useState([0, 84]);
   const [disabled, isDisabled] = useState(true);
   
 
@@ -42,13 +43,14 @@ const ModelViewSlider = props => {
     //update range
     if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.totalFcstHour){
       let newRange = {min: weathermapInfo.iniFcstHour, max:weathermapInfo.totalFcstHour};
-      weathermapInfo.availableFcstHour.forEach(hour => {
-        newRange = {
-          ...newRange,
-          [`${((hour - weathermapInfo.iniFcstHour)/(weathermapInfo.totalFcstHour - weathermapInfo.iniFcstHour))*100}%`]:hour
+      weathermapInfo.availableFcstHour.forEach((hour, idx, array) => {
+        if(idx !== array.length){
+          newRange = {
+            ...newRange,
+            [`${ ((hour - weathermapInfo.iniFcstHour)/(weathermapInfo.totalFcstHour - weathermapInfo.iniFcstHour)) *100}%`]:hour
+          }
         }
         console.log(`newRange ${JSON.stringify(newRange)}`)
-        
         setRange(newRange);
       });
     }
