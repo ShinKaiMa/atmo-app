@@ -112,7 +112,7 @@ const ModelViewSlider = props => {
         range: range,
         pips: {
           mode: "values",
-          values: [0,42, 84],
+          values: [0, 84],
           density: 100,
           filter: (value, type) => {
             if (type === 0) return 0;
@@ -163,7 +163,7 @@ const ModelViewSlider = props => {
       //   });
       // }, 2000);
     }
-  }, [weathermapInfo, range, pips]);
+  }, [weathermapInfo, range, pips, brokeHour]);
 
 
 
@@ -189,9 +189,10 @@ const ModelViewSlider = props => {
         //   // width: (width > height ? width : height) / 2.5
         //   width: width / 2
         // }}
-        className="right"
+        className="left"
         // disabled
         style={{
+          marginLeft: selectedModelViewInfo && selectedModelViewInfo.area === 'TW' ? "-50px" : "15px",
           height: height / 1.5,
           marginRight: width < 1500 ? "45px" : "0px",
           marginTop: "0"

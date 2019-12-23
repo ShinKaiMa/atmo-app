@@ -25,6 +25,7 @@ export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, 
                         dispatchWeathermapInfo({ type: 'SET_INFO', payload:newWeathermapsInfo});
                     } else {
                         // TODO: handle error
+                        dispatchWeathermapInfo({ type: 'SET_INFO', payload:{availableFcstHour:[]}});
                     }
                 } else {
                     // TODO: handle error

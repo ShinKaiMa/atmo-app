@@ -98,6 +98,7 @@ nav {
   width: 30px !important;
   height: 30px !important;
   outline: none !important;
+  cursor: pointer; 
 }
 
 .noUi-handle::after {
