@@ -63,7 +63,7 @@ const ModelViewSlider = props => {
       }
       console.log(`pips newValues ${newValues}`)
       let newPips = {
-        ...basePips,
+        ...basePips, //update new filter function
         values:newValues
       };
       console.log(`newPips ${JSON.stringify(newPips)}`)
@@ -135,11 +135,17 @@ const ModelViewSlider = props => {
     }
     else{
       //re-bind slide event
+
       sliderDom.noUiSlider.off('slide');
       sliderDom.noUiSlider.on("slide", handleOnSlide);
       sliderDom.noUiSlider.updateOptions({
         range,
-        pips
+        pips : {...pips, filter: (value, type) => {
+          if (type === 0) return 0;
+          console.log(`brokeHour in filter(): ${brokeHour}`);
+          console.log(brokeHour.includes(value));
+          return brokeHour.includes(value) ? 2 : 1;
+        }}
       })
       sliderDom.noUiSlider.set(weathermapInfo.iniFcstHour);
       // setTimeout(() => {

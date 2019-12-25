@@ -75,53 +75,6 @@ const ModelViewPanel = props => {
     }
   }, [selectedModelViewInfo, weathermapInfo]);
 
-  // return weathermapInfo && !weathermapInfo.error && weathermapInfo.weathermapsInfo ? (
-  //   weathermapInfo.weathermapsInfo.length > 0 ? (
-  //     <img
-  //       className="left"
-  //       style={{
-  //         height: isLandScapeMode ? height / 1.4 : "",
-  //         width: isLandScapeMode ? "" : width / 1.2
-  //       }}
-  //       src={weathermapInfo.weathermapsInfo[0].url}
-  //     />
-  //   ) : (
-  //     <span>No available weather map</span>
-  //   )
-  // ) : (
-  //   <span>Oops! Something wrong!</span>
-  // );
-
-  // return !weathermapInfo ? (
-  //   <div className="left">
-  //   <SkeletonTheme
-  //     duration={0.1}
-  //     color="rgba(200,200,200,1)"
-  //     highlightColor="rgba(240,240,240,1)"
-  //   >
-  //     <Skeleton
-  //       width={isLandScapeMode ? width/3 : width / 1.8}
-  //       height={isLandScapeMode ? height - 200 : height / 3}
-  //     />
-  //   </SkeletonTheme>
-  //   </div>
-  // ) : weathermapInfo.error ? (
-  //   <span>Oops! Something wrong!</span>
-  // ) : weathermapInfo.weathermapsInfo &&
-  //   weathermapInfo.weathermapsInfo.length > 0 ? (
-  //   <img
-  //     className="left"
-  //     style={{
-  //       height: isLandScapeMode ? height / 1.4 : "",
-  //       width: isLandScapeMode ? "" : width / 1.2
-  //     }}
-  //     src={weathermapInfo.weathermapsInfo[currentIMGIdx >= 0 ? currentIMGIdx : 0].url}
-  //     // src={weathermapInfo && weathermapInfo.weathermapsInfo? weathermapInfo.weathermapsInfo[weathermapInfo.weathermapsInfo.findIndex((info)=> info.fcstHour === selectedModelViewInfo.fcstHour)].url :""}
-  //   />
-  // ) : (
-  //   <span>No available weather map</span>
-  // );
-
   return !weathermapInfo ? (
     <div className="left">
       <SkeletonTheme
