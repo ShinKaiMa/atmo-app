@@ -111,6 +111,10 @@ nav {
   /* height: 0px !important;  */
 }
 
+.noUi-value.loaded{
+  color: #0ACAF5 !important;
+}
+
 /* .noUi-handle {
   margin-top: 10px !important; 
   height: 30px !important; 

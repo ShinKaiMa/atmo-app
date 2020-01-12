@@ -18,6 +18,9 @@ export const UserSelectedModelViewReducer = (selectedModelViewInfo, action) => {
     case "SET_FCST_HOUR":
       console.log("SET_FCST_HOUR!");
       return { ...selectedModelViewInfo, fcstHour: action.payload };
+    case "UPDATE_PIP_LAST_RENDER_TIME":
+      console.log("UPDATE_PIP_LAST_RENDER_TIME!");
+      return { ...selectedModelViewInfo, lastPipRenderTime: action.payload };
     default:
       return selectedModelViewInfo;
   }

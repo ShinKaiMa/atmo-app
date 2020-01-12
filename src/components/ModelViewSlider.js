@@ -4,14 +4,13 @@ import noUiSlider from "nouislider";
 import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 
-const ModelViewSlider = props => {
-  const [brokeHour, setBrokeHour] = useState([0, 84]);
-  const defaultMaxFcstHour = 84;
-  const initialBrokeHour = [0, 84];
+const ModelViewSlider = () => {
+  const [brokeHour, setBrokeHour] = useState([0, 1]);
+  const initialBrokeHour = [0, 1];
   const basePips = {
     mode: "values",
     density: 100,
-    values:[0,84],
+    values:[0,1],
     filter: (value, type) => {
     if (type === 0) return 0;
     console.log(`brokeHour in filter(): ${brokeHour}`);
@@ -25,7 +24,7 @@ const ModelViewSlider = props => {
   const [sliderDom, setSliderDom] = useState();
   const [width, height] = useWindowSize();
   const [pips, setPips] = useState(basePips);
-  const [range, setRange] = useState({min: 0,  max: defaultMaxFcstHour});
+  const [range, setRange] = useState({min: 0,  max: 1});
   const [disabled, isDisabled] = useState(true);
   
 
@@ -108,7 +107,7 @@ const ModelViewSlider = props => {
       noUiSlider.create(sliderDomTMP, {
         connect: true,
         orientation: "vertical",
-        direction: "rtl",
+        direction: "ltr",
         range: range,
         pips: {
           mode: "values",
@@ -147,6 +146,7 @@ const ModelViewSlider = props => {
           return brokeHour.includes(value) ? 2 : 1;
         }}
       })
+      dispatchSelectedModelViewInfo({type:"UPDATE_PIP_LAST_RENDER_TIME", payload: new Date()});
       sliderDom.noUiSlider.set(weathermapInfo.iniFcstHour);
       // setTimeout(() => {
       //   sliderDom.noUiSlider.updateOptions({

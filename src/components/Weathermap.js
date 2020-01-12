@@ -1,33 +1,47 @@
 import React, { useState, useEffect, useContext } from "react";
+import { WeathermapInfoContext } from '../contexts/WeathermapContext'
+import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 
-const Weathermap = ({
-  info,
-  idx,
-  isLandScapeMode,
-  currentIMGIdx,
-  height,
-  width
-}) => {
+const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) => {
+  const imgURL = info.url;
   const [imgDOM, setImgDom] = useState();
+  const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
+    UserSelectedModelViewContext
+  );
+
   useEffect(() => {
-    let img = document.getElementsByClassName(`left ${idx}`);
+    let imgElements = document.getElementsByClassName(`weathermap ${idx}`);
+    let img = imgElements.item(0);
     setImgDom(img);
+    console.log("img");
     console.log(img);
-  },[])
+  },[weathermapInfo])
 
   useEffect(() => {
     console.log(imgDOM);
-  },[info])
+    let fcstHour = weathermapInfo.weathermapsInfo[idx].fcstHour;
+    console.log(`fcstHour : ${fcstHour}`)
+    let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
+    console.log("pipNodeList: " + pipNodeList)
+    console.log(pipNodeList)
+    if(pipNodeList){
+      let pipDOM = pipNodeList.item(0);
+      if(pipDOM){
+        pipDOM.classList.add("loaded");
+      }
+    }
+  },[selectedModelViewInfo.lastPipRenderTime])
 
   return (
     <img
-      className={`left ${idx}`}
+      className={`weathermap left ${idx}`}
       style={{
         display: idx === currentIMGIdx ? "" : "none",
         height: isLandScapeMode ? height / 1.4 : "",
         width: isLandScapeMode ? "" : width / 1.2
       }}
-      src={info.url}
+      src={imgURL}
     />
   );
 };

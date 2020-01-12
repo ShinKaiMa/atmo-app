@@ -11,7 +11,7 @@ import useWindowSize from "../hooks/useWindowSize";
 const ModelView = props => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
   const [width, height] = useWindowSize();
-
+  const [lastPipUpdateTime, updateLastPipUpdateTime] = useState();
   useEffect(() => {
     if (
       props.match &&
@@ -32,7 +32,7 @@ const ModelView = props => {
         </div>
         <div className="row">
           <ModelViewPanel/>
-          <ModelViewSlider props/>
+          <ModelViewSlider/>
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Weathermap from '../components/Weathermap';
 
-const ModelViewPanel = props => {
+const ModelViewPanel = (props) => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
@@ -93,7 +93,15 @@ const ModelViewPanel = props => {
   ) : weathermapInfo.weathermapsInfo &&
     weathermapInfo.weathermapsInfo.length > 0 ? (
     weathermapInfo.weathermapsInfo.map((info,idx) =>{
-      return(<Weathermap info={info} idx={idx} isLandScapeMode={isLandScapeMode} currentIMGIdx={currentIMGIdx} height={height} width={width}/>);
+      let weathermapProps = {
+        info,
+        idx,
+        isLandScapeMode,
+        currentIMGIdx,
+        height,
+        width,
+      }
+      return(<Weathermap {...weathermapProps}/>);
     })
   ) : (
     <span>No available weather map</span>
