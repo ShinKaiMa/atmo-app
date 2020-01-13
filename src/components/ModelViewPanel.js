@@ -15,7 +15,7 @@ const ModelViewPanel = (props) => {
     queryDetailType: "",
     queryStartDateString: ""
   });
-  const weathermapInfo = useWeathermapsFromAtmo(queryWeathermapsInfoParam);
+  const weathermapsResponse = useWeathermapsFromAtmo(queryWeathermapsInfoParam);
   const [width, height] = useWindowSize();
   const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
@@ -46,9 +46,9 @@ const ModelViewPanel = (props) => {
 
   // Component update content effect
   useEffect(() => {
-    if (weathermapInfo && weathermapInfo.weathermapsInfo) {
+    if (weathermapsResponse && weathermapsResponse.weathermapsInfo) {
       console.log(
-        `idx ${weathermapInfo.weathermapsInfo.findIndex(
+        `idx ${weathermapsResponse.weathermapsInfo.findIndex(
           info => info.fcstHour === selectedModelViewInfo.fcstHour
         )}`
       );
@@ -58,14 +58,14 @@ const ModelViewPanel = (props) => {
         )}`
       );
       console.log(
-        `weathermapsInfo ${JSON.stringify(weathermapInfo.weathermapsInfo)}`
+        `weathermapsInfo ${JSON.stringify(weathermapsResponse.weathermapsInfo)}`
       );
-      let newIdx = weathermapInfo.weathermapsInfo.findIndex(
+      let newIdx = weathermapsResponse.weathermapsInfo.findIndex(
         info => info.fcstHour === selectedModelViewInfo.fcstHour
       );
       if (newIdx !== -1) {
         setCurrentIMGIdx(
-          weathermapInfo.weathermapsInfo.findIndex(
+          weathermapsResponse.weathermapsInfo.findIndex(
             info => info.fcstHour === selectedModelViewInfo.fcstHour
           )
         );
@@ -73,9 +73,9 @@ const ModelViewPanel = (props) => {
         setCurrentIMGIdx(0);
       }
     }
-  }, [selectedModelViewInfo, weathermapInfo]);
+  }, [selectedModelViewInfo, weathermapsResponse]);
 
-  return !weathermapInfo ? (
+  return !weathermapsResponse ? (
     <div className="left">
       <SkeletonTheme
         duration={0.1}
@@ -88,11 +88,11 @@ const ModelViewPanel = (props) => {
         />
       </SkeletonTheme>
     </div>
-  ) : weathermapInfo.error ? (
+  ) : weathermapsResponse.error ? (
     <span>Oops! Something wrong!</span>
-  ) : weathermapInfo.weathermapsInfo &&
-    weathermapInfo.weathermapsInfo.length > 0 ? (
-    weathermapInfo.weathermapsInfo.map((info,idx) =>{
+  ) : weathermapsResponse.weathermapsInfo &&
+    weathermapsResponse.weathermapsInfo.length > 0 ? (
+    weathermapsResponse.weathermapsInfo.map((info,idx) =>{
       let weathermapProps = {
         info,
         idx,
