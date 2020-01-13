@@ -25,10 +25,17 @@ export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
                     let newModelViewSchema = response.data;
                     if(newModelViewSchema && Object.keys(newModelViewSchema.dataTypes).length > 0 && newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]){
                         // setModelViewSchema(newModelViewSchema);
-                        dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]});
-                        dispatchSelectedModelViewInfo({type:"SET_BOT_NAV_IDX", payload:0});
+                        if(selectedModelViewInfo && selectedModelViewInfo.bottomNavIdx){
+                            dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[selectedModelViewInfo.bottomNavIdx]][0]});
+                        } else {
+                            dispatchSelectedModelViewInfo({ type: 'SET_DETAIL_TYPE', payload: newModelViewSchema.dataTypes[Object.keys(newModelViewSchema.dataTypes)[0]][0]});
+                        }
+                        
+                        // keep same index when update schema
+                        // dispatchSelectedModelViewInfo({type:"SET_BOT_NAV_IDX", payload:0});
+
                         dispatchModelViewSchema({type:'SET_MODEL_VIEW_SCHEMA', payload:newModelViewSchema});
-                        if(newModelViewSchema.startDate && newModelViewSchema.startDate.length > 0)
+                        if(newModelViewSchema.startDate && newModelViewSchema.startDate.length > 0 && selectedModelViewInfo && !selectedModelViewInfo.startDate)
                             dispatchSelectedModelViewInfo({type:"SET_START_DATE", payload:newModelViewSchema.startDate[0]})
                     }
                 }

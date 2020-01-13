@@ -54,7 +54,7 @@ const ModelViewSlider = () => {
       });
     }
 
-    //update pips
+    //update slider pips
     if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.totalFcstHour && weathermapInfo.fcstHourIncrement){
       let newValues = [];
       for(let hour = weathermapInfo.iniFcstHour ; hour <= weathermapInfo.totalFcstHour ; hour+=weathermapInfo.fcstHourIncrement){
@@ -77,18 +77,14 @@ const ModelViewSlider = () => {
     console.log(`slider value: ${sliderDom.noUiSlider.get()}`)
     if(weathermapInfo && weathermapInfo.totalFcstHour && weathermapInfo.availableFcstHour){
       // normal situation
-      if(weathermapInfo.totalFcstHour === weathermapInfo.availableFcstHour[weathermapInfo.availableFcstHour.length-1]){
+      if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.availableFcstHour.includes(parseInt(sliderDom.noUiSlider.get()))){
         dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:parseInt(sliderDom.noUiSlider.get())});
       }
-      // handle max value is not available situation
+      // handle not available situation
       else {
         //set to available value, skip dispatch fcst hour
-        if(!weathermapInfo.availableFcstHour.includes(weathermapInfo.totalFcstHour) && sliderDom.noUiSlider.get() > weathermapInfo.totalFcstHour){
-          sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[weathermapInfo.availableFcstHour.length-1] || 0);
-        } else if(!weathermapInfo.availableFcstHour.includes(0) && sliderDom.noUiSlider.get() === 0){
-          sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[0] || 0);
-        } else {
-          dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:parseInt(sliderDom.noUiSlider.get())});
+        if(weathermapInfo && weathermapInfo.availableFcstHour){
+          sliderDom.noUiSlider.set(selectedModelViewInfo.fcstHour);
         }
       }
     }
@@ -102,7 +98,8 @@ const ModelViewSlider = () => {
   }
 
   useEffect(() => {
-    if (!sliderDom) {
+      console.log("initializing")
+      if (!sliderDom) {
       let sliderDomTMP = document.getElementById("slider");
       noUiSlider.create(sliderDomTMP, {
         connect: true,
@@ -134,7 +131,7 @@ const ModelViewSlider = () => {
     }
     else{
       //re-bind slide event
-
+      console.log("rebinding")
       sliderDom.noUiSlider.off('slide');
       sliderDom.noUiSlider.on("slide", handleOnSlide);
       sliderDom.noUiSlider.updateOptions({
@@ -147,7 +144,7 @@ const ModelViewSlider = () => {
         }}
       })
       dispatchSelectedModelViewInfo({type:"UPDATE_PIP_LAST_RENDER_TIME", payload: new Date()});
-      sliderDom.noUiSlider.set(weathermapInfo.iniFcstHour);
+      sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[0] || weathermapInfo.iniFcstHour || 0);
       // setTimeout(() => {
       //   sliderDom.noUiSlider.updateOptions({
       //     orientation: 'vertical',
@@ -201,7 +198,8 @@ const ModelViewSlider = () => {
           marginLeft: selectedModelViewInfo && selectedModelViewInfo.area === 'TW' ? "-50px" : "15px",
           height: height / 1.5,
           marginRight: width < 1500 ? "45px" : "0px",
-          marginTop: "0"
+          marginTop: "0",
+          display: weathermapInfo && weathermapInfo.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>
     </div>

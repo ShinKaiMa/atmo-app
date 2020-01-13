@@ -17,7 +17,7 @@ const ModelViewPanel = (props) => {
   });
   const weathermapInfo = useWeathermapsFromAtmo(queryWeathermapsInfoParam);
   const [width, height] = useWindowSize();
-  const [isLandScapeMode, setIsLandScapeMode] = useState(true);
+  const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
   // const [isMobileDevice, setIsMobileDevice] = useState(true);
   useEffect(() => {
