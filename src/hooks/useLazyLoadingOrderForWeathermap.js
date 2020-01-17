@@ -12,33 +12,38 @@ import { WeathermapInfoContext } from '../contexts/WeathermapContext'
  * Step 2:
  * weathermap component <=== dispatch "loading status" and get "loading command" by useWeathermapLoadingStatus hook ===> weathermapInfo context
  */
-export const useLazyLoadingOrderForWeathermap = (weathermapsResponse, currentWeathermapIdx ) => {
+export const useLazyLoadingOrderForWeathermap = (weathermapsResponse, currentWeathermapIdx) => {
     // const [loadingQueue, updateLoadingQueue] = useState([]);
-    const [isStartLoadingStatus, updateIsStartLoadingStatus] = useState([]);
-    const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+    const queueLength = 3;
+    const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+    const [ queue, setQueue ] = useState([]);
 
 
-    // Step 1: initialize isStartLoading status when got new weathermapsResponse
+    // Step 1: initialize isStartLoading status for each available weathermap when got new weathermapsResponse
     useEffect(() => {
-
-        if(weathermapsResponse){
-            // initialize isStartLoading status array
-            if(weathermapsResponse.totalFcstHour && weathermapsResponse.fcstHourIncrement && weathermapsResponse.iniFcstHour){
-                let length = ((totalFcstHour - iniFcstHour) / fcstHourIncrement) + 1;
-                let newStartLoading = Array(length).fill(false);
-                updateIsStartLoadingStatus(newStartLoading);
+        if (weathermapsResponse) {
+            // initialize isStartLoadingStatus and isLoadingCompleteStatus status array
+            if (weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0) {
+                let newLoadingStatus = Array(weathermapsResponse.availableFcstHour.length).fill(false);
+                let newCompleteStatus = Array(weathermapsResponse.availableFcstHour.length).fill(false);
+                dispatchWeathermapInfo({ type: "SET_START_LOADING_STATUS", payload: newLoadingStatus });
+                dispatchWeathermapInfo({ type: "SET_LOADING_COMPLETE_STATUS", payload: newCompleteStatus });
             }
-            
         }
-    }, [weathermapsResponse])
+    }, [weathermapsResponse]);
 
-    // Step 2: dispatch loading cmd from "loadingStatus" and "currentWeathermapIdx"
+    // Step 2: dispatch new loading status from "loadingStatus" and "currentWeathermapIdx"
     useEffect(() => {
+        // ensure be initialized
+        if (weathermapContext.isStartLoadingStatus.length > 0 && weathermapContext.isLoadingCompleteStatus.length > 0) {
 
-    }, [isStartLoadingStatus])
+        }
+    }, [weathermapContext.isStartLoadingStatus, weathermapContext.isLoadingComplete])
 
 
 
-    const getQueueOrder = ()
+    const getQueueOrderBylatestStatus = (isStartLoadingStatus, currentWeathermapIdx) => {
+
+    }
     return loadingQueue;
 }

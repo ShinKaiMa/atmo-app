@@ -5,7 +5,7 @@ import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewC
 const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) => {
   const imgURL = info.url;
   const [imgDOM, setImgDom] = useState();
-  const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
@@ -16,11 +16,11 @@ const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) 
     setImgDom(img);
     console.log("img");
     console.log(img);
-  },[weathermapInfo])
+  },[weathermapContext.weathermapResponse])
 
   useEffect(() => {
     console.log(imgDOM);
-    let fcstHour = weathermapInfo.weathermapsInfo[idx].fcstHour;
+    let fcstHour = weathermapContext.weathermapsResponse.weathermapsInfo[idx].fcstHour;
     console.log(`fcstHour : ${fcstHour}`)
     let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
     console.log("pipNodeList: " + pipNodeList)

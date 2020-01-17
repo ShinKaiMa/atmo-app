@@ -20,12 +20,13 @@ const ModelViewSlider = () => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
-  const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const [sliderDom, setSliderDom] = useState();
   const [width, height] = useWindowSize();
   const [pips, setPips] = useState(basePips);
   const [range, setRange] = useState({min: 0,  max: 1});
   const [disabled, isDisabled] = useState(true);
+  const weathermapsResponse = weathermapContext.weathermapsResponse;
   
 
 
@@ -34,19 +35,19 @@ const ModelViewSlider = () => {
   useEffect(() => {
 
     //update broke hour
-    if(weathermapInfo && weathermapInfo.missingFcstHour){
-      console.log(`weathermapInfo.missingFcstHour ${JSON.stringify(weathermapInfo.missingFcstHour)}`)
-      setBrokeHour(weathermapInfo.missingFcstHour);
+    if(weathermapsResponse && weathermapsResponse.missingFcstHour){
+      console.log(`weathermapsResponse.missingFcstHour ${JSON.stringify(weathermapsResponse.missingFcstHour)}`)
+      setBrokeHour(weathermapsResponse.missingFcstHour);
     }
 
     //update range
-    if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.totalFcstHour){
-      let newRange = {min: weathermapInfo.iniFcstHour, max:weathermapInfo.totalFcstHour};
-      weathermapInfo.availableFcstHour.forEach((hour, idx, array) => {
+    if(weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.totalFcstHour){
+      let newRange = {min: weathermapsResponse.iniFcstHour, max:weathermapsResponse.totalFcstHour};
+      weathermapsResponse.availableFcstHour.forEach((hour, idx, array) => {
         if(idx !== array.length){
           newRange = {
             ...newRange,
-            [`${ ((hour - weathermapInfo.iniFcstHour)/(weathermapInfo.totalFcstHour - weathermapInfo.iniFcstHour)) *100}%`]:hour
+            [`${ ((hour - weathermapsResponse.iniFcstHour)/(weathermapsResponse.totalFcstHour - weathermapsResponse.iniFcstHour)) *100}%`]:hour
           }
         }
         console.log(`newRange ${JSON.stringify(newRange)}`)
@@ -55,9 +56,9 @@ const ModelViewSlider = () => {
     }
 
     //update slider pips
-    if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.totalFcstHour && weathermapInfo.fcstHourIncrement){
+    if(weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.totalFcstHour && weathermapsResponse.fcstHourIncrement){
       let newValues = [];
-      for(let hour = weathermapInfo.iniFcstHour ; hour <= weathermapInfo.totalFcstHour ; hour+=weathermapInfo.fcstHourIncrement){
+      for(let hour = weathermapsResponse.iniFcstHour ; hour <= weathermapsResponse.totalFcstHour ; hour+=weathermapsResponse.fcstHourIncrement){
         newValues.push(hour);
       }
       console.log(`pips newValues ${newValues}`)
@@ -70,31 +71,24 @@ const ModelViewSlider = () => {
     }
 
 
-  },[weathermapInfo]);
+  },[weathermapContext.weathermapsResponse]);
 
 
   const handleOnSlide = () =>{
     console.log(`slider value: ${sliderDom.noUiSlider.get()}`)
-    if(weathermapInfo && weathermapInfo.totalFcstHour && weathermapInfo.availableFcstHour){
+    if(weathermapsResponse && weathermapsResponse.totalFcstHour && weathermapsResponse.availableFcstHour){
       // normal situation
-      if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.availableFcstHour.includes(parseInt(sliderDom.noUiSlider.get()))){
+      if(weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.includes(parseInt(sliderDom.noUiSlider.get()))){
         dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:parseInt(sliderDom.noUiSlider.get())});
       }
       // handle not available situation
       else {
         //set to available value, skip dispatch fcst hour
-        if(weathermapInfo && weathermapInfo.availableFcstHour){
+        if(weathermapsResponse && weathermapsResponse.availableFcstHour){
           sliderDom.noUiSlider.set(selectedModelViewInfo.fcstHour);
         }
       }
     }
-
-    //handle min
-    // if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.availableFcstHour.length > 0 && weathermapInfo.iniFcstHour){
-    //   if(weathermapInfo.availableFcstHour[0] <){
-
-    //   }
-    // }
   }
 
   useEffect(() => {
@@ -144,7 +138,7 @@ const ModelViewSlider = () => {
         }}
       })
       dispatchSelectedModelViewInfo({type:"UPDATE_PIP_LAST_RENDER_TIME", payload: new Date()});
-      sliderDom.noUiSlider.set(weathermapInfo.availableFcstHour[0] || weathermapInfo.iniFcstHour || 0);
+      sliderDom.noUiSlider.set(weathermapsResponse.availableFcstHour[0] || weathermapsResponse.iniFcstHour || 0);
       // setTimeout(() => {
       //   sliderDom.noUiSlider.updateOptions({
       //     orientation: 'vertical',
@@ -166,17 +160,11 @@ const ModelViewSlider = () => {
       //   });
       // }, 2000);
     }
-  }, [weathermapInfo, range, pips, brokeHour]);
+  }, [weathermapsResponse, range, pips, brokeHour]);
 
 
 
 
-  const handleUpdateSlider = (weathermapInfo) => {
-    if(weathermapInfo && weathermapInfo.availableFcstHour && weathermapInfo.missingFcstHour){
-      let newRange = {};
-
-    }
-  }
 
   return (
     <div>
@@ -199,7 +187,7 @@ const ModelViewSlider = () => {
           height: height / 1.5,
           marginRight: width < 1500 ? "45px" : "0px",
           marginTop: "0",
-          display: weathermapInfo && weathermapInfo.availableFcstHour.length > 0 ? "" : "none",
+          display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>
     </div>

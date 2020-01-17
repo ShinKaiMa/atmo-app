@@ -4,11 +4,11 @@ import { WeathermapInfoReducer } from "../reducers/WeathermapInfoReducer";
 export const WeathermapInfoContext = createContext();
 
 const WeathermapInfoContextProvider = props => {
-  const [ weathermapInfo, dispatchWeathermapInfo ] = useReducer(WeathermapInfoReducer);
+  const [ weathermapContext, dispatchWeathermapInfo ] = useReducer(WeathermapInfoReducer, {weathermapsResponse:{}, isStartLoadingStatus:[], isLoadingCompleteStatus:[]});
 
   return (
     <WeathermapInfoContext.Provider
-      value={{ weathermapInfo, dispatchWeathermapInfo }}
+      value={{ weathermapContext, dispatchWeathermapInfo }}
     >
       {props.children}
     </WeathermapInfoContext.Provider>

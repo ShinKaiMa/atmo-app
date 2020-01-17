@@ -7,7 +7,7 @@ import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewC
 
 export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, queryStartDateString}) => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
-    const { weathermapInfo, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+    const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
     const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
     const [weathermaps, setWeathermaps] = useState();
 
@@ -40,7 +40,7 @@ export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, 
         fetchWeathermapsFromAtmo(queryModel, queryArea, queryDetailType, queryStartDateString);
     }, [queryModel, queryArea, queryDetailType, queryStartDateString])
 
-    return weathermapInfo;
+    return weathermapContext.weathermapsResponse
 }
 
 const mapRouterModelParamToRequestModel = (modelFromRouter) => {
