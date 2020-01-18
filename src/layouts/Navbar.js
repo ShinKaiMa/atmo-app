@@ -41,10 +41,10 @@ const Navbar = props => {
               className="right hide-on-small-only show-on-medium-and-up"
             >
               <li>
-                <a href="collapsible.html">Components</a>
+                <a href="collapsible.html">About</a>
               </li>
               <li>
-                <a href="collapsible.html">JavaScript</a>
+                <a href="collapsible.html">Contact Us</a>
               </li>
             </ul>
             {/* mobile navbar icon */}

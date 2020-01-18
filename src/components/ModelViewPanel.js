@@ -44,7 +44,7 @@ const ModelViewPanel = (props) => {
     });
   }, [selectedModelViewInfo]);
 
-  // Component update content effect
+  // update component content effect
   useEffect(() => {
     if (weathermapsResponse && weathermapsResponse.weathermapsInfo) {
       console.log(
@@ -75,7 +75,7 @@ const ModelViewPanel = (props) => {
     }
   }, [selectedModelViewInfo, weathermapsResponse]);
 
-  return !weathermapsResponse ? (
+  return !weathermapsResponse || !weathermapsResponse.weathermapsInfo? (
     <div className="left">
       <SkeletonTheme
         duration={0.1}
