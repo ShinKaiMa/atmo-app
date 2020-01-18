@@ -5,6 +5,7 @@ import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewC
 const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) => {
   const imgURL = info.url;
   const [imgDOM, setImgDom] = useState();
+  const [isCompleted, setCompleted] = useState(false);
   const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
@@ -19,19 +20,42 @@ const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) 
   },[weathermapContext.weathermapResponse])
 
   useEffect(() => {
-    console.log(imgDOM);
-    let fcstHour = weathermapContext.weathermapsResponse.weathermapsInfo[idx].fcstHour;
-    console.log(`fcstHour : ${fcstHour}`)
-    let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
-    console.log("pipNodeList: " + pipNodeList)
-    console.log(pipNodeList)
-    if(pipNodeList){
-      let pipDOM = pipNodeList.item(0);
-      if(pipDOM){
-        pipDOM.classList.add("loaded");
+    if(selectedModelViewInfo && selectedModelViewInfo.lastPipRenderTime && isCompleted){
+      console.log(imgDOM);
+      let fcstHour = weathermapContext.weathermapsResponse.weathermapsInfo[idx].fcstHour;
+      console.log(`fcstHour : ${fcstHour}`)
+      let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
+      console.log("pipNodeList: " + pipNodeList)
+      console.log(pipNodeList)
+      if(pipNodeList){
+        let pipDOM = pipNodeList.item(0);
+        if(pipDOM){
+          pipDOM.classList.add("loaded");
+        }
       }
     }
-  },[selectedModelViewInfo.lastPipRenderTime])
+  },[selectedModelViewInfo.lastPipRenderTime, isCompleted])
+
+  useEffect(() => {
+    if(imgDOM){
+      console.log('imageDOM')
+      console.log(imgDOM)
+      onImageLoaded(imgDOM, setCompleted);
+    }
+  }, [imgDOM])
+
+  const onImageLoaded = (imgDOM, setCompleted) => {
+    if(!imgDOM)
+      return
+  
+    if (imgDOM.complete) {
+      setCompleted(true);
+    } else {
+      imgDOM.onload = () => {
+        setCompleted(true);
+      }
+    }
+  }
 
   return (
     <img

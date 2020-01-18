@@ -2,7 +2,7 @@ class LazyLoadingUtils {
     static batchSize = 3;
 
     /**
-     * This function should be used when isLoadingCompleteStatus array is changed.
+     * This function should be called when just "isLoadingCompleteStatus array" is changed or current index changed while loading state is inactive.
      * @param {boolean[]} isLoadingCompleteStatus 
      * @param {boolean[]} isStartLoadingStatus 
      * @param {number} currentIdx 
