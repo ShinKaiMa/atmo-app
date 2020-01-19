@@ -89,7 +89,7 @@ const ModelViewPanel = (props) => {
       </SkeletonTheme>
     </div>
   ) : weathermapsResponse.error ? (
-    <span>Oops! Something wrong!</span>
+    <span>Oops! Something went wrong!</span>
   ) : weathermapsResponse.weathermapsInfo &&
     weathermapsResponse.weathermapsInfo.length > 0 ? (
     weathermapsResponse.weathermapsInfo.map((info,idx) =>{
