@@ -4,6 +4,7 @@ import { useWeathermapsFromAtmo } from "../hooks/useWeathermapsFromAtmo";
 import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Weathermap from '../components/Weathermap';
+import {useLazyLoadingOrderForWeathermap} from '../hooks/useLazyLoadingOrderForWeathermap';
 
 const ModelViewPanel = (props) => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
@@ -19,6 +20,8 @@ const ModelViewPanel = (props) => {
   const [width, height] = useWindowSize();
   const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
+  useLazyLoadingOrderForWeathermap(weathermapsResponse , currentIMGIdx);
+
   // const [isMobileDevice, setIsMobileDevice] = useState(true);
   useEffect(() => {
     if (width > height) {
@@ -62,6 +65,9 @@ const ModelViewPanel = (props) => {
       );
       let newIdx = weathermapsResponse.weathermapsInfo.findIndex(
         info => info.fcstHour === selectedModelViewInfo.fcstHour
+      );
+      console.log(
+        `newIdx ${newIdx}`
       );
       if (newIdx !== -1) {
         setCurrentIMGIdx(

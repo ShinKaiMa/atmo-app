@@ -1,5 +1,5 @@
 import { WeathermapInfoContext } from '../contexts/WeathermapContext'
-
+import React, { useState, useEffect, useContext } from "react";
 
 /**
  * Hook for dispatching "loading order" (lazy loading) for each weathermap components,
@@ -13,10 +13,8 @@ import { WeathermapInfoContext } from '../contexts/WeathermapContext'
  * weathermap component <=== dispatch "loading status" and get "loading command" by useWeathermapLoadingStatus hook ===> weathermapInfo context
  */
 export const useLazyLoadingOrderForWeathermap = (weathermapsResponse, currentWeathermapIdx) => {
-    // const [loadingQueue, updateLoadingQueue] = useState([]);
-    const queueLength = 3;
+    const [loadingQueue, updateLoadingQueue] = useState([]);
     const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
-    const [ queue, setQueue ] = useState([]);
 
 
     // Step 1: initialize isStartLoading status for each available weathermap when got new weathermapsResponse

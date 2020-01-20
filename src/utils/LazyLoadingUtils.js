@@ -17,21 +17,34 @@ class LazyLoadingUtils {
             let unitStep = direction === 'left'? -1 : 1;
             let traverseTo = undefined;
 
+            console.log(`currentIdx ${currentIdx}`)
+           
+
             if(direction === 'left'){
-                if(mode == 'conserve'){
+                console.log(`dir left`)
+                if(mode === 'conserve'){
+                    console.log(`conserve`)
                     traverseTo = traverseFrom - this.batchSize;
                     traverseTo = traverseTo < 0 ? 0 : traverseTo;
                 } else {
                     traverseTo = 0; // load all weathermap
                 }
             } else {
-                if(mode == 'conserve'){
+                console.log(`dir right`)
+                if(mode === 'conserve'){
+                    console.log(`conserve`)
                     traverseTo = traverseFrom + this.batchSize;
                     traverseTo = traverseTo > newStartLoadingStatus.length -1  ? newStartLoadingStatus.length -1 : traverseTo;
                 } else {
                     traverseTo = newStartLoadingStatus.length -1; // load all weathermap
                 }
             }
+
+            console.log(`mode ${mode}`)
+            console.log(`newStartLoadingStatus ${newStartLoadingStatus}`)
+            console.log(`traverseFrom ${traverseFrom}`)
+            console.log(`unitStep ${unitStep}`)
+            console.log(`traverseTo ${traverseTo}`)
 
             let idx = traverseFrom;
             do {

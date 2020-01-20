@@ -179,6 +179,12 @@ const ModelViewSlider = () => {
       sliderDom.noUiSlider.off('slide');
       // sliderDom.noUiSlider.on("slide", handleOnSlide);
       sliderDom.noUiSlider.on("slide", (target) => {console.log(`selectedModelViewInfo!!6666 ${JSON.stringify(selectedModelViewInfo)}`);handleOnSlide(selectedModelViewInfo)});
+      // dispatchWeathermapInfo({type:"LOAD_RIGHT_DIR", payload:{currentIdx : selectedModelViewInfo.fcstHour }})
+      if(weathermapsResponse && weathermapsResponse.weathermapsInfo)
+      dispatchWeathermapInfo({type:"LOAD_RIGHT_DIR", payload:{currentIdx : weathermapsResponse.weathermapsInfo.findIndex(
+        info => info.fcstHour === selectedModelViewInfo.fcstHour
+      ) }})
+      
     }
   },[selectedModelViewInfo.fcstHour])
 
