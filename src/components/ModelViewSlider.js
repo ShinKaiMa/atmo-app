@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import noUiSlider from "nouislider";
 import { WeathermapInfoContext } from '../contexts/WeathermapContext'
@@ -13,30 +13,46 @@ const ModelViewSlider = () => {
     values:[0,1],
     filter: (value, type) => {
     if (type === 0) return 0;
-    console.log(`brokeHour in filter(): ${brokeHour}`);
-    console.log(brokeHour.includes(value));
     return brokeHour.includes(value) ? 2 : 1;
   }}
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
   const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
-  const [sliderDom, setSliderDom] = useState();
+  // const [sliderDom, setSliderDom] = useState();
+  const [isSliderInit, setSliderInit] = useState(false);
   const [width, height] = useWindowSize();
   const [pips, setPips] = useState(basePips);
   const [range, setRange] = useState({min: 0,  max: 1});
   const [disabled, isDisabled] = useState(true);
   const weathermapsResponse = weathermapContext.weathermapsResponse;
-  
+  const sliderDom = useRef(null);
 
-
+  /**
+   * use dispatch rather than individual callback
+   */
+  const handleOnSlide = () =>{
+    if(weathermapsResponse && weathermapsResponse.totalFcstHour && weathermapsResponse.availableFcstHour){
+      // normal situation
+      if(weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.includes(parseInt(sliderDom.current.noUiSlider.get()))){
+          dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:parseInt(sliderDom.current.noUiSlider.get())});
+      }
+      // handle not available situation
+      else {
+        //set to available value, skip dispatch fcst hour
+        if(weathermapsResponse && weathermapsResponse.availableFcstHour){
+          // sliderDom.current.noUiSlider.set(selectedModelViewInfo.fcstHour);
+          dispatchSelectedModelViewInfo({type:"ROLLBACK_SLIDER"});
+        }
+      }
+    }
+  }
 
   //update range, pip and broke hour
   useEffect(() => {
 
     //update broke hour
     if(weathermapsResponse && weathermapsResponse.missingFcstHour){
-      console.log(`weathermapsResponse.missingFcstHour ${JSON.stringify(weathermapsResponse.missingFcstHour)}`)
       setBrokeHour(weathermapsResponse.missingFcstHour);
     }
 
@@ -51,7 +67,6 @@ const ModelViewSlider = () => {
           }
         }
       });
-      console.log(`newRange ${JSON.stringify(newRange)}`)
       setRange(newRange);
     }
 
@@ -61,46 +76,18 @@ const ModelViewSlider = () => {
       for(let hour = weathermapsResponse.iniFcstHour ; hour <= weathermapsResponse.totalFcstHour ; hour+=weathermapsResponse.fcstHourIncrement){
         newValues.push(hour);
       }
-      console.log(`pips newValues ${newValues}`)
       let newPips = {
         ...basePips, //update new filter function
         values:newValues
       };
-      console.log(`newPips ${JSON.stringify(newPips)}`)
       setPips(newPips);
     }
-
-
   },[weathermapContext.weathermapsResponse]);
 
-
-  const handleOnSlide = (selectedModelViewInfo) =>{
-
-
-    console.log(`slider value: ${sliderDom.noUiSlider.get()}`)
-    if(weathermapsResponse && weathermapsResponse.totalFcstHour && weathermapsResponse.availableFcstHour){
-      // normal situation
-      if(weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.includes(parseInt(sliderDom.noUiSlider.get()))){
-          console.log(`valid slid event ${sliderDom.noUiSlider.get()}`)
-          dispatchSelectedModelViewInfo({type:"SET_FCST_HOUR", payload:parseInt(sliderDom.noUiSlider.get())});
-      }
-      // handle not available situation
-      else {
-        console.log(`invalid slid event2 ${sliderDom.noUiSlider.get()}, reset to ${selectedModelViewInfo.fcstHour}`)
-        //set to available value, skip dispatch fcst hour
-        if(weathermapsResponse && weathermapsResponse.availableFcstHour){
-          sliderDom.noUiSlider.set(selectedModelViewInfo.fcstHour);
-          // sliderDom.noUiSlider.set(60);
-        }
-      }
-    }
-  }
-
   useEffect(() => {
-      console.log("initializing")
-      if (!sliderDom) {
-      let sliderDomTMP = document.getElementById("slider");
-      noUiSlider.create(sliderDomTMP, {
+      if (!isSliderInit) {
+      // let sliderDom = document.getElementById("slider");
+      noUiSlider.create(sliderDom.current, {
         connect: true,
         orientation: "vertical",
         direction: "ltr",
@@ -117,95 +104,34 @@ const ModelViewSlider = () => {
         snap: true,
         start: 0,
         step: 6,
-        // tooltips: [
-        //   {
-        //     to: value => {
-        //       let result = Math.round(parseInt(value)).toString();
-        //       return result + " Hour";
-        //     }
-        //   }
-        // ]
       });
-      setSliderDom(sliderDomTMP);
+      setSliderInit(true);
+      dispatchSelectedModelViewInfo({type:"INIT_SLIDER", payload:sliderDom});
     }
     else{
       //re-bind slide event
-      console.log("rebinding")
-      sliderDom.noUiSlider.off('slide');
+      sliderDom.current.noUiSlider.off('slide');
       // sliderDom.noUiSlider.on("slide", handleOnSlide);
-      sliderDom.noUiSlider.on("slide", (target) => {console.log(`selectedModelViewInfo!!6666 ${JSON.stringify(selectedModelViewInfo)}`);handleOnSlide(selectedModelViewInfo)});
-      sliderDom.noUiSlider.updateOptions({
+      sliderDom.current.noUiSlider.on("slide", (target) => handleOnSlide(selectedModelViewInfo));
+      sliderDom.current.noUiSlider.updateOptions({
         range,
         pips : {...pips, filter: (value, type) => {
           if (type === 0) return 0;
-          console.log(`brokeHour in filter(): ${brokeHour}`);
-          console.log(brokeHour.includes(value));
           return brokeHour.includes(value) ? 2 : 1;
         }}
       })
       dispatchSelectedModelViewInfo({type:"UPDATE_PIP_LAST_RENDER_TIME", payload: new Date()});
       if(weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0)
-      sliderDom.noUiSlider.set(weathermapsResponse.availableFcstHour[0] || weathermapsResponse.iniFcstHour || 0);
-      // setTimeout(() => {
-      //   sliderDom.noUiSlider.updateOptions({
-      //     orientation: 'vertical',
-      //     direction: 'rtl',
-      //     range: {
-      //       min: 0,
-      //       "50%": 6,
-      //       max: 12
-      //     },
-      //     pips: {
-      //       mode: "values",
-      //       values: [0,3, 6, 12],
-      //       density: 100,
-      //       filter: (value, type) => {
-      //         if (type === 0) return 0;
-      //         return brokeHour.includes(value) ? 2 : 1;
-      //       }
-      //     },
-      //   });
-      // }, 2000);
+      // sliderDom.current.noUiSlider.set(weathermapsResponse.availableFcstHour[0] || weathermapsResponse.iniFcstHour || 0);
+      sliderDom.current.noUiSlider.set(selectedModelViewInfo.fcstHour);
     }
   }, [weathermapsResponse, range, pips, brokeHour]);
 
-
-  /**
-   * re-bind handleOnSlide event for refreshing new selectedModelViewInfo.fcstHour for limitting forbidden fcst hour.
-   */
-  useEffect(()=>{
-    if (sliderDom) {
-      console.log('rebind 2 !!!@')
-      sliderDom.noUiSlider.off('slide');
-      // sliderDom.noUiSlider.on("slide", handleOnSlide);
-      sliderDom.noUiSlider.on("slide", (target) => {console.log(`selectedModelViewInfo!!6666 ${JSON.stringify(selectedModelViewInfo)}`);handleOnSlide(selectedModelViewInfo)});
-      // dispatchWeathermapInfo({type:"LOAD_RIGHT_DIR", payload:{currentIdx : selectedModelViewInfo.fcstHour }})
-      if(weathermapsResponse && weathermapsResponse.weathermapsInfo)
-      dispatchWeathermapInfo({type:"LOAD_RIGHT_DIR", payload:{currentIdx : weathermapsResponse.weathermapsInfo.findIndex(
-        info => info.fcstHour === selectedModelViewInfo.fcstHour
-      ) }})
-      
-    }
-  },[selectedModelViewInfo.fcstHour])
-
-
-
-
-
   return (
     <div>
-      {/* {console.log(`final ${(width > height ? width : height) / 2.5}`)} */}
       <div
+        ref={sliderDom}
         id="slider"
-        // style={{ height: "6px", marginTop: "10px", marginLeft: "32px", width:"300px" }}
-        // style={{
-        //   // height: "6px",
-        //   marginTop: "10px",
-        //   marginLeft: "16px",
-        //   marginBottom: "50px",
-        //   // width: (width > height ? width : height) / 2.5
-        //   width: width / 2
-        // }}
         className="left"
         // disabled
         style={{

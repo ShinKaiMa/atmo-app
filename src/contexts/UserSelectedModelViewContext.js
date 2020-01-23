@@ -8,6 +8,7 @@ const UserSelectedModelViewContextProvider = props => {
     selectedModelViewInfo,
     dispatchSelectedModelViewInfo
   ] = useReducer(UserSelectedModelViewReducer, {
+    sliderDOM: null,
     model: null,
     area: null,
     dataTypes: null,

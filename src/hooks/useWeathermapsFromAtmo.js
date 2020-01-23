@@ -21,7 +21,13 @@ export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, 
                     let newWeathermapsInfo = response.data;
                     if(newWeathermapsInfo && !newWeathermapsInfo.error && newWeathermapsInfo.availableFcstHour.length > 0){
                         // must dispatch slider fcst hour first
-                        dispatchSelectedModelViewInfo({ type: 'SET_FCST_HOUR', payload:newWeathermapsInfo.weathermapsInfo[0].fcstHour});
+                        //TODO: get nearest idx
+                        if(!newWeathermapsInfo.availableFcstHour.includes(selectedModelViewInfo.fcstHour)){
+                            dispatchSelectedModelViewInfo({ type: 'SET_FCST_HOUR', payload:newWeathermapsInfo.weathermapsInfo[0].fcstHour});
+                            dispatchSelectedModelViewInfo({ type: 'SET_SLIDER_FCST_HOUR', payload:newWeathermapsInfo.weathermapsInfo[0].fcstHour});
+                        } else {
+                            dispatchSelectedModelViewInfo({ type: 'SET_SLIDER_FCST_HOUR', payload:selectedModelViewInfo.fcstHour});
+                        }
                         dispatchWeathermapInfo({ type: 'SET_INFO', payload:newWeathermapsInfo});
                     } else {
                         // TODO: handle error
