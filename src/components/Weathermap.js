@@ -1,32 +1,27 @@
-import React, { useState, useEffect, useContext } from "react";
-import { WeathermapInfoContext } from '../contexts/WeathermapContext'
+import React, { useState, useEffect, useContext, useRef } from "react";
+// import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
+import { css } from "@emotion/core";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
-const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) => {
+const Weathermap = ({shouldStartLoading, rwdImgSize, info, idx, isLandScapeMode, currentIMGIdx, height, width}) => {
   const imgURL = info.url;
-  const [imgDOM, setImgDom] = useState();
-  const [isCompleted, setCompleted] = useState(false);
-  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  // const [imgDOM, setImgDom] = useState();
+  const [ isCompleted, setCompleted ] = useState(false);
+  // const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
-
-  useEffect(() => {
-    let imgElements = document.getElementsByClassName(`weathermap ${idx}`);
-    let img = imgElements.item(0);
-    setImgDom(img);
-    console.log("img");
-    console.log(img);
-  },[weathermapContext.weathermapResponse])
+  const imgDOM = useRef(null);
+  const override = css(`
+    display: block;
+    margin: auto auto;
+  `);
 
   useEffect(() => {
     if(selectedModelViewInfo && selectedModelViewInfo.lastPipRenderTime && isCompleted){
-      console.log(imgDOM);
-      let fcstHour = weathermapContext.weathermapsResponse.weathermapsInfo[idx].fcstHour;
-      console.log(`fcstHour : ${fcstHour}`)
+      let fcstHour = info.fcstHour;
       let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
-      console.log("pipNodeList: " + pipNodeList)
-      console.log(pipNodeList)
       if(pipNodeList){
         let pipDOM = pipNodeList.item(0);
         if(pipDOM){
@@ -37,36 +32,64 @@ const Weathermap = ({info, idx, isLandScapeMode, currentIMGIdx, height, width}) 
   },[selectedModelViewInfo.lastPipRenderTime, isCompleted])
 
   useEffect(() => {
-    if(imgDOM){
-      console.log('imageDOM')
-      console.log(imgDOM)
-      onImageLoaded(imgDOM, setCompleted);
+    if(imgDOM.current){
+      return () => onImageLoaded();
     }
-  }, [imgDOM])
+  }, [imgDOM.current])
 
-  const onImageLoaded = (imgDOM, setCompleted) => {
-    if(!imgDOM)
+  // triger lazy loading
+  useEffect(() => {
+    if(shouldStartLoading && imgDOM.current){
+      imgDOM.current.src = imgURL
+    }
+  }, [shouldStartLoading])
+
+
+  const onImageLoaded = () => {
+    if(!imgDOM.current)
       return
   
-    if (imgDOM.complete) {
+    // ensure "src" is mounted and completed
+    if (imgDOM.current.complete && imgDOM.current.src) {
       setCompleted(true);
     } else {
-      imgDOM.onload = () => {
+      imgDOM.current.onload = () => {
         setCompleted(true);
       }
     }
   }
 
   return (
+    <React.Fragment>
     <img
+      key={imgURL}
+      ref={imgDOM}
       className={`weathermap left ${idx}`}
       style={{
-        display: idx === currentIMGIdx ? "" : "none",
+        display: (idx === currentIMGIdx) && isCompleted? "" : "none",
         height: isLandScapeMode ? height / 1.4 : "",
         width: isLandScapeMode ? "" : width / 1.2
       }}
-      src={imgURL}
+      // src={imgURL}
     />
+    <div 
+      className="left"
+      style={{
+      display: (idx === currentIMGIdx) && !isCompleted? "flex" : "none",
+      // height: `515.713px`,
+      // width: "564.050px"
+      height: `${rwdImgSize ? rwdImgSize.height : '0'}px`,
+      width: `${rwdImgSize ? rwdImgSize.width : '0'}px`
+    }}>
+    <PropagateLoader
+          css={override}
+          size={10}
+          //size={"150px"} this also works
+          color={"#0ACAF5"}
+          loading={(idx === currentIMGIdx) && !isCompleted}
+    />
+    </div>
+    </React.Fragment>
   );
 };
 

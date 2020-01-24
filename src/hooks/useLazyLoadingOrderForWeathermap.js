@@ -22,10 +22,10 @@ export const useLazyLoadingOrderForWeathermap = (weathermapsResponse, currentWea
         if (weathermapsResponse) {
             // initialize isStartLoadingStatus and isLoadingCompleteStatus status array
             if (weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0) {
-                let newLoadingStatus = Array(weathermapsResponse.availableFcstHour.length).fill(false);
-                let newCompleteStatus = Array(weathermapsResponse.availableFcstHour.length).fill(false);
-                dispatchWeathermapInfo({ type: "SET_START_LOADING_STATUS", payload: newLoadingStatus });
-                dispatchWeathermapInfo({ type: "SET_LOADING_COMPLETE_STATUS", payload: newCompleteStatus });
+                let newShouldStartLoading = Array(weathermapsResponse.availableFcstHour.length).fill(false);
+                let newIsLoaded = Array(weathermapsResponse.availableFcstHour.length).fill(false);
+                dispatchWeathermapInfo({ type: "SET_SHOULD_START_LOADING", payload: newShouldStartLoading });
+                dispatchWeathermapInfo({ type: "SET_IS_LOADED", payload: newIsLoaded });
             }
         }
     }, [weathermapsResponse]);
@@ -33,15 +33,18 @@ export const useLazyLoadingOrderForWeathermap = (weathermapsResponse, currentWea
     // Step 2: dispatch new loading status from "loadingStatus" and "currentWeathermapIdx"
     useEffect(() => {
         // ensure be initialized
-        if (weathermapContext.isStartLoadingStatus.length > 0 && weathermapContext.isLoadingCompleteStatus.length > 0) {
-
+        if (weathermapContext.shouldStartLoading.length > 0 && weathermapContext.isLoaded.length > 0) {
+            // init
+            if(!weathermapContext.shouldStartLoading.includes(true)){
+                dispatchWeathermapInfo({ type: "LOAD_RIGHT_DIR", payload:{currentIdx:currentWeathermapIdx}});
+            }
         }
-    }, [weathermapContext.isStartLoadingStatus, weathermapContext.isLoadingComplete])
+    }, [weathermapContext.shouldStartLoading, weathermapContext.isLoaded])
 
 
 
-    const getQueueOrderBylatestStatus = (isStartLoadingStatus, currentWeathermapIdx) => {
+    const getQueueOrderBylatestStatus = (shouldStartLoading, currentWeathermapIdx) => {
 
     }
-    return loadingQueue;
+    return weathermapContext.shouldStartLoading;
 }

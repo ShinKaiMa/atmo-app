@@ -4,7 +4,7 @@ import { WeathermapInfoReducer } from "../reducers/WeathermapInfoReducer";
 export const WeathermapInfoContext = createContext();
 
 const WeathermapInfoContextProvider = props => {
-  const [ weathermapContext, dispatchWeathermapInfo ] = useReducer(WeathermapInfoReducer, {weathermapsResponse:{}, isStartLoadingStatus:[], isLoadingCompleteStatus:[]});
+  const [ weathermapContext, dispatchWeathermapInfo ] = useReducer(WeathermapInfoReducer, {weathermapsResponse:{}, shouldStartLoading:[], isLoaded:[]});
 
   return (
     <WeathermapInfoContext.Provider

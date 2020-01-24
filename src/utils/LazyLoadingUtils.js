@@ -21,6 +21,8 @@ class LazyLoadingUtils {
            
 
             if(direction === 'left'){
+                traverseFrom --; // shift left one from current Idx, current Idx lazy loading is handle by right direction.
+                traverseFrom = traverseFrom < 0 ? 0 : traverseFrom;
                 console.log(`dir left`)
                 if(mode === 'conserve'){
                     console.log(`conserve`)

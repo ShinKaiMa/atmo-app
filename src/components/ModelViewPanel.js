@@ -3,10 +3,10 @@ import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewC
 import { useWeathermapsFromAtmo } from "../hooks/useWeathermapsFromAtmo";
 import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import Weathermap from '../components/Weathermap';
-import {useLazyLoadingOrderForWeathermap} from '../hooks/useLazyLoadingOrderForWeathermap';
+import Weathermap from "../components/Weathermap";
+import { useLazyLoadingOrderForWeathermap } from "../hooks/useLazyLoadingOrderForWeathermap";
 
-const ModelViewPanel = (props) => {
+const ModelViewPanel = props => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
@@ -20,7 +20,11 @@ const ModelViewPanel = (props) => {
   const [width, height] = useWindowSize();
   const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
-  useLazyLoadingOrderForWeathermap(weathermapsResponse , currentIMGIdx);
+  const shouldStartLoading = useLazyLoadingOrderForWeathermap(
+    weathermapsResponse,
+    currentIMGIdx
+  );
+  const [rwdImgSize, setRwdImgSize] = useState(undefined);
 
   // const [isMobileDevice, setIsMobileDevice] = useState(true);
   useEffect(() => {
@@ -50,24 +54,8 @@ const ModelViewPanel = (props) => {
   // update component content effect
   useEffect(() => {
     if (weathermapsResponse && weathermapsResponse.weathermapsInfo) {
-      console.log(
-        `idx ${weathermapsResponse.weathermapsInfo.findIndex(
-          info => info.fcstHour === selectedModelViewInfo.fcstHour
-        )}`
-      );
-      console.log(
-        `selectedModelViewInfo fcstHour ${JSON.stringify(
-          selectedModelViewInfo.fcstHour
-        )}`
-      );
-      console.log(
-        `weathermapsInfo ${JSON.stringify(weathermapsResponse.weathermapsInfo)}`
-      );
       let newIdx = weathermapsResponse.weathermapsInfo.findIndex(
         info => info.fcstHour === selectedModelViewInfo.fcstHour
-      );
-      console.log(
-        `newIdx ${newIdx}`
       );
       if (newIdx !== -1) {
         setCurrentIMGIdx(
@@ -76,12 +64,37 @@ const ModelViewPanel = (props) => {
           )
         );
       } else {
-        setCurrentIMGIdx(0);
+        throw new Error("invalid state");
       }
     }
   }, [selectedModelViewInfo, weathermapsResponse]);
 
-  return !weathermapsResponse || !weathermapsResponse.weathermapsInfo? (
+  useEffect(() => {
+    if (
+      weathermapsResponse &&
+      weathermapsResponse.imageDimensions &&
+      weathermapsResponse.imageDimensions.width &&
+      weathermapsResponse.imageDimensions.height
+    ) {
+      let imgHeight = isLandScapeMode ? height / 1.4 : undefined
+      let imgWidth = isLandScapeMode ? undefined : width / 1.2
+
+      if(!imgHeight){
+        let adjustRatio = imgWidth / weathermapsResponse.imageDimensions.width;
+        imgHeight = weathermapsResponse.imageDimensions.height * adjustRatio;
+      }
+      if(!imgWidth){
+        let adjustRatio = imgHeight / weathermapsResponse.imageDimensions.height;
+        imgWidth = weathermapsResponse.imageDimensions.width * adjustRatio;
+        console.log(`!imgWidth adjustRatio : ${adjustRatio}`)
+        console.log(`!imgWidth imgHeight : ${imgHeight}`)
+        console.log(`!imgWidth imgWidth : ${imgWidth}`)
+      }
+      setRwdImgSize({height:imgHeight, width:imgWidth});
+    }
+  }, [weathermapsResponse, width, height]);
+
+  return !weathermapsResponse || !weathermapsResponse.weathermapsInfo ? (
     <div className="left">
       <SkeletonTheme
         duration={0.1}
@@ -98,16 +111,19 @@ const ModelViewPanel = (props) => {
     <span>Oops! Something went wrong!</span>
   ) : weathermapsResponse.weathermapsInfo &&
     weathermapsResponse.weathermapsInfo.length > 0 ? (
-    weathermapsResponse.weathermapsInfo.map((info,idx) =>{
+    weathermapsResponse.weathermapsInfo.map((info, idx) => {
       let weathermapProps = {
+        shouldStartLoading:
+          shouldStartLoading.length > 0 ? shouldStartLoading[idx] : false,
+        rwdImgSize,
         info,
         idx,
         isLandScapeMode,
         currentIMGIdx,
         height,
-        width,
-      }
-      return(<Weathermap {...weathermapProps}/>);
+        width
+      };
+      return <Weathermap {...weathermapProps} />;
     })
   ) : (
     <span>No available weather map</span>
