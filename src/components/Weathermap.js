@@ -1,14 +1,23 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-// import { WeathermapInfoContext } from '../contexts/WeathermapContext'
+import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
-const Weathermap = ({shouldStartLoading, rwdImgSize, info, idx, isLandScapeMode, currentIMGIdx, height, width}) => {
+const Weathermap = ({
+  shouldStartLoading,
+  rwdImgSize,
+  currentIMGIdx,
+  info,
+  idx,
+  isLandScapeMode,
+  height,
+  width
+}) => {
   const imgURL = info.url;
   // const [imgDOM, setImgDom] = useState();
-  const [ isCompleted, setCompleted ] = useState(false);
-  // const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const [isCompleted, setCompleted] = useState(false);
+  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
@@ -18,77 +27,89 @@ const Weathermap = ({shouldStartLoading, rwdImgSize, info, idx, isLandScapeMode,
     margin: auto auto;
   `);
 
+  // re-initial weathermap
   useEffect(() => {
-    if(selectedModelViewInfo && selectedModelViewInfo.lastPipRenderTime && isCompleted){
+    setCompleted(false);
+  }, [info])
+
+  useEffect(() => {
+    if (
+      selectedModelViewInfo &&
+      selectedModelViewInfo.lastPipRenderTime &&
+      isCompleted
+    ) {
+      console.log("in isCompleted eff")
       let fcstHour = info.fcstHour;
       let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
-      if(pipNodeList){
+      if (pipNodeList) {
         let pipDOM = pipNodeList.item(0);
-        if(pipDOM){
+        if (pipDOM) {
           pipDOM.classList.add("loaded");
         }
       }
+      dispatchWeathermapInfo({ type: "SET_IS_LOADED", index:idx});
+      // dispatchWeathermapInfo({ type: "LOAD_RIGHT_DIR", payload:{currentIdx: currentIMGIdx}});
     }
-  },[selectedModelViewInfo.lastPipRenderTime, isCompleted])
+  }, [selectedModelViewInfo.lastPipRenderTime, isCompleted]);
 
   useEffect(() => {
-    if(imgDOM.current){
-      return () => onImageLoaded();
+    if (shouldStartLoading && imgDOM.current) {
+      console.log("in shouldStartLoading eff")
+      onImageLoaded();
     }
-  }, [imgDOM.current])
+  }, [shouldStartLoading]);
 
   // triger lazy loading
   useEffect(() => {
-    if(shouldStartLoading && imgDOM.current){
-      imgDOM.current.src = imgURL
+    if (shouldStartLoading && imgDOM.current) {
+      imgDOM.current.src = imgURL;
     }
-  }, [shouldStartLoading])
-
+  }, [shouldStartLoading]);
 
   const onImageLoaded = () => {
-    if(!imgDOM.current)
-      return
-  
+    if (!imgDOM.current) return;
+
     // ensure "src" is mounted and completed
     if (imgDOM.current.complete && imgDOM.current.src) {
+      console.log(`set completed ${info.url}`)
       setCompleted(true);
     } else {
       imgDOM.current.onload = () => {
-        setCompleted(true);
-      }
+      console.log(`set completed ${info.url}`)
+      setCompleted(true);
+      };
     }
-  }
+  };
 
   return (
     <React.Fragment>
-    <img
-      key={imgURL}
-      ref={imgDOM}
-      className={`weathermap left ${idx}`}
-      style={{
-        display: (idx === currentIMGIdx) && isCompleted? "" : "none",
-        height: isLandScapeMode ? height / 1.4 : "",
-        width: isLandScapeMode ? "" : width / 1.2
-      }}
-      // src={imgURL}
-    />
-    <div 
-      className="left"
-      style={{
-      display: (idx === currentIMGIdx) && !isCompleted? "flex" : "none",
-      // height: `515.713px`,
-      // width: "564.050px"
-      height: `${rwdImgSize ? rwdImgSize.height : '0'}px`,
-      width: `${rwdImgSize ? rwdImgSize.width : '0'}px`
-    }}>
-    <PropagateLoader
+      <img
+        key={imgURL}
+        ref={imgDOM}
+        className={`weathermap left ${idx}`}
+        style={{
+          display: idx === currentIMGIdx && isCompleted ? "" : "none",
+          height: isLandScapeMode ? height / 1.4 : "",
+          width: isLandScapeMode ? "" : width / 1.2
+        }}
+        // src={shouldStartLoading ? imgURL : imgURL}
+      />
+      <div
+        className="left"
+        style={{
+          display: idx === currentIMGIdx && !isCompleted ? "flex" : "none",
+          height: `${rwdImgSize ? rwdImgSize.height : "0"}px`,
+          width: `${rwdImgSize ? rwdImgSize.width : "0"}px`
+        }}
+      >
+        <PropagateLoader
           css={override}
           size={10}
           //size={"150px"} this also works
           color={"#0ACAF5"}
-          loading={(idx === currentIMGIdx) && !isCompleted}
-    />
-    </div>
+          loading={idx === currentIMGIdx && !isCompleted}
+        />
+      </div>
     </React.Fragment>
   );
 };

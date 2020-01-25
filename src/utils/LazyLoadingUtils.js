@@ -18,7 +18,6 @@ class LazyLoadingUtils {
             let traverseTo = undefined;
 
             console.log(`currentIdx ${currentIdx}`)
-           
 
             if(direction === 'left'){
                 traverseFrom --; // shift left one from current Idx, current Idx lazy loading is handle by right direction.
@@ -43,7 +42,7 @@ class LazyLoadingUtils {
             }
 
             console.log(`mode ${mode}`)
-            console.log(`newStartLoadingStatus ${newStartLoadingStatus}`)
+            console.log(`in newStartLoadingStatus ${newStartLoadingStatus}`)
             console.log(`traverseFrom ${traverseFrom}`)
             console.log(`unitStep ${unitStep}`)
             console.log(`traverseTo ${traverseTo}`)
@@ -60,11 +59,17 @@ class LazyLoadingUtils {
 
                 idx = idx + unitStep;
             } while (true);
+            console.log(`going to return newStartLoadingStatus ${newStartLoadingStatus}`)
             return newStartLoadingStatus;
         } else {
-            return [];
+            return isStartLoadingStatus;
         }
     }
+
+    static isEqual(array1, array2){
+        return array1.length === array2.length && array1.every((value, index) => value === array2[index]);
+    }
+    
 }
 
 export {LazyLoadingUtils}

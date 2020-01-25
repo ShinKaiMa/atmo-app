@@ -18,6 +18,7 @@ export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, 
                 if (queryModel && queryArea && queryDetailType && queryStartDateString) {
                     console.log(`going to fetch weathermap`);
                     let response = await fetchWeathermaps({ model: mapRouterModelParamToRequestModel(queryModel), area:queryArea, detailType:queryDetailType, startDateString:queryStartDateString });
+                    dispatchWeathermapInfo({ type: "CLEAR_LZ_STATUS"});
                     let newWeathermapsInfo = response.data;
                     if(newWeathermapsInfo && !newWeathermapsInfo.error && newWeathermapsInfo.availableFcstHour.length > 0){
                         // must dispatch slider fcst hour first

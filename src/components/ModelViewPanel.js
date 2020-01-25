@@ -64,7 +64,7 @@ const ModelViewPanel = props => {
           )
         );
       } else {
-        throw new Error("invalid state");
+        setCurrentIMGIdx(0);
       }
     }
   }, [selectedModelViewInfo, weathermapsResponse]);
@@ -94,7 +94,7 @@ const ModelViewPanel = props => {
     }
   }, [weathermapsResponse, width, height]);
 
-  return !weathermapsResponse || !weathermapsResponse.weathermapsInfo ? (
+  return (!weathermapsResponse || !weathermapsResponse.weathermapsInfo) && (weathermapsResponse.weathermapsInfo && weathermapsResponse.weathermapsInfo.length > 0) ? (
     <div className="left">
       <SkeletonTheme
         duration={0.1}
@@ -116,10 +116,10 @@ const ModelViewPanel = props => {
         shouldStartLoading:
           shouldStartLoading.length > 0 ? shouldStartLoading[idx] : false,
         rwdImgSize,
+        currentIMGIdx,
         info,
         idx,
         isLandScapeMode,
-        currentIMGIdx,
         height,
         width
       };
