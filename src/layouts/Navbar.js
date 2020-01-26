@@ -1,20 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
-import M from "materialize-css/dist/js/materialize.min.js";
 import MobileSideNavbar from "../components/MobileSideNavbar";
 import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
 import { AppStatusContext } from '../contexts/AppStatusContext'
 
-const Navbar = props => {
-  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
+const Navbar = () => {
+  const { appStatus } = useContext(AppStatusContext);
   return (
     <div>
       <div className="sideNavBar navbar-fixed">
         <nav>
           <div className="nav-wrapper" style={{ backgroundColor: "#14293D" }}>
             <a
-              href="#"
+              href={null}
               data-target="slide-out"
               className="sidenav-trigger show-on-medium-and-down"
             >

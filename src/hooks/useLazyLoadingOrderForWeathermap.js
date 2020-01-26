@@ -1,22 +1,13 @@
 import { WeathermapInfoContext } from "../contexts/WeathermapContext";
-import React, { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 
 /**
  * Hook for dispatching "loading order" (lazy loading) for each weathermap components,
- * should cooperate with useWeathermapLoadingStatus hook.
- *
- * flux concept:
- * Step 1:
- * weathermap component <=== dispatch "loading command" and get "loading status" by      t    h    i    s      hook ===> weathermapInfo context
- *
- * Step 2:
- * weathermap component <=== dispatch "loading status" and get "loading command" by useWeathermapLoadingStatus hook ===> weathermapInfo context
  */
 export const useLazyLoadingOrderForWeathermap = (
   weathermapsResponse,
   currentWeathermapIdx
 ) => {
-  const [loadingQueue, updateLoadingQueue] = useState([]);
   const { weathermapContext, dispatchWeathermapInfo } = useContext(
     WeathermapInfoContext
   );
@@ -35,13 +26,20 @@ export const useLazyLoadingOrderForWeathermap = (
         let newIsLoaded = Array(
           weathermapsResponse.availableFcstHour.length
         ).fill(false);
+        let trigerBy = Array(
+          weathermapsResponse.availableFcstHour.length
+        );
         dispatchWeathermapInfo({
-          type: "SET_SHOULD_START_LOADING",
+          type: "INIT_SHOULD_START_LOADING",
           payload: newShouldStartLoading
         });
         dispatchWeathermapInfo({
           type: "INIT_LOADED_STATUS",
           payload: newIsLoaded
+        });
+        dispatchWeathermapInfo({
+          type: "INIT_TRIGER_BY",
+          payload: trigerBy
         });
       }
     }
@@ -49,26 +47,14 @@ export const useLazyLoadingOrderForWeathermap = (
 
   // Step 2: dispatch new loading status from "loadingStatus" and "currentWeathermapIdx"
   useEffect(() => {
-    // ensure be initialized
+    // ensure weathermapContext was initialized
     if (
       weathermapContext.shouldStartLoading.length > 0 &&
-      weathermapContext.isLoaded.length > 0
+      weathermapContext.isLoaded.length > 0 &&
+      weathermapContext.trigerBy.length > 0
     ) {
-      // init
+      // initialize (triger) lazy loading
       if (!weathermapContext.shouldStartLoading.includes(true)) {
-        console.log(`init dispatchWeathermapInfo`);
-        dispatchWeathermapInfo({
-          type: "LOAD_RIGHT_DIR",
-          currentIdx: currentWeathermapIdx
-        });
-        dispatchWeathermapInfo({
-          type: "LOAD_LEFT_DIR",
-          currentIdx: currentWeathermapIdx
-        });
-      }
-      // trigger next image when lazy loading is activate
-      else {
-        console.log(`next dispatchWeathermapInfo`);
         dispatchWeathermapInfo({
           type: "LOAD_RIGHT_DIR",
           currentIdx: currentWeathermapIdx
@@ -81,6 +67,8 @@ export const useLazyLoadingOrderForWeathermap = (
     }
   }, [weathermapContext.shouldStartLoading, weathermapContext.isLoaded]);
 
+
+  //Step 3: re-triger inactive lazy loading
   useEffect(() => {
     if (
       weathermapsResponse.availableFcstHour &&
@@ -92,12 +80,18 @@ export const useLazyLoadingOrderForWeathermap = (
           type: "LOAD_RIGHT_DIR",
           currentIdx: currentWeathermapIdx
         });
+      }
+      if (!weathermapContext.islazyloadingActivated.left) {
+        //try to re start left-direction LZ
         dispatchWeathermapInfo({
           type: "LOAD_LEFT_DIR",
           currentIdx: currentWeathermapIdx
         });
       }
+
     }
   }, [currentWeathermapIdx]);
-  return weathermapContext.shouldStartLoading;
+
+
+  return {shouldStartLoading: weathermapContext.shouldStartLoading};
 };

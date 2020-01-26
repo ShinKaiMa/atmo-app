@@ -18,13 +18,12 @@ const ModelViewSlider = () => {
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
-  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
-  // const [sliderDom, setSliderDom] = useState();
+  const { weathermapContext } = useContext(WeathermapInfoContext);
   const [isSliderInit, setSliderInit] = useState(false);
   const [width, height] = useWindowSize();
   const [pips, setPips] = useState(basePips);
   const [range, setRange] = useState({min: 0,  max: 1});
-  const [disabled, isDisabled] = useState(true);
+  // const [disabled, isDisabled] = useState(true);
   const weathermapsResponse = weathermapContext.weathermapsResponse;
   const sliderDom = useRef(null);
 

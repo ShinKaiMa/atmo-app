@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { fetchModelViewSchema } from "../api/atmoAPI"
 import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext'
 import { ModelViewShemaContext } from '../contexts/ModelViewSchemaContext'
@@ -13,7 +13,7 @@ import { constants } from "../config/constant"
 export const useModelViewSchemaFromAtmo = ({queryModel,queryArea}) => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
     const { modelViewSchema, dispatchModelViewSchema } = useContext(ModelViewShemaContext);
-    const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
+    const { dispatchAppStatus } = useContext(AppStatusContext);
     // const [ modelViewSchema, setModelViewSchema ] = useState();
 
     useEffect(() => {

@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 
 const MobileSideNavbar = (props) => {
-    // const [collapsibles, setCollapsibles] = useState();
-    // const [sidenavs, setSidenavs] = useState();
-
     useEffect(() => {
         let elem = document.querySelectorAll(".sidenav");
-        let sidenavs = M.Sidenav.init(elem, {
+        M.Sidenav.init(elem, {
             edge: "left",
             inDuration: 350,
             draggable: true
         });
 
         let collapsibleElem = document.querySelectorAll('.collapsible');
-        let collapsibles = M.Collapsible.init(collapsibleElem, {
+        M.Collapsible.init(collapsibleElem, {
             accordion: false
         });
     },[]);
@@ -33,14 +30,16 @@ const MobileSideNavbar = (props) => {
                         Global Model
                     </div>
                     <div className="collapsible-body">
-                        <li onClick={() => {
-                            props.history.push('/model/global/forcast/GFS');
-                        }}>
-                            <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
-                        </li>
-                        <li onClick={() => props.history.push('/model/global/analysis/ECMWF')}>
-                            <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
-                        </li>
+                        <ul>
+                            <li onClick={() => {
+                                props.history.push('/model/global/forcast/GFS');
+                            }}>
+                                <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
+                            </li>
+                            <li onClick={() => props.history.push('/model/global/analysis/ECMWF')}>
+                                <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
+                            </li>
+                        </ul>
                     </div>
                 </li>
                 <li className="active">
@@ -49,9 +48,11 @@ const MobileSideNavbar = (props) => {
                         Regional Model
                     </div>
                     <div className="collapsible-body">
-                        <li onClick={() => props.history.push('/model/regional/forcast/CWBWRF')}>
-                            <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
-                        </li>
+                        <ul>
+                            <li onClick={() => props.history.push('/model/regional/forcast/CWBWRF')}>
+                                <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
+                            </li>
+                        </ul>
                     </div>
                 </li>
                 <li className={props.location.pathname === '/overview' ? "active" : ""}

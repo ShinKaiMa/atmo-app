@@ -7,7 +7,7 @@ import Weathermap from "../components/Weathermap";
 import { useLazyLoadingOrderForWeathermap } from "../hooks/useLazyLoadingOrderForWeathermap";
 
 const ModelViewPanel = props => {
-  const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
+  const { selectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
   const [queryWeathermapsInfoParam, setQueryWeathermapsInfoParam] = useState({
@@ -20,7 +20,7 @@ const ModelViewPanel = props => {
   const [width, height] = useWindowSize();
   const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
-  const shouldStartLoading = useLazyLoadingOrderForWeathermap(
+  const {shouldStartLoading} = useLazyLoadingOrderForWeathermap(
     weathermapsResponse,
     currentIMGIdx
   );
@@ -86,9 +86,6 @@ const ModelViewPanel = props => {
       if(!imgWidth){
         let adjustRatio = imgHeight / weathermapsResponse.imageDimensions.height;
         imgWidth = weathermapsResponse.imageDimensions.width * adjustRatio;
-        console.log(`!imgWidth adjustRatio : ${adjustRatio}`)
-        console.log(`!imgWidth imgHeight : ${imgHeight}`)
-        console.log(`!imgWidth imgWidth : ${imgWidth}`)
       }
       setRwdImgSize({height:imgHeight, width:imgWidth});
     }

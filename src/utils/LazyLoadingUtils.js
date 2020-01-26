@@ -1,6 +1,6 @@
 class LazyLoadingUtils {
     static batchSize = 3;
-
+    static conserveThreshold = 7;
     /**
      * This function should be called when just "isLoadingCompleteStatus array" is changed or current index changed while loading state is inactive.
      * @param {boolean[]} isLoadingCompleteStatus 
@@ -9,48 +9,44 @@ class LazyLoadingUtils {
      * @param {string} direction //right | left
      * @param {string} mode //conserve | all
      */
-    static getNewStartLoadingStatus(isLoadingCompleteStatus, isStartLoadingStatus, currentIdx, direction, mode){
+    static getNewStartLoadingStatus(isLoadingCompleteStatus, isStartLoadingStatus, currentIdx, direction){
+        let mode = 'conserve';
+        let loadedImgNum = isLoadingCompleteStatus.filter(isLoaded => isLoaded).length;
+        if(loadedImgNum > this.conserveThreshold){
+            mode = 'loadAllImg'
+        }
+
         // filter out not initialized and loading complete situation
         if(isLoadingCompleteStatus.length > 0 && isStartLoadingStatus.length > 0 && isLoadingCompleteStatus.includes(false)){
-            let newStartLoadingStatus = [...isStartLoadingStatus];
+            let newShouldStartLoading = [...isStartLoadingStatus];
             let traverseFrom = currentIdx;
             let unitStep = direction === 'left'? -1 : 1;
             let traverseTo = undefined;
 
-            console.log(`currentIdx ${currentIdx}`)
-
             if(direction === 'left'){
                 traverseFrom --; // shift left one from current Idx, current Idx lazy loading is handle by right direction.
                 traverseFrom = traverseFrom < 0 ? 0 : traverseFrom;
-                console.log(`dir left`)
                 if(mode === 'conserve'){
-                    console.log(`conserve`)
                     traverseTo = traverseFrom - this.batchSize +1;
                     traverseTo = traverseTo < 0 ? 0 : traverseTo;
                 } else {
                     traverseTo = 0; // load all weathermap
                 }
             } else {
-                console.log(`dir right`)
                 if(mode === 'conserve'){
-                    console.log(`conserve`)
                     traverseTo = traverseFrom + this.batchSize;
-                    traverseTo = traverseTo > newStartLoadingStatus.length -1  ? newStartLoadingStatus.length -1 : traverseTo;
+                    traverseTo = traverseTo > newShouldStartLoading.length -1  ? newShouldStartLoading.length -1 : traverseTo;
                 } else {
-                    traverseTo = newStartLoadingStatus.length -1; // load all weathermap
+                    traverseTo = newShouldStartLoading.length -1; // load all weathermap
                 }
             }
 
-            console.log(`mode ${mode}`)
-            console.log(`in newStartLoadingStatus ${newStartLoadingStatus}`)
-            console.log(`traverseFrom ${traverseFrom}`)
-            console.log(`unitStep ${unitStep}`)
-            console.log(`traverseTo ${traverseTo}`)
-
             let idx = traverseFrom;
+            let changedIdx = undefined;
             do {
                 if(!isLoadingCompleteStatus[idx] && !isStartLoadingStatus[idx]){
-                    newStartLoadingStatus[idx] = true;
+                    newShouldStartLoading[idx] = true;
+                    changedIdx = idx;
                     break;
                 }
 
@@ -59,10 +55,9 @@ class LazyLoadingUtils {
 
                 idx = idx + unitStep;
             } while (true);
-            console.log(`going to return newStartLoadingStatus ${newStartLoadingStatus}`)
-            return newStartLoadingStatus;
+            return {newShouldStartLoading, changedIdx};
         } else {
-            return isStartLoadingStatus;
+            return {newShouldStartLoading: isStartLoadingStatus, changedIdx: undefined};
         }
     }
 

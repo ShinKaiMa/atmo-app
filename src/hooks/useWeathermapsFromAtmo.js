@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { fetchWeathermaps } from "../api/atmoAPI"
 import { constants } from "../config/constant"
 import { WeathermapInfoContext } from '../contexts/WeathermapContext'
@@ -8,15 +8,13 @@ import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewC
 export const useWeathermapsFromAtmo = ({queryModel, queryArea, queryDetailType, queryStartDateString}) => {
     const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
     const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
-    const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
-    const [weathermaps, setWeathermaps] = useState();
+    const { dispatchAppStatus } = useContext(AppStatusContext);
 
     useEffect(() => {
         async function fetchWeathermapsFromAtmo(queryModel, queryArea, queryDetailType, queryStartDateString){
             try {
                 dispatchAppStatus({type: 'SET_IS_LOADING', payload:true });
                 if (queryModel && queryArea && queryDetailType && queryStartDateString) {
-                    console.log(`going to fetch weathermap`);
                     let response = await fetchWeathermaps({ model: mapRouterModelParamToRequestModel(queryModel), area:queryArea, detailType:queryDetailType, startDateString:queryStartDateString });
                     dispatchWeathermapInfo({ type: "CLEAR_LZ_STATUS"});
                     let newWeathermapsInfo = response.data;

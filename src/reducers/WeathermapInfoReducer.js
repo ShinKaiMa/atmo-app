@@ -1,35 +1,141 @@
-import { LazyLoadingUtils } from '../utils/LazyLoadingUtils'
+import { LazyLoadingUtils } from "../utils/LazyLoadingUtils";
 
 export const WeathermapInfoReducer = (weathermapContext, action) => {
-  let newShouldStartLoading = undefined;
   switch (action.type) {
-    case 'SET_INFO':
+    /**
+     * update weathermap info from weathermap API
+     */
+    case "SET_INFO":
       return { ...weathermapContext, weathermapsResponse: action.payload };
-    case 'SET_SHOULD_START_LOADING':
+    
+    /**
+     * initialize @param shouldStartLoading in @param WeathermapInfoContext,
+     * each boolean in @param shouldStartLoading array represents "should weathermap start loading"
+     */
+    case "INIT_SHOULD_START_LOADING":
       return { ...weathermapContext, shouldStartLoading: action.payload };
-    case 'SET_IS_LOADED':
+    
+    /**
+     * initialize @param isLoaded in @param WeathermapInfoContext,
+     * each boolean in @param isLoaded array represents "weathermap is loaded complete or not"
+     */
+    case "INIT_LOADED_STATUS":
+      return { ...weathermapContext, isLoaded: action.payload };
+    
+    /**
+     * initialize @param trigerBy in @param WeathermapInfoContext,
+     * each boolean in @param trigerBy array represents
+     * "weathermap is triger by which (right/left) lazy loading direction"
+     */
+    case "INIT_TRIGER_BY":
+      return { ...weathermapContext, trigerBy: action.payload };
+
+    /**
+     * set @param isLoaded in @param WeathermapInfoContext,
+     * @see case:'INIT_LOADED_STATUS' in @param WeathermapInfoReducer
+     */
+    case "SET_IS_LOADED":
       let newIsLoaded = [...weathermapContext.isLoaded];
       newIsLoaded[action.index] = true;
-      return { ...weathermapContext, isLoaded: newIsLoaded }
-    case 'INIT_LOADED_STATUS':
-      return { ...weathermapContext, isLoaded: action.payload }
-    case 'CLEAR_LZ_STATUS':
-      return { ...weathermapContext, isLoaded: [], islazyloadingActivated: { right: true, left: true }, shouldStartLoading: [] }
-    case 'LOAD_RIGHT_DIR':
-      newShouldStartLoading = LazyLoadingUtils.getNewStartLoadingStatus(weathermapContext.isLoaded, weathermapContext.shouldStartLoading, action.currentIdx, 'right', 'conserve');
-      if (LazyLoadingUtils.isEqual(newShouldStartLoading, weathermapContext.shouldStartLoading)) {
-        return { ...weathermapContext, islazyloadingActivated: { ...weathermapContext.islazyloadingActivated, right: false } };
+      return { ...weathermapContext, isLoaded: newIsLoaded };
+
+    /**
+     * initaialize all param in @param WeathermapInfoContext
+     */
+    case "CLEAR_LZ_STATUS":
+      return {
+        ...weathermapContext,
+        isLoaded: [],
+        islazyloadingActivated: { right: true, left: true },
+        shouldStartLoading: []
+      };
+
+    /**
+     * try to fetch next weathermap (right direction) from current index of model view slider,
+     * the order is depends on @see LazyLoadingUtils.getNewStartLoadingStatus()
+     */
+    case "LOAD_RIGHT_DIR": {
+      let {
+        newShouldStartLoading,
+        changedIdx
+      } = LazyLoadingUtils.getNewStartLoadingStatus(
+        weathermapContext.isLoaded,
+        weathermapContext.shouldStartLoading,
+        action.currentIdx,
+        "right",
+        "conserve"
+      );
+      if (
+        LazyLoadingUtils.isEqual(
+          newShouldStartLoading,
+          weathermapContext.shouldStartLoading
+        )
+      ) {
+        return {
+          ...weathermapContext,
+          islazyloadingActivated: {
+            ...weathermapContext.islazyloadingActivated,
+            right: false
+          }
+        };
       } else {
-        return { ...weathermapContext, shouldStartLoading: newShouldStartLoading, islazyloadingActivated: { ...weathermapContext.islazyloadingActivated, right: true } };
+        let newTrigerBy = [...weathermapContext.trigerBy];
+        newTrigerBy[changedIdx] = "right";
+        return {
+          ...weathermapContext,
+          shouldStartLoading: newShouldStartLoading,
+          islazyloadingActivated: {
+            ...weathermapContext.islazyloadingActivated,
+            right: true
+          },
+          trigerBy: newTrigerBy
+        };
       }
-    case 'LOAD_LEFT_DIR':
-      newShouldStartLoading = LazyLoadingUtils.getNewStartLoadingStatus(weathermapContext.isLoaded, weathermapContext.shouldStartLoading, action.currentIdx, 'left', 'conserve');
-      if (LazyLoadingUtils.isEqual(newShouldStartLoading, weathermapContext.shouldStartLoading)) {
-        return { ...weathermapContext, islazyloadingActivated: { ...weathermapContext.islazyloadingActivated, right: false } };
+    }
+
+    /**
+     * try to fetch next weathermap (left direction) from current index of model view slider,
+     * the order is depends on @see LazyLoadingUtils.getNewStartLoadingStatus()
+     */
+    case "LOAD_LEFT_DIR": {
+      let {
+        newShouldStartLoading,
+        changedIdx
+      } = LazyLoadingUtils.getNewStartLoadingStatus(
+        weathermapContext.isLoaded,
+        weathermapContext.shouldStartLoading,
+        action.currentIdx,
+        "left",
+        "conserve"
+      );
+      if (
+        LazyLoadingUtils.isEqual(
+          newShouldStartLoading,
+          weathermapContext.shouldStartLoading
+        )
+      ) {
+        return {
+          ...weathermapContext,
+          islazyloadingActivated: {
+            ...weathermapContext.islazyloadingActivated,
+            left: false
+          }
+        };
       } else {
-        return { ...weathermapContext, shouldStartLoading: newShouldStartLoading, islazyloadingActivated: { ...weathermapContext.islazyloadingActivated, right: true } };
+        let newTrigerBy = [...weathermapContext.trigerBy];
+        newTrigerBy[changedIdx] = "left";
+        return {
+          ...weathermapContext,
+          shouldStartLoading: newShouldStartLoading,
+          islazyloadingActivated: {
+            ...weathermapContext.islazyloadingActivated,
+            left: true
+          },
+          trigerBy: newTrigerBy
+        };
       }
+    }
     default:
       return weathermapContext;
   }
-}
+};

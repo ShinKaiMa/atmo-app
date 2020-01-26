@@ -16,7 +16,6 @@ const ModelViewBottomNavbar = props => {
   };
 
   const handleChangeDetailType = detailType => {
-    console.log(detailType);
     dispatchSelectedModelViewInfo({type:"SET_DETAIL_TYPE", payload:detailType})
   };
 
@@ -28,7 +27,7 @@ const ModelViewBottomNavbar = props => {
       modelViewSchema &&
       Object.keys(modelViewSchema.dataTypes).length === 3
     ) {
-      let dropdownsInstances = M.Dropdown.init(dropdowns, {
+      M.Dropdown.init(dropdowns, {
         hover: false,
         // hover: width > 1080 ? true : false,
         inDuration: 300,
@@ -73,6 +72,7 @@ const ModelViewBottomNavbar = props => {
       >
         <div id="bottomNav" style={{ height: "45px" }}>
           <a
+            href={null}
             className={`dropdown-trigger botTrigger btn col s4 ${
               selectedModelViewInfo.bottomNavIdx === 0 ? "active" : ""
             }`}

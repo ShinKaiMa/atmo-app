@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import {  withRouter } from "react-router-dom";
 import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
 import "nouislider/distribute/nouislider.css";
@@ -9,9 +9,8 @@ import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewC
 import useWindowSize from "../hooks/useWindowSize";
 
 const ModelView = props => {
-  const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
-  const [width, height] = useWindowSize();
-  const [lastPipUpdateTime, updateLastPipUpdateTime] = useState();
+  const { dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+  const [height] = useWindowSize();
   useEffect(() => {
     if (
       props.match &&
@@ -31,8 +30,8 @@ const ModelView = props => {
           <ModelViewBreadcrumbs props />
         </div>
         <div className="row">
-          <ModelViewPanel/>
-          <ModelViewSlider/>
+          <ModelViewPanel key="ModelViewPanel"/>
+          <ModelViewSlider key="ModelViewSlider"/>
         </div>
       </div>
 

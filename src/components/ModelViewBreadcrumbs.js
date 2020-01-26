@@ -184,7 +184,7 @@ const ModelViewBreadcrumbs = props => {
         areas.map((area, index, array) => {
           return (
             <React.Fragment>
-              <li key={index}>
+              <li key={area}>
                 <a style={{ fontSize: width > THRESHOLD_WIDTH_PIXEL ? "16px" : "10px",  textAlign:"center"}} onClick={(e) => dispatchSelectedModelViewInfo({ type: 'SET_AREA', payload: area })}>{area}</a>
               </li>
               {array.length - 1 === index ? "" : <li className="divider" tabIndex="-1"></li>}

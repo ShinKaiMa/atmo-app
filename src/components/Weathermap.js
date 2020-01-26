@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { WeathermapInfoContext } from '../contexts/WeathermapContext'
+import { WeathermapInfoContext } from "../contexts/WeathermapContext";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
@@ -15,12 +15,11 @@ const Weathermap = ({
   width
 }) => {
   const imgURL = info.url;
-  // const [imgDOM, setImgDom] = useState();
   const [isCompleted, setCompleted] = useState(false);
-  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
-  const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
-    UserSelectedModelViewContext
+  const { weathermapContext, dispatchWeathermapInfo } = useContext(
+    WeathermapInfoContext
   );
+  const { selectedModelViewInfo } = useContext(UserSelectedModelViewContext);
   const imgDOM = useRef(null);
   const override = css(`
     display: block;
@@ -30,7 +29,7 @@ const Weathermap = ({
   // re-initial weathermap
   useEffect(() => {
     setCompleted(false);
-  }, [info])
+  }, [info]);
 
   useEffect(() => {
     if (
@@ -38,7 +37,6 @@ const Weathermap = ({
       selectedModelViewInfo.lastPipRenderTime &&
       isCompleted
     ) {
-      console.log("in isCompleted eff")
       let fcstHour = info.fcstHour;
       let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
       if (pipNodeList) {
@@ -47,14 +45,24 @@ const Weathermap = ({
           pipDOM.classList.add("loaded");
         }
       }
-      dispatchWeathermapInfo({ type: "SET_IS_LOADED", index:idx});
-      // dispatchWeathermapInfo({ type: "LOAD_RIGHT_DIR", payload:{currentIdx: currentIMGIdx}});
+      dispatchWeathermapInfo({ type: "SET_IS_LOADED", index: idx });
+
+      if (weathermapContext.trigerBy[idx] === "right") {
+        dispatchWeathermapInfo({
+          type: "LOAD_RIGHT_DIR",
+          currentIdx: currentIMGIdx
+        });
+      } else if (weathermapContext.trigerBy[idx] === "left") {
+        dispatchWeathermapInfo({
+          type: "LOAD_LEFT_DIR",
+          currentIdx: currentIMGIdx
+        });
+      }
     }
   }, [selectedModelViewInfo.lastPipRenderTime, isCompleted]);
 
   useEffect(() => {
     if (shouldStartLoading && imgDOM.current) {
-      console.log("in shouldStartLoading eff")
       onImageLoaded();
     }
   }, [shouldStartLoading]);
@@ -71,12 +79,10 @@ const Weathermap = ({
 
     // ensure "src" is mounted and completed
     if (imgDOM.current.complete && imgDOM.current.src) {
-      console.log(`set completed ${info.url}`)
       setCompleted(true);
     } else {
       imgDOM.current.onload = () => {
-      console.log(`set completed ${info.url}`)
-      setCompleted(true);
+        setCompleted(true);
       };
     }
   };
