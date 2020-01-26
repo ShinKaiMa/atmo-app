@@ -94,7 +94,7 @@ const ModelViewPanel = props => {
     }
   }, [weathermapsResponse, width, height]);
 
-  return (!weathermapsResponse || !weathermapsResponse.weathermapsInfo) && (weathermapsResponse.weathermapsInfo && weathermapsResponse.weathermapsInfo.length > 0) ? (
+  return (!weathermapsResponse || !weathermapsResponse.weathermapsInfo) ? (
     <div className="left">
       <SkeletonTheme
         duration={0.1}
