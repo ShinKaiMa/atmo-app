@@ -61,12 +61,20 @@ export const useLazyLoadingOrderForWeathermap = (
           type: "LOAD_RIGHT_DIR",
           currentIdx: currentWeathermapIdx
         });
+        dispatchWeathermapInfo({
+          type: "LOAD_LEFT_DIR",
+          currentIdx: currentWeathermapIdx
+        });
       }
       // trigger next image when lazy loading is activate
       else {
         console.log(`next dispatchWeathermapInfo`);
         dispatchWeathermapInfo({
           type: "LOAD_RIGHT_DIR",
+          currentIdx: currentWeathermapIdx
+        });
+        dispatchWeathermapInfo({
+          type: "LOAD_LEFT_DIR",
           currentIdx: currentWeathermapIdx
         });
       }
@@ -78,13 +86,17 @@ export const useLazyLoadingOrderForWeathermap = (
       weathermapsResponse.availableFcstHour &&
       weathermapsResponse.availableFcstHour.length > 0
     ) {
-        if(!weathermapContext.islazyloadingActivated.right){
-            //try to re start right-direction LZ
-            dispatchWeathermapInfo({
-                type: "LOAD_RIGHT_DIR",
-                currentIdx: currentWeathermapIdx
-              });
-        }
+      if (!weathermapContext.islazyloadingActivated.right) {
+        //try to re start right-direction LZ
+        dispatchWeathermapInfo({
+          type: "LOAD_RIGHT_DIR",
+          currentIdx: currentWeathermapIdx
+        });
+        dispatchWeathermapInfo({
+          type: "LOAD_LEFT_DIR",
+          currentIdx: currentWeathermapIdx
+        });
+      }
     }
   }, [currentWeathermapIdx]);
   return weathermapContext.shouldStartLoading;

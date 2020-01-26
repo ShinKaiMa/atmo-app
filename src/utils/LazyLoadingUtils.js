@@ -25,7 +25,7 @@ class LazyLoadingUtils {
                 console.log(`dir left`)
                 if(mode === 'conserve'){
                     console.log(`conserve`)
-                    traverseTo = traverseFrom - this.batchSize;
+                    traverseTo = traverseFrom - this.batchSize +1;
                     traverseTo = traverseTo < 0 ? 0 : traverseTo;
                 } else {
                     traverseTo = 0; // load all weathermap
