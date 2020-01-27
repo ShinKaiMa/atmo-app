@@ -30,11 +30,15 @@ const DeskTopSideNavbar = (props) => {
                     </div>
                     <div className="collapsible-body">
                         <ul>
-                            <li onClick={() => props.history.push('/model/global/forcast/GFS')}>
-                                <a href={null} className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a>
+                            {/* <li  onClick={() => props.history.push('/model/global/forcast/GFS')}> */}
+                            <li className="forbidden">
+                                {/* <a href={null} className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500" }} data-badge-caption="-hourly" className="new badge">6</span>GFS</a> */}
+                                <a href={null} className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "rgba(190,190,190,1)", fontWeight:"500" }} data-badge-caption="Coming soon" className="new badge"></span>GFS</a>
                             </li>
-                            <li onClick={() => props.history.push('/model/global/analysis/ECMWF')}>
-                                <a href={null} className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a>
+                            {/* <li onClick={() => props.history.push('/model/global/analysis/ECMWF')}> */}
+                            <li className="forbidden">
+                                {/* <a href={null} className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5", fontWeight:"500" }} data-badge-caption="Analysis Only" className="new badge"></span>ECMWF</a> */}
+                                <a href={null} className="collection-item" style={{ fontSize: "12px" }}><span style={{ fontSize: "10px", backgroundColor: "rgba(190,190,190,1)", fontWeight:"500" }} data-badge-caption="Coming soon" className="new badge"></span>ECMWF</a>
                             </li>
                         </ul>
                     </div>

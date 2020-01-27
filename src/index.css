@@ -56,6 +56,10 @@ code {
   background-color: "#0ACAF5" !important;
 } */
 
+li.forbidden{
+  cursor: not-allowed; 
+}
+
 .breadcrumb {
   background-color: #ffffff !important; 
   color: rgba(50,50,50,0.4) !important;
