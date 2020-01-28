@@ -46,18 +46,10 @@ const Weathermap = ({
         }
       }
       dispatchWeathermapInfo({ type: "SET_IS_LOADED", index: idx });
-
-      if (weathermapContext.trigerBy[idx] === "right") {
-        dispatchWeathermapInfo({
-          type: "LOAD_RIGHT_DIR",
-          currentIdx: currentIMGIdx
-        });
-      } else if (weathermapContext.trigerBy[idx] === "left") {
-        dispatchWeathermapInfo({
-          type: "LOAD_LEFT_DIR",
-          currentIdx: currentIMGIdx
-        });
-      }
+      dispatchWeathermapInfo({
+        type: "DO_LAZY_LOADING",
+        currentIdx: currentIMGIdx
+      });
     }
   }, [selectedModelViewInfo.lastPipRenderTime, isCompleted]);
 

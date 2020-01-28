@@ -26,9 +26,6 @@ export const useLazyLoadingOrderForWeathermap = (
         let newIsLoaded = Array(
           weathermapsResponse.availableFcstHour.length
         ).fill(false);
-        let trigerBy = Array(
-          weathermapsResponse.availableFcstHour.length
-        );
         dispatchWeathermapInfo({
           type: "INIT_SHOULD_START_LOADING",
           payload: newShouldStartLoading
@@ -36,10 +33,6 @@ export const useLazyLoadingOrderForWeathermap = (
         dispatchWeathermapInfo({
           type: "INIT_LOADED_STATUS",
           payload: newIsLoaded
-        });
-        dispatchWeathermapInfo({
-          type: "INIT_TRIGER_BY",
-          payload: trigerBy
         });
       }
     }
@@ -50,17 +43,12 @@ export const useLazyLoadingOrderForWeathermap = (
     // ensure weathermapContext was initialized
     if (
       weathermapContext.shouldStartLoading.length > 0 &&
-      weathermapContext.isLoaded.length > 0 &&
-      weathermapContext.trigerBy.length > 0
+      weathermapContext.isLoaded.length > 0
     ) {
       // initialize (triger) lazy loading
       if (!weathermapContext.shouldStartLoading.includes(true)) {
         dispatchWeathermapInfo({
-          type: "LOAD_RIGHT_DIR",
-          currentIdx: currentWeathermapIdx
-        });
-        dispatchWeathermapInfo({
-          type: "LOAD_LEFT_DIR",
+          type: "DO_LAZY_LOADING",
           currentIdx: currentWeathermapIdx
         });
       }
@@ -72,23 +60,13 @@ export const useLazyLoadingOrderForWeathermap = (
   useEffect(() => {
     if (
       weathermapsResponse.availableFcstHour &&
-      weathermapsResponse.availableFcstHour.length > 0
+      weathermapsResponse.availableFcstHour.length > 0 &&
+      !weathermapContext.islazyloadingActivated
     ) {
-      if (!weathermapContext.islazyloadingActivated.right) {
-        //try to re start right-direction LZ
-        dispatchWeathermapInfo({
-          type: "LOAD_RIGHT_DIR",
-          currentIdx: currentWeathermapIdx
-        });
-      }
-      if (!weathermapContext.islazyloadingActivated.left) {
-        //try to re start left-direction LZ
-        dispatchWeathermapInfo({
-          type: "LOAD_LEFT_DIR",
-          currentIdx: currentWeathermapIdx
-        });
-      }
-
+      dispatchWeathermapInfo({
+        type: "DO_LAZY_LOADING",
+        currentIdx: currentWeathermapIdx
+      });
     }
   }, [currentWeathermapIdx]);
 

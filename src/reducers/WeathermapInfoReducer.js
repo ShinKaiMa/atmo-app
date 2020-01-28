@@ -46,7 +46,7 @@ export const WeathermapInfoReducer = (weathermapContext, action) => {
       return {
         ...weathermapContext,
         isLoaded: [],
-        islazyloadingActivated: { right: true, left: true },
+        islazyloadingActivated: true,
         shouldStartLoading: []
       };
 
@@ -54,84 +54,33 @@ export const WeathermapInfoReducer = (weathermapContext, action) => {
      * try to fetch next weathermap (right direction) from current index of model view slider,
      * the order is depends on @see LazyLoadingUtils.getNewStartLoadingStatus()
      */
-    case "LOAD_RIGHT_DIR": {
+    case "DO_LAZY_LOADING": {
       let {
         newShouldStartLoading,
         changedIdx
-      } = LazyLoadingUtils.getNewStartLoadingStatus(
+      } = LazyLoadingUtils.getNewShouldStartLoadingStatus(
         weathermapContext.isLoaded,
         weathermapContext.shouldStartLoading,
         action.currentIdx,
-        "right",
-        "conserve"
       );
-      if (
-        LazyLoadingUtils.isEqual(
-          newShouldStartLoading,
-          weathermapContext.shouldStartLoading
-        )
-      ) {
-        return {
-          ...weathermapContext,
-          islazyloadingActivated: {
-            ...weathermapContext.islazyloadingActivated,
-            right: false
-          }
-        };
-      } else {
-        let newTrigerBy = [...weathermapContext.trigerBy];
-        newTrigerBy[changedIdx] = "right";
-        return {
-          ...weathermapContext,
-          shouldStartLoading: newShouldStartLoading,
-          islazyloadingActivated: {
-            ...weathermapContext.islazyloadingActivated,
-            right: true
-          },
-          trigerBy: newTrigerBy
-        };
-      }
-    }
 
-    /**
-     * try to fetch next weathermap (left direction) from current index of model view slider,
-     * the order is depends on @see LazyLoadingUtils.getNewStartLoadingStatus()
-     */
-    case "LOAD_LEFT_DIR": {
-      let {
-        newShouldStartLoading,
-        changedIdx
-      } = LazyLoadingUtils.getNewStartLoadingStatus(
-        weathermapContext.isLoaded,
-        weathermapContext.shouldStartLoading,
-        action.currentIdx,
-        "left",
-        "conserve"
-      );
-      if (
-        LazyLoadingUtils.isEqual(
-          newShouldStartLoading,
-          weathermapContext.shouldStartLoading
-        )
-      ) {
+      console.log(`=====\r\nin reducer newShouldStartLoading: ${newShouldStartLoading}`)
+      console.log(`changedIdx: ${changedIdx}`)
+
+      if (changedIdx === undefined) {
+        console.log(`changedIdx === undefined  changedIdx: ${changedIdx}`)
+        console.log(`changedIdx === undefined  newShouldStartLoading: ${newShouldStartLoading}`)
         return {
           ...weathermapContext,
-          islazyloadingActivated: {
-            ...weathermapContext.islazyloadingActivated,
-            left: false
-          }
+          islazyloadingActivated: false
         };
       } else {
-        let newTrigerBy = [...weathermapContext.trigerBy];
-        newTrigerBy[changedIdx] = "left";
+        console.log(`changedIdx != undefined  changedIdx: ${changedIdx}`)
+        console.log(`changedIdx != undefined  newShouldStartLoading: ${newShouldStartLoading}`)
         return {
           ...weathermapContext,
           shouldStartLoading: newShouldStartLoading,
-          islazyloadingActivated: {
-            ...weathermapContext.islazyloadingActivated,
-            left: true
-          },
-          trigerBy: newTrigerBy
+          islazyloadingActivated:true
         };
       }
     }

@@ -11,11 +11,7 @@ const WeathermapInfoContextProvider = props => {
     weathermapsResponse: {},
     shouldStartLoading: [],
     isLoaded: [],
-    trigerBy:[],
-    islazyloadingActivated:{
-      right:true,
-      left:true
-    }
+    islazyloadingActivated:true
   });
 
   return (
