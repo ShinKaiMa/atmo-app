@@ -84,6 +84,11 @@ export const WeathermapInfoReducer = (weathermapContext, action) => {
         };
       }
     }
+    case 'SET_LZ_STATUS':
+      return {
+        ...weathermapContext,
+        islazyloadingActivated: action.payload
+      };
     default:
       return weathermapContext;
   }

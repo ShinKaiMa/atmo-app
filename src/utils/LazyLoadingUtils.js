@@ -106,7 +106,7 @@ class LazyLoadingUtils {
       let newShouldStartLoading = [...shouldStartLoading];
 
       //step 1. check current index is loaded or not
-      if (!isLoaded[currentIdx]) {
+      if (!isLoaded[currentIdx] && !shouldStartLoading[currentIdx]) {
         // load current index
         newShouldStartLoading[currentIdx] = true;
         changedIdx = currentIdx;
