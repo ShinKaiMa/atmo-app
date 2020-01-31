@@ -35,10 +35,12 @@ const Weathermap = ({
   }, [info]);
 
   useEffect(() => {
+    //change pip color (success loaded situation)
     if (
       selectedModelViewInfo &&
       selectedModelViewInfo.lastPipRenderTime &&
-      isCompleted
+      isCompleted &&
+      !isError
     ) {
       let fcstHour = info.fcstHour;
       let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
@@ -48,6 +50,28 @@ const Weathermap = ({
           pipDOM.classList.add("loaded");
         }
       }
+    }
+    //change pip color (failed to load image situation)
+    else if(selectedModelViewInfo &&
+      selectedModelViewInfo.lastPipRenderTime &&
+      isCompleted &&
+      isError){
+        let fcstHour = info.fcstHour;
+        let pipNodeList = document.querySelectorAll(`[data-value='${fcstHour}']`);
+        if (pipNodeList) {
+          let pipDOM = pipNodeList.item(0);
+          if (pipDOM) {
+            pipDOM.classList.add("failed");
+          }
+        }
+    }
+
+    //update loaded status (ignore image loaded success or not)
+    if (
+      selectedModelViewInfo &&
+      selectedModelViewInfo.lastPipRenderTime &&
+      isCompleted 
+    ) {
       dispatchWeathermapInfo({ type: "SET_IS_LOADED", index: idx });
       dispatchWeathermapInfo({
         type: "DO_LAZY_LOADING",
@@ -76,11 +100,10 @@ const Weathermap = ({
     if (imgDOM.current.complete && imgDOM.current.src) {
       setCompleted(true);
       setError(false);
-    } else{
+    } else {
       imgDOM.current.onerror = () => {
-        setCompleted(false);
         setError(true);
-        dispatchWeathermapInfo({ type: "SET_LZ_STATUS", payload: false });
+        setCompleted(true); //treat error as loaded, continue loading next image
       };
       imgDOM.current.onload = () => {
         setCompleted(true);
@@ -96,7 +119,8 @@ const Weathermap = ({
         ref={imgDOM}
         className={`weathermap left ${idx}`}
         style={{
-          display: idx === currentIMGIdx && isCompleted ? "" : "none",
+          display:
+            idx === currentIMGIdx && isCompleted && !isError ? "" : "none",
           height: isLandScapeMode ? height / 1.4 : "",
           width: isLandScapeMode ? "" : width / 1.2
         }}
@@ -105,7 +129,10 @@ const Weathermap = ({
       <div
         className="left"
         style={{
-          display: idx === currentIMGIdx && !isCompleted ? "flex" : "none",
+          display:
+            idx === currentIMGIdx && (!isCompleted || isError)
+              ? "flex"
+              : "none",
           height: `${rwdImgSize ? rwdImgSize.height : "0"}px`,
           width: `${rwdImgSize ? rwdImgSize.width : "0"}px`
         }}
@@ -122,17 +149,23 @@ const Weathermap = ({
           <div
             style={{
               margin: `auto auto`,
-              userSelect: `none`
+              userSelect: `none`,
+              border:"2px #cd9178 solid",
+              borderRadius: "15px"
             }}
           >
-            <a style={{fontSize:"30px", color:"#cd9178"}} href={null}>
+            <a style={{ fontSize: "20px", color: "#cd9178", padding: "10px", lineHeight:"60px"}} href={null}>
               <i
-                style={{ color: "#cd9178", fontSize: "50px"}}
-                className="material-icons "
+                style={{
+                  color: "#cd9178",
+                  fontSize: "20px",
+                  paddingRight: "10px",
+                }}
+                className="material-icons"
               >
-                error_outline
+                warning
               </i>
-              Error
+              Not Found
             </a>
           </div>
         )}

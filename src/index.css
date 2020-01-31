@@ -119,6 +119,11 @@ nav {
   color: #0ACAF5 !important;
 }
 
+.noUi-value.failed{
+  color: #cd9178 !important;
+  cursor: wait; 
+}
+
 /* .noUi-handle {
   margin-top: 10px !important; 
   height: 30px !important; 
@@ -135,13 +140,13 @@ nav {
 
 
 .noUi-value-sub {
-  color: #cd9178;
+  color: #ffaa00 ;
   font-weight: bold;
   cursor: not-allowed;
 }
 
 .noUi-marker-sub {
-  background-color: rgba(205,145,120,1);
+  background-color: #ffaa00 ;
   cursor: not-allowed; 
 }
 
