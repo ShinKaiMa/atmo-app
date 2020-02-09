@@ -5,6 +5,7 @@ import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 
 const ModelViewSlider = () => {
+  let THRESHHOLD_WIDTH = 800;
   const [brokeHour, setBrokeHour] = useState([0, 1]);
   const initialBrokeHour = [0, 1];
   const basePips = {
@@ -84,11 +85,12 @@ const ModelViewSlider = () => {
   },[weathermapContext.weathermapsResponse]);
 
   useEffect(() => {
-      if (!isSliderInit) {
+      if (!isSliderInit && width != 0) {
+        console.log(`width ${width}`)
       // let sliderDom = document.getElementById("slider");
       noUiSlider.create(sliderDom.current, {
         connect: true,
-        orientation: "vertical",
+        orientation: width > THRESHHOLD_WIDTH ? "vertical" : "horizontal",
         direction: "ltr",
         range: range,
         pips: {
@@ -107,7 +109,7 @@ const ModelViewSlider = () => {
       setSliderInit(true);
       dispatchSelectedModelViewInfo({type:"INIT_SLIDER", payload:sliderDom});
     }
-    else{
+    else if (width != 0){
       //re-bind slide event
       sliderDom.current.noUiSlider.off('slide');
       // sliderDom.noUiSlider.on("slide", handleOnSlide);
@@ -124,20 +126,20 @@ const ModelViewSlider = () => {
       // sliderDom.current.noUiSlider.set(weathermapsResponse.availableFcstHour[0] || weathermapsResponse.iniFcstHour || 0);
       sliderDom.current.noUiSlider.set(selectedModelViewInfo.fcstHour);
     }
-  }, [weathermapsResponse, range, pips, brokeHour]);
+  }, [weathermapsResponse, range, pips, brokeHour, width]);
 
   return (
     <div>
       <div
         ref={sliderDom}
         id="slider"
-        className="left"
+        className={width > THRESHHOLD_WIDTH ? "left" : "col s11"}
         // disabled
         style={{
           marginLeft:  "15px",
-          height: height / 1.5,
-          marginRight: width < 1500 ? "45px" : "0px",
-          marginTop: "0",
+          height: width > THRESHHOLD_WIDTH ? height / 1.5 : "15px",
+          marginRight: width < THRESHHOLD_WIDTH ? "45px" : "0px",
+          marginTop: width > THRESHHOLD_WIDTH ? "0" : "10px",
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>

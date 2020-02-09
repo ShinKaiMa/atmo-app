@@ -7,9 +7,11 @@ import ModelViewBottomNavbar from '../components/ModelViewBottomNavbar'
 import ModelViewPanel from '../components/ModelViewPanel';
 import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext';
 import useWindowSize from "../hooks/useWindowSize";
+import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 
 const ModelView = props => {
   const { dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+  const { dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   const [height] = useWindowSize();
   useEffect(() => {
     if (
@@ -19,6 +21,7 @@ const ModelView = props => {
       props.match.params.type &&
       props.match.params.model
     ) {
+      dispatchWeathermapInfo({type: 'CLEAR_LZ_STATUS'});
       dispatchSelectedModelViewInfo({ type: 'SET_MODEL', payload: props.match.params.model });
     }
   }, [props])

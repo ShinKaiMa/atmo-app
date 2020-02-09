@@ -145,10 +145,10 @@ nav {
   cursor: not-allowed;
 }
 
-.noUi-marker-sub {
+/* .noUi-marker-sub {
   background-color: #ffaa00 ;
   cursor: not-allowed; 
-}
+} */
 
 /* model view bottom nav */
 .dropdown-trigger.btn {

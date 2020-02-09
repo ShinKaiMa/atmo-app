@@ -1,7 +1,9 @@
 const envConfig = {
-    env : "develop",
+    // env : "develop",
+    env : "production",
+    // atmoDevAPIBaseURL : "http://localhost:80",
     atmoDevAPIBaseURL : "http://localhost:80",
-    atmoProAPIBaseURL : "https://atmo.io"
+    atmoProAPIBaseURL : "http://atmo.nctu.me/"
 }
 
 export {envConfig}
