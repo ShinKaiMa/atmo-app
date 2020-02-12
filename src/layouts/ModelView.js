@@ -32,10 +32,8 @@ const ModelView = props => {
         <div className="row">
           <ModelViewBreadcrumbs props />
         </div>
-        <div className="row">
           <ModelViewPanel key="ModelViewPanel"/>
-          <ModelViewSlider key="ModelViewSlider"/>
-        </div>
+        <ModelViewSlider key="ModelViewSlider"/>
       </div>
 
       <ModelViewBottomNavbar props />

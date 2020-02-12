@@ -85,6 +85,7 @@ const ModelViewSlider = () => {
   },[weathermapContext.weathermapsResponse]);
 
   useEffect(() => {
+    // TODO: re-init when rotate
       if (!isSliderInit && width != 0) {
         console.log(`width ${width}`)
       // let sliderDom = document.getElementById("slider");
@@ -115,6 +116,7 @@ const ModelViewSlider = () => {
       // sliderDom.noUiSlider.on("slide", handleOnSlide);
       sliderDom.current.noUiSlider.on("slide", (target) => handleOnSlide(selectedModelViewInfo));
       sliderDom.current.noUiSlider.updateOptions({
+        orientation: width > THRESHHOLD_WIDTH ? "vertical" : "horizontal",
         range,
         pips : {...pips, filter: (value, type) => {
           if (type === 0) return 0;
@@ -126,14 +128,14 @@ const ModelViewSlider = () => {
       // sliderDom.current.noUiSlider.set(weathermapsResponse.availableFcstHour[0] || weathermapsResponse.iniFcstHour || 0);
       sliderDom.current.noUiSlider.set(selectedModelViewInfo.fcstHour);
     }
-  }, [weathermapsResponse, range, pips, brokeHour, width]);
+  }, [weathermapsResponse, range, pips, brokeHour, width, height]);
 
   return (
-    <div>
+    <div >
       <div
         ref={sliderDom}
         id="slider"
-        className={width > THRESHHOLD_WIDTH ? "left" : "col s11"}
+        className={width > THRESHHOLD_WIDTH ? "left" : ""}
         // disabled
         style={{
           marginLeft:  "15px",

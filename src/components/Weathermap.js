@@ -15,6 +15,7 @@ const Weathermap = ({
   height,
   width
 }) => {
+  let THRESHHOLD_WIDTH = 800;
   const imgURL = info.url;
   const [isCompleted, setCompleted] = useState(false);
   const [isError, setError] = useState(false);
@@ -114,6 +115,12 @@ const Weathermap = ({
 
   return (
     <React.Fragment>
+      <div style={{
+        display:
+        idx === currentIMGIdx && isCompleted && !isError ? "" : "none",
+          height: width < THRESHHOLD_WIDTH && rwdImgSize ? rwdImgSize.height : "0",
+          width: rwdImgSize ? rwdImgSize.width : "0"
+        }}>
       <img
         key={imgURL}
         ref={imgDOM}
@@ -125,9 +132,10 @@ const Weathermap = ({
           width: isLandScapeMode ? "" : width / 1.2
         }}
       />
+      </div>
       {/* loader or error handling */}
       <div
-        className="left"
+        className={width > THRESHHOLD_WIDTH ? "left" : ""}
         style={{
           display:
             idx === currentIMGIdx && (!isCompleted || isError)
@@ -151,7 +159,7 @@ const Weathermap = ({
               margin: `auto auto`,
               userSelect: `none`,
               border:"2px #cd9178 solid",
-              borderRadius: "15px"
+              borderRadius: "15px",
             }}
           >
             <a style={{ fontSize: "20px", color: "#cd9178", padding: "10px", lineHeight:"60px"}} href={null}>
