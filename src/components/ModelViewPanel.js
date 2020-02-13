@@ -89,7 +89,7 @@ const ModelViewPanel = props => {
       }
       setRwdImgSize({height:imgHeight, width:imgWidth});
     }
-  }, [weathermapsResponse, width, height]);
+  }, [weathermapsResponse, width, isLandScapeMode]);
 
   return (!weathermapsResponse || !weathermapsResponse.weathermapsInfo) ? (
     <div className="left">

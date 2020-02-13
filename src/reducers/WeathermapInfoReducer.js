@@ -64,19 +64,13 @@ export const WeathermapInfoReducer = (weathermapContext, action) => {
         action.currentIdx,
       );
 
-      console.log(`=====\r\nin reducer newShouldStartLoading: ${newShouldStartLoading}`)
-      console.log(`changedIdx: ${changedIdx}`)
 
       if (changedIdx === undefined) {
-        console.log(`changedIdx === undefined  changedIdx: ${changedIdx}`)
-        console.log(`changedIdx === undefined  newShouldStartLoading: ${newShouldStartLoading}`)
         return {
           ...weathermapContext,
           islazyloadingActivated: false
         };
       } else {
-        console.log(`changedIdx != undefined  changedIdx: ${changedIdx}`)
-        console.log(`changedIdx != undefined  newShouldStartLoading: ${newShouldStartLoading}`)
         return {
           ...weathermapContext,
           shouldStartLoading: newShouldStartLoading,

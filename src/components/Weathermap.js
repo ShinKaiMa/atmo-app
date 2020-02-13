@@ -3,7 +3,6 @@ import { WeathermapInfoContext } from "../contexts/WeathermapContext";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import HashLoader from "react-spinners/HashLoader";
 
 const Weathermap = ({
   shouldStartLoading,
@@ -15,7 +14,7 @@ const Weathermap = ({
   height,
   width
 }) => {
-  let THRESHHOLD_WIDTH = 800;
+  let THRESHHOLD_WIDTH = 992;
   const imgURL = info.url;
   const [isCompleted, setCompleted] = useState(false);
   const [isError, setError] = useState(false);
@@ -28,6 +27,8 @@ const Weathermap = ({
     display: block;
     margin: auto auto;
   `);
+  // console.log(`imgDOM:`)
+  // console.log(imgDOM.current? imgDOM.current.width:"")
 
   // re-initial weathermap
   useEffect(() => {
@@ -120,6 +121,8 @@ const Weathermap = ({
         idx === currentIMGIdx && isCompleted && !isError ? "" : "none",
           height: width < THRESHHOLD_WIDTH && rwdImgSize ? rwdImgSize.height : "0",
           width: rwdImgSize ? rwdImgSize.width : "0"
+          // height: width < THRESHHOLD_WIDTH && imgDOM.current? imgDOM.current.height: "0",
+          // width: imgDOM.current? imgDOM.current.width: "0"
         }}>
       <img
         key={imgURL}

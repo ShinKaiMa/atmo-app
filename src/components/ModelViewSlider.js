@@ -5,7 +5,7 @@ import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 
 const ModelViewSlider = () => {
-  let THRESHHOLD_WIDTH = 800;
+  let THRESHHOLD_WIDTH = 992;
   const [brokeHour, setBrokeHour] = useState([0, 1]);
   const initialBrokeHour = [0, 1];
   const basePips = {
