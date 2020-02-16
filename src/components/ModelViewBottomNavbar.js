@@ -4,11 +4,13 @@ import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { useModelViewSchemaFromAtmo } from "../hooks/useModelViewSchemaFromAtmo";
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelViewBottomNavbar = props => {
   const [width, height] = useWindowSize();
   const [queryModelAndArea, setQueryModelAndArea] = useState({queryModel: "", queryArea: ""});
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext( UserSelectedModelViewContext );
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const modelViewSchema = useModelViewSchemaFromAtmo(queryModelAndArea);
 
   const handleChangeNavIdx = num => {
@@ -48,12 +50,11 @@ const ModelViewBottomNavbar = props => {
   }, [selectedModelViewInfo.model, selectedModelViewInfo.area]);
 
   return (
-    <div>
       <div
-        className="row"
+        className="row bottomNav-wrapper"
         style={{
           position: "fixed",
-          bottom: "0px",
+          bottom: appStatus.isBotNavHide ? "-45px" : "0px",
           left: "0px",
           right: "0px",
           // left:width,
@@ -172,9 +173,7 @@ const ModelViewBottomNavbar = props => {
             )}
           </a>
         </div>
-      </div>
-
-      {modelViewSchema &&
+        {modelViewSchema &&
       Object.keys(modelViewSchema.dataTypes).length === 3 ? (
         Object.keys(modelViewSchema.dataTypes).map((key, index, array) => {
           return (
@@ -208,7 +207,9 @@ const ModelViewBottomNavbar = props => {
           </li>
         </ul>
       )}
-    </div>
+      </div>
+
+      
   );
 };
 

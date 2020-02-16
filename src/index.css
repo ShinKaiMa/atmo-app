@@ -250,3 +250,12 @@ background-color: rgba(230,230,230,1) !important;
   color: #0ACAF5 !important;
   font-weight: normal !important;
 }
+
+
+nav{
+  transition: top 0.5s;
+}
+
+.bottomNav-wrapper{
+  transition: bottom 0.5s;
+}

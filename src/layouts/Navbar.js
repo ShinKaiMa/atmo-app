@@ -1,15 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import MobileSideNavbar from "../components/MobileSideNavbar";
 import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
 import { AppStatusContext } from '../contexts/AppStatusContext'
+import { useScrollPosition } from '../hooks/useScrollPosition'
 
 const Navbar = () => {
-  const { appStatus } = useContext(AppStatusContext);
+
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
+  const nav = useRef(null);
+  
+  // handling all "hidable" component while onScoll
+  useScrollPosition(
+    ({ prevPos, currPos }) => {
+      const isNavShow = currPos.y < prevPos.y && currPos.y < -60
+      if (isNavShow !== appStatus.isNavHide) dispatchAppStatus({type:'SET_IS_NAV_HIDE', payload:isNavShow})
+
+      const isBotNavShow = currPos.y > prevPos.y && currPos.y < -45
+      if (isBotNavShow !== appStatus.isBotNavHide) dispatchAppStatus({type:'SET_IS_BOT_NAV_HIDE', payload:isBotNavShow})
+    },
+    [appStatus.isNavHide, appStatus.isBotNavHide]
+  )
+
   return (
     <div>
-      <div className="sideNavBar navbar-fixed">
-        <nav>
+      <div className="navbar-fixed">
+        <nav ref={nav} style={{top:appStatus.isNavHide? '-64px':'0px'}}>
           <div className="nav-wrapper" style={{ backgroundColor: "#14293D" }}>
             <a
               href={null}
