@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 
 const DeskTopSideNavbar = (props) => {
+    const deskSideNav = useRef(null);
+
     useEffect(() => {
         let elem = document.querySelectorAll(".sidenav");
-        M.Sidenav.init(elem, {
+        M.Sidenav.init(deskSideNav, {
             edge: "left",
-            inDuration: 250,
             draggable: true
         });
 
@@ -19,6 +20,7 @@ const DeskTopSideNavbar = (props) => {
 
     return (
         <ul
+            ref={deskSideNav}
             id="slide-out"
             className="sidenav sidenav-fixed hide-on-med-and-down"
             style={{ width: "200px" }}>

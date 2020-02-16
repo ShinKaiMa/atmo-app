@@ -10,7 +10,7 @@ const useWindowSize = () => {
         type: "SET_WINDOW_SIZE",
         windowSize: [window.innerWidth, window.innerHeight],
         isLandscape: window.innerWidth > window.innerHeight ? true:false,
-
+        isMobile: window.innerWidth < MOBILE_THRESHHOLD_WIDTH,
       });
     };
     window.addEventListener("resize", updateSize);

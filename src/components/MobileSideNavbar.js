@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const MobileSideNavbar = (props) => {
+    const mobileSideNav = useRef(null);
+    const { appStatus } = useContext(AppStatusContext);
+    const [width, height] = appStatus.windowSize
+
     useEffect(() => {
         let elem = document.querySelectorAll(".sidenav");
         M.Sidenav.init(elem, {
             edge: "left",
-            inDuration: 350,
+            inDuration: 450,
             draggable: true
         });
 
@@ -21,9 +26,18 @@ const MobileSideNavbar = (props) => {
         <ul
             id="slide-out"
             className="sidenav hide-on-large-only"
-            style={{ width: "280px" }}
+            style={{ width: width }}
+            ref={mobileSideNav}
         >
             <ul className="collapsible collapsible-accordion">
+                <li className="sidenav-close" style={{
+                    paddingTop: "13px",
+                    paddingLeft:"16px",
+                    height: "48px",
+                }}>
+                    <i className="material-icons" style={{ fontSize: "30px" }}>keyboard_arrow_left</i>
+                </li>
+                <li><div class="divider"></div></li>
                 <li className="active">
                     <div className="collapsible-header waves-effect waves-gray" style={{ fontSize: "12px", fontWeight: "bold" }}>
                         <i className="material-icons" style={{ fontSize: "16px" }}>language</i>
@@ -53,7 +67,7 @@ const MobileSideNavbar = (props) => {
                     </div>
                     <div className="collapsible-body">
                         <ul>
-                            <li onClick={() => props.history.push('/model/regional/forcast/CWBWRF')}>
+                            <li className="sidenav-close" onClick={() => props.history.push('/model/regional/forcast/CWBWRF')}>
                                 <a className="collection-item" style={{ fontSize: "12px", color: "black", lineHeight: "45px" }}><span style={{ fontSize: "10px", backgroundColor: "#0ACAF5" }} data-badge-caption="-hourly" className="new badge">6</span>CWB WRF</a>
                             </li>
                         </ul>

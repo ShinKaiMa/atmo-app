@@ -6,7 +6,7 @@ import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelViewSlider = () => {
   let THRESHHOLD_WIDTH = 992;
-  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
+  const { appStatus } = useContext(AppStatusContext);
   const [brokeHour, setBrokeHour] = useState([0, 1]);
   const initialBrokeHour = [0, 1];
   const basePips = {
@@ -137,13 +137,14 @@ const ModelViewSlider = () => {
       <div
         ref={sliderDom}
         id="slider"
-        className={width > THRESHHOLD_WIDTH ? "left" : ""}
+        className={!appStatus.isMobile ? "left" : ""}
         // disabled
         style={{
-          marginLeft:  "15px",
-          height: width > THRESHHOLD_WIDTH ? height / 1.5 : "15px",
-          marginRight: width < THRESHHOLD_WIDTH ? "45px" : "0px",
-          marginTop: width > THRESHHOLD_WIDTH ? "0" : "10px",
+          marginLeft:  appStatus.isMobile? "0px" : "15px",
+          height: appStatus.isMobile? "5px" : height / 1.5,
+          width: appStatus.isMobile? width-35 : "",
+          marginRight: appStatus.isMobile && appStatus.isLandscape? "0px" : "5px",
+          marginTop: !appStatus.isMobile ? "0" : "10px",
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>
