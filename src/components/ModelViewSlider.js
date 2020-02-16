@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import useWindowSize from "../hooks/useWindowSize";
 import noUiSlider from "nouislider";
 import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelViewSlider = () => {
   let THRESHHOLD_WIDTH = 992;
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const [brokeHour, setBrokeHour] = useState([0, 1]);
   const initialBrokeHour = [0, 1];
   const basePips = {
@@ -21,12 +22,13 @@ const ModelViewSlider = () => {
   );
   const { weathermapContext } = useContext(WeathermapInfoContext);
   const [isSliderInit, setSliderInit] = useState(false);
-  const [width, height] = useWindowSize();
   const [pips, setPips] = useState(basePips);
   const [range, setRange] = useState({min: 0,  max: 1});
   // const [disabled, isDisabled] = useState(true);
   const weathermapsResponse = weathermapContext.weathermapsResponse;
   const sliderDom = useRef(null);
+  const [width, height] = appStatus.windowSize
+
 
   /**
    * use dispatch rather than individual callback

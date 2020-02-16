@@ -1,16 +1,23 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState, useContext } from "react";
+import { AppStatusContext } from "../contexts/AppStatusContext";
 
 const useWindowSize = () => {
-  const [size, setSize] = useState([0, 0]);
+  const MOBILE_THRESHHOLD_WIDTH = 992;
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   useLayoutEffect(() => {
-    function updateSize() {
-      setSize([window.innerWidth, window.innerHeight]);
-    }
-    window.addEventListener('resize', updateSize);
+    let updateSize = () => {
+      dispatchAppStatus({
+        type: "SET_WINDOW_SIZE",
+        windowSize: [window.innerWidth, window.innerHeight],
+        isLandscape: window.innerWidth > window.innerHeight ? true:false,
+
+      });
+    };
+    window.addEventListener("resize", updateSize);
     updateSize();
-    return () => window.removeEventListener('resize', updateSize);
+    return () => window.removeEventListener("resize", updateSize);
   }, []);
-  return size;
-}
+  return appStatus.windowSize;
+};
 
 export default useWindowSize;

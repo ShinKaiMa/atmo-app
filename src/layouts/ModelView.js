@@ -6,13 +6,14 @@ import ModelViewSlider from "../components/ModelViewSlider";
 import ModelViewBottomNavbar from '../components/ModelViewBottomNavbar'
 import ModelViewPanel from '../components/ModelViewPanel';
 import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext';
-import useWindowSize from "../hooks/useWindowSize";
 import { WeathermapInfoContext } from '../contexts/WeathermapContext'
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelView = props => {
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
+  const [width, height] = appStatus.windowSize
   const { dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
   const { dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
-  const [height] = useWindowSize();
   useEffect(() => {
     if (
       props.match &&

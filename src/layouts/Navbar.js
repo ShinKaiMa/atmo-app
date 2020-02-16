@@ -4,16 +4,18 @@ import MobileSideNavbar from "../components/MobileSideNavbar";
 import DeskTopSideNavbar from "../components/DeskTopSideNavbar";
 import { AppStatusContext } from '../contexts/AppStatusContext'
 import { useScrollPosition } from '../hooks/useScrollPosition'
+import useWindowSize from "../hooks/useWindowSize";
 
 const Navbar = () => {
-
+  useWindowSize();
   const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const nav = useRef(null);
+  let [width, height] = appStatus.windowSize
   
   // handling all "hidable" component while onScoll
   useScrollPosition(
     ({ prevPos, currPos }) => {
-      const isNavShow = currPos.y < prevPos.y && currPos.y < -60
+      const isNavShow = currPos.y < prevPos.y && currPos.y < -30
       if (isNavShow !== appStatus.isNavHide) dispatchAppStatus({type:'SET_IS_NAV_HIDE', payload:isNavShow})
 
       const isBotNavShow = currPos.y > prevPos.y && currPos.y < -45

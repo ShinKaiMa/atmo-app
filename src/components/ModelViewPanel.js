@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { useWeathermapsFromAtmo } from "../hooks/useWeathermapsFromAtmo";
-import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Weathermap from "../components/Weathermap";
 import { useLazyLoadingOrderForWeathermap } from "../hooks/useLazyLoadingOrderForWeathermap";
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelViewPanel = props => {
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const { selectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
@@ -17,7 +18,6 @@ const ModelViewPanel = props => {
     queryStartDateString: ""
   });
   const weathermapsResponse = useWeathermapsFromAtmo(queryWeathermapsInfoParam);
-  const [width, height] = useWindowSize();
   const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
   const {shouldStartLoading} = useLazyLoadingOrderForWeathermap(
@@ -25,6 +25,7 @@ const ModelViewPanel = props => {
     currentIMGIdx
   );
   const [rwdImgSize, setRwdImgSize] = useState(undefined);
+  const [width, height] = appStatus.windowSize
 
   // const [isMobileDevice, setIsMobileDevice] = useState(true);
   useEffect(() => {

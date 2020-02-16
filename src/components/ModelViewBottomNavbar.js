@@ -1,17 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
-import useWindowSize from "../hooks/useWindowSize";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { useModelViewSchemaFromAtmo } from "../hooks/useModelViewSchemaFromAtmo";
 import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelViewBottomNavbar = props => {
-  const [width, height] = useWindowSize();
   const [queryModelAndArea, setQueryModelAndArea] = useState({queryModel: "", queryArea: ""});
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext( UserSelectedModelViewContext );
   const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const modelViewSchema = useModelViewSchemaFromAtmo(queryModelAndArea);
+  const [width, height] = appStatus.windowSize
 
   const handleChangeNavIdx = num => {
     dispatchSelectedModelViewInfo({type:'SET_BOT_NAV_IDX', payload:num});

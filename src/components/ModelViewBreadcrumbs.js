@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
-import useWindowSize from "../hooks/useWindowSize";
 import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext'
 import { ModelViewShemaContext } from '../contexts/ModelViewSchemaContext'
 import { useAreasFromAtmo } from "../hooks/useAreasFromAtmo"
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import * as dateformat from 'dateformat';
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const ModelViewBreadcrumbs = props => {
+  const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
   const { modelViewSchema, dispatchModelViewSchema } = useContext(ModelViewShemaContext);
   const [ breadcrumbs, setBreadcrumbs ] = useState();
   const [ queryModel, setQueryModel ] = useState();
   const [ dropdownInstances, setDropdownInstances ] = useState();
-  const [ width, height ] = useWindowSize();
   const areas = useAreasFromAtmo(queryModel);
   const THRESHOLD_WIDTH_PIXEL = 500;
+  const [width, height] = appStatus.windowSize
 
   useEffect(() => {
     if (

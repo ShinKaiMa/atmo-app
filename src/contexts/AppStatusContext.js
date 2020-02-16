@@ -5,6 +5,7 @@ export const AppStatusContext = createContext();
 
 const AppStatusContextProvider = props => {
   const [appStatus, dispatchAppStatus] = useReducer(AppStatusReducer, {
+    windowSize:[0, 0], //width, height
     isLoading: false,
     isNavHide: false,
     isBotNavHide: false,
