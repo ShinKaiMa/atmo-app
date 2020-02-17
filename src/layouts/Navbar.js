@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <div>
       <div className="navbar-fixed">
-        <nav ref={nav} style={{ top: appStatus.isNavHide ? "-64px" : "0px" }}>
+        <nav ref={nav} style={{ top: appStatus.isNavHide && appStatus.isMobile? "-64px" : "0px" }}>
           <div className="nav-wrapper" style={{ backgroundColor: "#14293D" }}>
             <a
               href={null}

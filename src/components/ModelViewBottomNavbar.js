@@ -53,7 +53,7 @@ const ModelViewBottomNavbar = props => {
         className="row bottomNav-wrapper"
         style={{
           position: "fixed",
-          bottom: appStatus.isBotNavHide ? "-45px" : "0px",
+          bottom: appStatus.isBotNavHide && appStatus.isMobile ? "-45px" : "0px",
           left: "0px",
           right: "0px",
           // left:width,

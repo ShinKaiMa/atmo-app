@@ -23,8 +23,8 @@ code {
 @media only screen and (max-width: 992px) {
   .mainLayout {
     padding-left: 0px;
-    margin-left: 15px !important; 
-    margin-right: 15px !important; 
+    margin-left: 10px !important; 
+    margin-right: 10px !important; 
   }
 }
 
@@ -117,6 +117,7 @@ nav {
 
 .noUi-value.loaded{
   color: #0ACAF5 !important;
+  font-weight:bold !important;
 }
 
 .noUi-value.failed{
@@ -258,4 +259,21 @@ nav{
 
 .bottomNav-wrapper{
   transition: bottom 0.5s;
+}
+
+.card-panel.tight{
+  padding: 10px !important;
+}
+
+.waves-effect.waves-effect{
+  cursor: default !important;
+}
+
+.tight.col{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.drag-target{
+  width: 0px !important;
 }

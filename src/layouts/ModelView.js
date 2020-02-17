@@ -1,18 +1,21 @@
 import React, { useEffect, useContext } from "react";
-import {  withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import ModelViewBreadcrumbs from "../components/ModelViewBreadcrumbs";
 import "nouislider/distribute/nouislider.css";
 import ModelViewSlider from "../components/ModelViewSlider";
-import ModelViewBottomNavbar from '../components/ModelViewBottomNavbar'
-import ModelViewPanel from '../components/ModelViewPanel';
-import { UserSelectedModelViewContext } from '../contexts/UserSelectedModelViewContext';
-import { WeathermapInfoContext } from '../contexts/WeathermapContext'
-import { AppStatusContext } from '../contexts/AppStatusContext'
+import ModelViewBottomNavbar from "../components/ModelViewBottomNavbar";
+import ModelViewPanel from "../components/ModelViewPanel";
+import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
+import { WeathermapInfoContext } from "../contexts/WeathermapContext";
+import { AppStatusContext } from "../contexts/AppStatusContext";
+import ModelViewControlPanel from "../components/modelView/controlPanel/ModelViewSidePanel"
 
 const ModelView = props => {
   const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
-  const [width, height] = appStatus.windowSize
-  const { dispatchSelectedModelViewInfo } = useContext(UserSelectedModelViewContext);
+  const [width, height] = appStatus.windowSize;
+  const { dispatchSelectedModelViewInfo } = useContext(
+    UserSelectedModelViewContext
+  );
   const { dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   useEffect(() => {
     if (
@@ -22,24 +25,31 @@ const ModelView = props => {
       props.match.params.type &&
       props.match.params.model
     ) {
-      dispatchWeathermapInfo({type: 'CLEAR_LZ_STATUS'});
-      dispatchSelectedModelViewInfo({ type: 'SET_MODEL', payload: props.match.params.model });
+      dispatchWeathermapInfo({ type: "CLEAR_LZ_STATUS" });
+      dispatchSelectedModelViewInfo({
+        type: "SET_MODEL",
+        payload: props.match.params.model
+      });
     }
-  }, [props])
+  }, [props]);
 
   return (
     <div>
-      <div className="mainLayout container" id="container" style={{ marginBottom: "46px", height: height}}>
+      <div
+        className="mainLayout container"
+        id="container"
+        style={{ marginBottom: "46px", height: height }}
+      >
         <div className="row">
           <ModelViewBreadcrumbs props />
         </div>
-          <ModelViewPanel key="ModelViewPanel"/>
-        <ModelViewSlider key="ModelViewSlider"/>
+        <ModelViewPanel key="ModelViewPanel" />
+        <ModelViewSlider key="ModelViewSlider" />
+        <ModelViewControlPanel key="ModelViewControlPanel"/>
+
       </div>
 
       <ModelViewBottomNavbar props />
-      
-
     </div>
   );
 };
