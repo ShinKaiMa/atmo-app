@@ -10,27 +10,41 @@ const ModelViewSidePanel = props => {
   const { weathermapContext } = useContext(WeathermapInfoContext);
   const [width, height] = appStatus.windowSize;
 
-  return weathermapContext.weathermapsResponse ? (
+  return weathermapContext.weathermapsResponse.availableFcstHour && weathermapContext.weathermapsResponse.availableFcstHour.length > 0 ? (
     <div
-      className={`row ${appStatus.isMobile ? "" : "right"}`}
-      style={{ width: "100%", paddingTop: appStatus.isMobile ? "45px" : ""}}
+      className={`row ${appStatus.isMobile && !appStatus.isLandscape ? "" : "right"}`}
+      style={{ width: appStatus.isMobile && !appStatus.isLandscape? "100%" : "550px", paddingTop: appStatus.isMobile ? "45px" : ""}}
       // style={{ width: "550px" }}
     >
       <ModelViewAnimationControlPanel />
       <ModelInfoCard />
     </div>
-  ) : (
-    <SkeletonTheme
-      duration={0.1}
-      color="rgba(200,200,200,1)"
-      highlightColor="rgba(240,240,240,1)"
+  ) : !weathermapContext.weathermapsResponse.availableFcstHour ?  (
+    <div
+      className={`row ${appStatus.isMobile ? "" : "right"}`}
+      style={{ width: appStatus.isMobile && !appStatus.isLandscape? "100%" : "550px", paddingTop: appStatus.isMobile ? "45px" : ""}}
+      // style={{ width: "550px" }}
     >
-      <Skeleton
-        width={appStatus.isLandscape ? width / 3 : width / 1.8}
-        height={appStatus.isLandscape ? height - 200 : height / 3}
-      />
-    </SkeletonTheme>
-  );
+      <SkeletonTheme
+        duration={0.1}
+        color="rgba(200,200,200,1)"
+        highlightColor="rgba(240,240,240,1)"
+      >
+        <Skeleton
+          width={appStatus.isLandscape ? width / 3 : width / 1.8}
+          height= {height / 7}
+        />
+        <Skeleton
+          width={appStatus.isLandscape ? width / 3 : width / 1.8}
+          height= {height / 7}
+        />
+        <Skeleton
+          width={appStatus.isLandscape ? width / 3 : width / 1.8}
+          height= {height / 7}
+        />
+      </SkeletonTheme>
+    </div>
+  ) : "";
 };
 
 export default ModelViewSidePanel;

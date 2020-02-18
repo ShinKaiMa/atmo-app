@@ -18,44 +18,45 @@ const ModelViewAnimationControlPanel = props => {
           {/* play button */}
           <div className="col s7 tight">
               <a
-                className="btn-floating  waves-effect waves-light"
-                style={{ backgroundColor: "rgb(200, 200, 200)" }}
+                className="btn-flat btn-floating  waves-effect waves-gray"
+                style={{ backgroundColor: "transparent",border: "1px gray solid" }}
                 title="speed down"
               >
-                <i className="material-icons" style={{ color: "white" }}>
+                <i className="material-icons" style={{ color: "gray" }}>
                   skip_previous
                 </i>
               </a>
               <a
                 title="play"
-                className="btn-floating  waves-effect waves-light"
+                className="btn-flat btn-floating  waves-effect waves-gray"
                 style={{
-                  backgroundColor: "rgb(200, 200, 200)",
+                  backgroundColor: "transparent",
+                  border: "1px gray solid"
                 }}
               >
-                <i className="material-icons" style={{ color: "white" }}>
+                <i className="material-icons" style={{ color: "gray" }}>
                   play_arrow
                 </i>
               </a>
               <a
-                className="btn-floating  waves-effect waves-light"
-                style={{ backgroundColor: "rgb(200, 200, 200)" }}
+                className="btn-flat btn-floating  waves-effect waves-gray"
+                style={{ backgroundColor: "transparent", border: "1px gray solid" }}
                 title="speed up"
               >
-                <i className="material-icons" style={{ color: "white" }}>
+                <i className="material-icons" style={{ color: "gray" }}>
                   skip_next
                 </i>
               </a>
               <a
                 className="btn-flat btn-floating waves-effect"
-                style={{ backgroundColor: "transparent", marginLeft: "20px" }}
+                style={{ backgroundColor: "transparent", marginLeft: "0px" }}
                 title="loop"
               >
                 <i
                   className="material-icons"
                   style={{ color: "rgb(190, 190, 190)" }}
                 >
-                  loop
+                  repeat
                 </i>
               </a>
               </div>
@@ -81,7 +82,7 @@ const ModelViewAnimationControlPanel = props => {
                 title="speed down"
               >
                 <i
-                  className="material-icons"
+                  className="material-icons small"
                   style={{ color: "white", fontSize: "20px" }}
                 >
                   remove
@@ -97,14 +98,14 @@ const ModelViewAnimationControlPanel = props => {
                   marginLeft: "5px"
                 }}
               >
-                3
+                9
               </span>
               <a
                 className="btn-floating btn-flat btn-small waves-effect waves-light right"
                 style={{ backgroundColor: "rgb(200, 200, 200)" }}
                 title="speed down"
               >
-                <i className="material-icons" style={{ color: "white" }}>
+                <i className="small material-icons" style={{ color: "white" }}>
                   add
                 </i>
               </a>

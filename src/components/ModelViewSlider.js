@@ -14,7 +14,6 @@ const ModelViewSlider = () => {
     density: 100,
     values:[0,1],
     filter: (value, type) => {
-    if (type === 0) return 0;
     return brokeHour.includes(value) ? 2 : 1;
   }}
   const { selectedModelViewInfo, dispatchSelectedModelViewInfo } = useContext(
