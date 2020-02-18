@@ -142,7 +142,7 @@ const ModelViewBreadcrumbs = props => {
             </a>
           </a>
 
-          <a className="breadcrumb hide-on-med-and-down">
+          <a className="breadcrumb" style={{display:appStatus.isMobile && !appStatus.isLandscape? "none" : ""}}>
             <a
               className="dropdown-trigger btn startDate waves-effect waves-gray "
               data-target="startDate"

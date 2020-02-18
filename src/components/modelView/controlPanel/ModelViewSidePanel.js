@@ -13,7 +13,7 @@ const ModelViewSidePanel = props => {
   return weathermapContext.weathermapsResponse.availableFcstHour && weathermapContext.weathermapsResponse.availableFcstHour.length > 0 ? (
     <div
       className={`row ${appStatus.isMobile && !appStatus.isLandscape ? "" : "right"}`}
-      style={{ width: appStatus.isMobile && !appStatus.isLandscape? "100%" : "550px", paddingTop: appStatus.isMobile ? "45px" : ""}}
+      style={{ width: appStatus.isMobile && !appStatus.isLandscape? "100%" : "250px", paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "45px" : ""}}
       // style={{ width: "550px" }}
     >
       <ModelViewAnimationControlPanel />

@@ -136,14 +136,14 @@ const ModelViewSlider = () => {
       <div
         ref={sliderDom}
         id="slider"
-        className={!appStatus.isMobile ? "left" : ""}
+        className={!appStatus.isMobile? "left" : ""}
         // disabled
         style={{
           marginLeft:  appStatus.isMobile? "0px" : "15px",
           height: appStatus.isMobile? "5px" : height / 1.5,
           width: appStatus.isMobile? width-35 : "",
           marginRight: appStatus.isMobile && appStatus.isLandscape? "0px" : "5px",
-          marginTop: appStatus.isMobile ? "10px" : "10px",
+          marginTop: appStatus.isMobile ? "30px" : "10px",
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>

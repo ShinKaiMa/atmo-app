@@ -44,8 +44,9 @@ const ModelView = props => {
           <ModelViewBreadcrumbs props />
         </div>
         <ModelViewPanel key="ModelViewPanel" />
-        <ModelViewSlider key="ModelViewSlider" />
         <ModelViewControlPanel key="ModelViewControlPanel"/>
+        <ModelViewSlider key="ModelViewSlider" />
+        {/* <ModelViewControlPanel key="ModelViewControlPanel"/> */}
 
       </div>
 

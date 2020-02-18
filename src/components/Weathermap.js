@@ -3,6 +3,7 @@ import { WeathermapInfoContext } from "../contexts/WeathermapContext";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { AppStatusContext } from '../contexts/AppStatusContext'
 
 const Weathermap = ({
   shouldStartLoading,
@@ -15,6 +16,7 @@ const Weathermap = ({
   width
 }) => {
   let THRESHHOLD_WIDTH = 992;
+  const { appStatus } = useContext(AppStatusContext);
   const imgURL = info.url;
   const [isCompleted, setCompleted] = useState(false);
   const [isError, setError] = useState(false);
@@ -118,9 +120,9 @@ const Weathermap = ({
     <React.Fragment>
       <div style={{
         display:
-        idx === currentIMGIdx && isCompleted && !isError ? "" : "none",
+        idx === currentIMGIdx && isCompleted && !isError ? appStatus.isMobile && appStatus.isLandscape? "inline-block" : "" : "none",
           height: width < THRESHHOLD_WIDTH && rwdImgSize ? rwdImgSize.height : "0",
-          width: rwdImgSize ? rwdImgSize.width : "0"
+          width: rwdImgSize ? rwdImgSize.width : "0",
           // height: width < THRESHHOLD_WIDTH && imgDOM.current? imgDOM.current.height: "0",
           // width: imgDOM.current? imgDOM.current.width: "0"
         }}>
@@ -142,7 +144,7 @@ const Weathermap = ({
         style={{
           display:
             idx === currentIMGIdx && (!isCompleted || isError)
-              ? "flex"
+              ? appStatus.isMobile && appStatus.isLandscape? "inline-block" : "flex"
               : "none",
           height: `${rwdImgSize ? rwdImgSize.height : "0"}px`,
           width: `${rwdImgSize ? rwdImgSize.width : "0"}px`
