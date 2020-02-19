@@ -200,11 +200,7 @@ const ModelViewBottomNavbar = props => {
           );
         })
       ) : (
-        <ul>
-          <li className="collection-item">
-            <a>loading</a>
-          </li>
-        </ul>
+        ""
       )}
       </div>
 
