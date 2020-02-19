@@ -118,9 +118,11 @@ const Weathermap = ({
 
   return (
     <React.Fragment>
-      <div style={{
+      <div 
+      className={ appStatus.isMobile && appStatus.isLandscape ? "left" : ""}
+      style={{
         display:
-        idx === currentIMGIdx && isCompleted && !isError ? appStatus.isMobile && appStatus.isLandscape? "inline-block" : "" : "none",
+        idx === currentIMGIdx && isCompleted && !isError ? "block" : "none",
           height: width < THRESHHOLD_WIDTH && rwdImgSize ? rwdImgSize.height : "0",
           width: rwdImgSize ? rwdImgSize.width : "0",
           // height: width < THRESHHOLD_WIDTH && imgDOM.current? imgDOM.current.height: "0",
@@ -140,14 +142,15 @@ const Weathermap = ({
       </div>
       {/* loader or error handling */}
       <div
-        className={width > THRESHHOLD_WIDTH ? "left" : ""}
+        className={ appStatus.isMobile || appStatus.isLandscape ? "left" : ""}
         style={{
           display:
             idx === currentIMGIdx && (!isCompleted || isError)
-              ? appStatus.isMobile && appStatus.isLandscape? "inline-block" : "flex"
+              ? (appStatus.isMobile?  "flex":"flex")
               : "none",
           height: `${rwdImgSize ? rwdImgSize.height : "0"}px`,
-          width: `${rwdImgSize ? rwdImgSize.width : "0"}px`
+          width: `${rwdImgSize ? rwdImgSize.width : "0"}px`,
+          border: "1px #cd9178 dashed"
         }}
       >
         {!isError ? (

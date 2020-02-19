@@ -132,7 +132,7 @@ const ModelViewSlider = () => {
   }, [weathermapsResponse, range, pips, brokeHour, width, height]);
 
   return (
-    <div >
+    <div>
       <div
         ref={sliderDom}
         id="slider"
@@ -143,7 +143,7 @@ const ModelViewSlider = () => {
           height: appStatus.isMobile? "5px" : height / 1.5,
           width: appStatus.isMobile? width-35 : "",
           marginRight: appStatus.isMobile && appStatus.isLandscape? "0px" : "5px",
-          marginTop: appStatus.isMobile ? "30px" : "10px",
+          marginTop: appStatus.isMobile ? appStatus.isLandscape? "10px" : "30px" : "10px",
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>

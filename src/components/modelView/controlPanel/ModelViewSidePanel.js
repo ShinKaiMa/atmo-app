@@ -10,19 +10,28 @@ const ModelViewSidePanel = props => {
   const { weathermapContext } = useContext(WeathermapInfoContext);
   const [width, height] = appStatus.windowSize;
 
-  return weathermapContext.weathermapsResponse.availableFcstHour && weathermapContext.weathermapsResponse.availableFcstHour.length > 0 ? (
+  return weathermapContext.weathermapsResponse.availableFcstHour &&
+    weathermapContext.weathermapsResponse.availableFcstHour.length > 0 ? (
     <div
-      className={`row ${appStatus.isMobile && !appStatus.isLandscape ? "" : "right"}`}
-      style={{ width: appStatus.isMobile && !appStatus.isLandscape? "100%" : "250px", paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "45px" : ""}}
+      className={`row ${
+        appStatus.isMobile && !appStatus.isLandscape ? "" : "right"
+      }`}
+      style={{
+        width: appStatus.isMobile && !appStatus.isLandscape ? "100%" : "250px",
+        paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "45px" : "",
+      }}
       // style={{ width: "550px" }}
     >
       <ModelViewAnimationControlPanel />
       <ModelInfoCard />
     </div>
-  ) : !weathermapContext.weathermapsResponse.availableFcstHour ?  (
+  ) : !weathermapContext.weathermapsResponse.availableFcstHour ? (
     <div
       className={`row ${appStatus.isMobile ? "" : "right"}`}
-      style={{ width: appStatus.isMobile && !appStatus.isLandscape? "100%" : "550px", paddingTop: appStatus.isMobile ? "45px" : ""}}
+      style={{
+        width: appStatus.isMobile && !appStatus.isLandscape ? "100%" : "550px",
+        paddingTop: appStatus.isMobile ? "45px" : ""
+      }}
       // style={{ width: "550px" }}
     >
       <SkeletonTheme
@@ -32,19 +41,21 @@ const ModelViewSidePanel = props => {
       >
         <Skeleton
           width={appStatus.isLandscape ? width / 3 : width / 1.8}
-          height= {height / 7}
+          height={height / 7}
         />
         <Skeleton
           width={appStatus.isLandscape ? width / 3 : width / 1.8}
-          height= {height / 7}
+          height={height / 7}
         />
         <Skeleton
           width={appStatus.isLandscape ? width / 3 : width / 1.8}
-          height= {height / 7}
+          height={height / 7}
         />
       </SkeletonTheme>
     </div>
-  ) : "";
+  ) : (
+    ""
+  );
 };
 
 export default ModelViewSidePanel;

@@ -4,11 +4,12 @@ const ModelViewAnimationControlPanel = props => {
   return (
     <div>
       <div
-        class="tight card-panel grey lighten-5 z-depth-1 waves-effect waves-gray"
+        className="tight card-panel grey lighten-5 z-depth-1 waves-effect waves-gray"
         style={{ width: "100%" }}
+        // style={{ width: "100%", maxHeight:"10px", overflowY: "scroll" }}
       >
         <div
-          class="row valign-wrapper"
+          className="row valign-wrapper"
           style={{
             marging: "0px",
             padding: "0px",
