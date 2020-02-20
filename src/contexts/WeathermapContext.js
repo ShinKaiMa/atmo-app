@@ -11,7 +11,8 @@ const WeathermapInfoContextProvider = props => {
     weathermapsResponse: {},
     shouldStartLoading: [],
     isLoaded: [],
-    islazyloadingActivated:true
+    islazyloadingActivated:true,
+    wmRwdSize:{height:0, width:0} // calculated RWD weathermap size
   });
 
   return (

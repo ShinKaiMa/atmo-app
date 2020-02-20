@@ -141,8 +141,9 @@ const ModelViewSlider = () => {
         style={{
           height: appStatus.isMobile? "5px" : height / 1.5,
           width: appStatus.isMobile? width*0.9 : "",
-          margin:"0 auto",
+          margin:appStatus.isMobile? "0 auto" : "5px",
           marginTop: appStatus.isMobile ? appStatus.isLandscape? "10px" : "30px" : "10px",
+          
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}
       ></div>

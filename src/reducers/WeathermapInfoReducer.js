@@ -78,6 +78,11 @@ export const WeathermapInfoReducer = (weathermapContext, action) => {
         };
       }
     }
+    case "SET_WEATHERMAP_RWD_SIZE":
+      return {
+        ...weathermapContext,
+        wmRwdSize: action.payload,
+      };
     default:
       return weathermapContext;
   }

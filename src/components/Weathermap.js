@@ -142,7 +142,7 @@ const Weathermap = ({
       </div>
       {/* loader or error handling */}
       <div
-        className={ appStatus.isMobile || appStatus.isLandscape ? "left" : ""}
+        className={ appStatus.isMobile ? appStatus.isLandscape ? "left" : "" : "left"}
         style={{
           display:
             idx === currentIMGIdx && (!isCompleted || isError)
@@ -150,7 +150,7 @@ const Weathermap = ({
               : "none",
           height: `${rwdImgSize ? rwdImgSize.height : "0"}px`,
           width: `${rwdImgSize ? rwdImgSize.width : "0"}px`,
-          border: "1px #cd9178 dashed"
+          border: isError? "1px #cd9178 dashed" : "1px #0ACAF5 dashed"
         }}
       >
         {!isError ? (

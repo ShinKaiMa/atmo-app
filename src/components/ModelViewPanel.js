@@ -5,6 +5,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Weathermap from "../components/Weathermap";
 import { useLazyLoadingOrderForWeathermap } from "../hooks/useLazyLoadingOrderForWeathermap";
 import { AppStatusContext } from '../contexts/AppStatusContext'
+import { WeathermapInfoContext } from '../contexts/WeathermapContext'
 
 const ModelViewPanel = props => {
   const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
@@ -24,9 +25,9 @@ const ModelViewPanel = props => {
     weathermapsResponse,
     currentIMGIdx
   );
-  const [rwdImgSize, setRwdImgSize] = useState(undefined);
   const [width, height] = appStatus.windowSize
-
+  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const rwdImgSize = weathermapContext.wmRwdSize;
   // const [isMobileDevice, setIsMobileDevice] = useState(true);
   useEffect(() => {
     if (width > height) {
@@ -88,7 +89,7 @@ const ModelViewPanel = props => {
         let adjustRatio = imgHeight / weathermapsResponse.imageDimensions.height;
         imgWidth = weathermapsResponse.imageDimensions.width * adjustRatio;
       }
-      setRwdImgSize({height:imgHeight, width:imgWidth});
+      dispatchWeathermapInfo({type:"SET_WEATHERMAP_RWD_SIZE", payload: {height:imgHeight, width:imgWidth}})
     }
   }, [weathermapsResponse, width, isLandScapeMode]);
 
