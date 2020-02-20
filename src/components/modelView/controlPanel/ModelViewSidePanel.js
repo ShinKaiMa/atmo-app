@@ -30,10 +30,9 @@ const ModelViewSidePanel = props => {
        */
       newSidePanelSize.width =
         (windowWidth - weathermapContext.wmRwdSize.width - 200 - 30) * 0.75;
-        // windowWidth - weathermapContext.wmRwdSize.width - 200 - 30 - 200;
       setSidePanelSize(newSidePanelSize);
     }
-  }, [weathermapContext.wmRwdSize.width, weathermapContext.windowSize]);
+  }, [weathermapContext.wmRwdSize.width, windowWidth]);
 
   return weathermapContext.weathermapsResponse.availableFcstHour &&
     weathermapContext.weathermapsResponse.availableFcstHour.length > 0 ? (
