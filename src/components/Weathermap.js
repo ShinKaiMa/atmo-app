@@ -136,7 +136,7 @@ const Weathermap = ({
           display:
             idx === currentIMGIdx && isCompleted && !isError ? "" : "none",
           height: isLandScapeMode ? height / 1.4 : "",
-          width: isLandScapeMode ? "" : width / 1.2
+          width: isLandScapeMode ? "" : appStatus.isMobile? width / 1.05 :  width / 1.2
         }}
       />
       </div>

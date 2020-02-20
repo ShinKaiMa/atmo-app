@@ -24,12 +24,12 @@ const ModelViewSidePanel = props => {
       setSidePanelSize(newSidePanelSize);
     } else {
       /**
-       * slider width:30
-       * side navbar: 200
-       * save val: 200
+       * width info:
+       * slider + pip + padding: 60
+       * side navbar + padding: 220
        */
       newSidePanelSize.width =
-        (windowWidth - weathermapContext.wmRwdSize.width - 200 - 30) * 0.75;
+        (windowWidth - weathermapContext.wmRwdSize.width - 220 - 60) * 0.75;
       setSidePanelSize(newSidePanelSize);
     }
   }, [weathermapContext.wmRwdSize.width, windowWidth]);

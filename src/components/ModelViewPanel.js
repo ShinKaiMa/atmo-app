@@ -79,7 +79,7 @@ const ModelViewPanel = props => {
       weathermapsResponse.imageDimensions.height
     ) {
       let imgHeight = isLandScapeMode ? height / 1.4 : undefined
-      let imgWidth = isLandScapeMode ? undefined : width / 1.2
+      let imgWidth = isLandScapeMode ? undefined : appStatus.isMobile? width / 1.05 : width / 1.2
 
       if(!imgHeight){
         let adjustRatio = imgWidth / weathermapsResponse.imageDimensions.width;

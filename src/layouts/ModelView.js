@@ -16,7 +16,7 @@ const ModelView = props => {
   const { dispatchSelectedModelViewInfo } = useContext(
     UserSelectedModelViewContext
   );
-  const { dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
+  const { weathermapContext, dispatchWeathermapInfo } = useContext(WeathermapInfoContext);
   useEffect(() => {
     if (
       props.match &&
@@ -44,8 +44,9 @@ const ModelView = props => {
           <ModelViewBreadcrumbs props />
         </div>
         <div
-        className={ appStatus.isMobile && appStatus.isLandscape ?"row" : ""}
-        style={{marginBottom: "5px"}}>
+        className={ appStatus.isMobile && appStatus.isLandscape ? "row" : ""}
+        style={{marginBottom: "5px",  }}
+        >
         <ModelViewPanel key="ModelViewPanel" />
         <ModelViewControlPanel key="ModelViewControlPanel"/>
         </div>
