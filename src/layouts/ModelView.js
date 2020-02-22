@@ -34,32 +34,19 @@ const ModelView = props => {
   }, [props]);
 
   return (
-    <div>
+    <React.Fragment>
       <div
         className="mainLayout container"
         id="container"
         style={{ marginBottom: "46px", height: height }}
       >
-        <div className="row">
-          <ModelViewBreadcrumbs props />
-        </div>
-        {/* <div
-        className="row"
-        style={{marginBottom: "5px",  }}
-        >
-        <ModelViewPanel key="ModelViewPanel" />
-        <ModelViewControlPanel key="ModelViewControlPanel"/>
-        </div> */}
+        <ModelViewBreadcrumbs props />
         <ModelViewPanel key="ModelViewPanel" />
         <ModelViewSlider key="ModelViewSlider" />
-        <ModelViewControlPanel key="ModelViewControlPanel"/>
-        {/* <div style={{clear:"both"}}></div> */}
-        {/* <ModelViewControlPanel key="ModelViewControlPanel"/> */}
-
+        <ModelViewControlPanel key="ModelViewControlPanel" />
       </div>
-
       <ModelViewBottomNavbar props />
-    </div>
+    </React.Fragment>
   );
 };
 

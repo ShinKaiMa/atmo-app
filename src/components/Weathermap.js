@@ -123,7 +123,7 @@ const Weathermap = ({
       style={{
         display:
         idx === currentIMGIdx && isCompleted && !isError ? "block" : "none",
-          height: width < THRESHHOLD_WIDTH && rwdImgSize ? rwdImgSize.height : "0",
+          height: (appStatus.isMobile && rwdImgSize) || (!appStatus.isMobile && !appStatus.isLandscape) ? rwdImgSize.height : "0",
           width: rwdImgSize ? rwdImgSize.width : "0",
           // height: width < THRESHHOLD_WIDTH && imgDOM.current? imgDOM.current.height: "0",
           // width: imgDOM.current? imgDOM.current.width: "0"

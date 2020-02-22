@@ -80,7 +80,7 @@ const ModelViewPanel = props => {
     ) {
       // let imgHeight = isLandScapeMode ? height / 1.4 : undefined
       let imgHeight = appStatus.isLandscape ? ( appStatus.isMobile? height / 1.4 : undefined ) : undefined
-      let imgWidth = appStatus.isLandscape ? undefined : (appStatus.isMobile? width / 1.05 : width / 1.2)
+      let imgWidth = appStatus.isLandscape ? undefined : (appStatus.isMobile? width / 1.05 : (width - 220) / 1.2)
 
       // handle landscape mode && not mobile situation
       if(!imgHeight && !imgWidth){

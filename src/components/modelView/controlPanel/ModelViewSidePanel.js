@@ -38,11 +38,11 @@ const ModelViewSidePanel = props => {
     weathermapContext.weathermapsResponse.availableFcstHour.length > 0 ? (
     <div
       className={`row ${
-        appStatus.isMobile && !appStatus.isLandscape ? "" : "right"
+        (appStatus.isLandscape)? "right" : ""
       }`}
       style={{
-        width: appStatus.isMobile ? (!appStatus.isLandscape ? "100%" : sidePanelSize.width) : sidePanelSize.width,
-        paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "50px" : ""
+        width: appStatus.isMobile ? (appStatus.isLandscape ? sidePanelSize.width : "100%") : (appStatus.isLandscape ? sidePanelSize.width : "100%"),
+        paddingTop: (appStatus.isMobile && !appStatus.isLandscape) || (!appStatus.isMobile && !appStatus.isLandscape) ? "50px" : ""
       }}
       // style={{ width: "550px" }}
     >
@@ -52,7 +52,7 @@ const ModelViewSidePanel = props => {
   ) : !weathermapContext.weathermapsResponse.availableFcstHour ? (
     <div
       className={`${
-        appStatus.isMobile || appStatus.isLandscape ? "right" : ""
+        (appStatus.isLandscape)? "right" : ""
       }`}
       style={{
         width: appStatus.isMobile && !appStatus.isLandscape ? "100%" : "250px",

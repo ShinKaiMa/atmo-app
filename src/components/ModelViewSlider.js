@@ -138,13 +138,15 @@ const ModelViewSlider = () => {
         id="slider"
         // disabled
         style={{
-          position: appStatus.isMobile && !appStatus.isLandscape? "relative" : "absolute",
-          top: appStatus.isMobile && !appStatus.isLandscape? "" : `${40 + 64 + weathermapContext.wmRwdSize.height + 50}px`,
-          // left: appStatus.isMobile && !appStatus.isLandscape? "" : "50%",
+          position: (appStatus.isMobile && !appStatus.isLandscape) || (!appStatus.isMobile && !appStatus.isLandscape)? "relative" : "absolute",
+          top: (appStatus.isMobile && !appStatus.isLandscape)  || (!appStatus.isMobile && !appStatus.isLandscape)? "" : `${40 + 64 + weathermapContext.wmRwdSize.height + 50}px`,
+          // left: appStatus.isMobile && !appStatus.isLandscape? "" : "40%",
+          // right: appStatus.isMobile && !appStatus.isLandscape? "" : "55%",
           height: "5px",
           width: appStatus.isMobile? width*0.9 : weathermapContext.wmRwdSize.width,
           margin:"0 auto",
-          marginTop: appStatus.isMobile && !appStatus.isLandscape? "20px" : "0px",
+          // marginTop: appStatus.isMobile && !appStatus.isLandscape? "20px" : "0px",
+          marginTop: appStatus.isMobile ? (appStatus.isLandscape? "0px" : "20px") : (appStatus.isLandscape? "0px" : "20px"),
           // marginTop: appStatus.isMobile ? appStatus.isLandscape? "10px" : "30px" : "10px",
           
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
