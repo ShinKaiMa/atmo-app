@@ -43,14 +43,17 @@ const ModelView = props => {
         <div className="row">
           <ModelViewBreadcrumbs props />
         </div>
-        <div
-        className={ appStatus.isMobile && appStatus.isLandscape ? "row" : ""}
+        {/* <div
+        className="row"
         style={{marginBottom: "5px",  }}
         >
         <ModelViewPanel key="ModelViewPanel" />
         <ModelViewControlPanel key="ModelViewControlPanel"/>
-        </div>
+        </div> */}
+        <ModelViewPanel key="ModelViewPanel" />
         <ModelViewSlider key="ModelViewSlider" />
+        <ModelViewControlPanel key="ModelViewControlPanel"/>
+        {/* <div style={{clear:"both"}}></div> */}
         {/* <ModelViewControlPanel key="ModelViewControlPanel"/> */}
 
       </div>

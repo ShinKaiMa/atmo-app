@@ -208,12 +208,6 @@ const ModelViewBottomNavbar = props => {
   );
 };
 
-const sleep = second => {
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, second);
-  });
-};
-
 const getCorespondedClassName = detailTypeNum => {
   if (detailTypeNum === 1) {
     return "one";

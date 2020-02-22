@@ -78,8 +78,20 @@ const ModelViewPanel = props => {
       weathermapsResponse.imageDimensions.width &&
       weathermapsResponse.imageDimensions.height
     ) {
-      let imgHeight = isLandScapeMode ? height / 1.4 : undefined
-      let imgWidth = isLandScapeMode ? undefined : appStatus.isMobile? width / 1.05 : width / 1.2
+      // let imgHeight = isLandScapeMode ? height / 1.4 : undefined
+      let imgHeight = appStatus.isLandscape ? ( appStatus.isMobile? height / 1.4 : undefined ) : undefined
+      let imgWidth = appStatus.isLandscape ? undefined : (appStatus.isMobile? width / 1.05 : width / 1.2)
+
+      // handle landscape mode && not mobile situation
+      if(!imgHeight && !imgWidth){
+        //east Asia weathermap (land scape image) situation
+        let aspectRatio = weathermapsResponse.imageDimensions.width / weathermapsResponse.imageDimensions.height
+        if(aspectRatio > 1.15){
+          imgHeight = (height - 64 - 40) * 0.75;
+        } else {
+          imgWidth = (weathermapsResponse.imageDimensions.width - 220 ) * 0.6;
+        }
+      }
 
       if(!imgHeight){
         let adjustRatio = imgWidth / weathermapsResponse.imageDimensions.width;
@@ -91,7 +103,7 @@ const ModelViewPanel = props => {
       }
       dispatchWeathermapInfo({type:"SET_WEATHERMAP_RWD_SIZE", payload: {height:imgHeight, width:imgWidth}})
     }
-  }, [weathermapsResponse, width, isLandScapeMode]);
+  }, [weathermapsResponse, width, height, isLandScapeMode]);
 
   return (!weathermapsResponse || !weathermapsResponse.weathermapsInfo) ? (
     <div className="left">

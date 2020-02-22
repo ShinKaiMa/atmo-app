@@ -92,7 +92,7 @@ const ModelViewSlider = () => {
       // let sliderDom = document.getElementById("slider");
       noUiSlider.create(sliderDom.current, {
         connect: true,
-        orientation: width > THRESHHOLD_WIDTH ? "vertical" : "horizontal",
+        orientation: "horizontal",
         direction: "ltr",
         range: range,
         pips: {
@@ -136,13 +136,16 @@ const ModelViewSlider = () => {
       <div
         ref={sliderDom}
         id="slider"
-        className={!appStatus.isMobile? "left" : ""}
         // disabled
         style={{
-          height: appStatus.isMobile? "5px" : height / 1.5,
-          width: appStatus.isMobile? width*0.9 : "",
-          margin:appStatus.isMobile? "0 auto" : "5px",
-          marginTop: appStatus.isMobile ? appStatus.isLandscape? "10px" : "30px" : "10px",
+          position: appStatus.isMobile && !appStatus.isLandscape? "relative" : "absolute",
+          top: appStatus.isMobile && !appStatus.isLandscape? "" : `${40 + 64 + weathermapContext.wmRwdSize.height + 50}px`,
+          // left: appStatus.isMobile && !appStatus.isLandscape? "" : "50%",
+          height: "5px",
+          width: appStatus.isMobile? width*0.9 : weathermapContext.wmRwdSize.width,
+          margin:"0 auto",
+          marginTop: appStatus.isMobile && !appStatus.isLandscape? "20px" : "0px",
+          // marginTop: appStatus.isMobile ? appStatus.isLandscape? "10px" : "30px" : "10px",
           
           display: weathermapsResponse && weathermapsResponse.availableFcstHour && weathermapsResponse.availableFcstHour.length > 0 ? "" : "none",
         }}

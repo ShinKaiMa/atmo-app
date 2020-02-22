@@ -41,8 +41,8 @@ const ModelViewSidePanel = props => {
         appStatus.isMobile && !appStatus.isLandscape ? "" : "right"
       }`}
       style={{
-        width: appStatus.isMobile && !appStatus.isLandscape ? "100%" : sidePanelSize.width,
-        paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "45px" : ""
+        width: appStatus.isMobile ? (!appStatus.isLandscape ? "100%" : sidePanelSize.width) : sidePanelSize.width,
+        paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "50px" : ""
       }}
       // style={{ width: "550px" }}
     >
