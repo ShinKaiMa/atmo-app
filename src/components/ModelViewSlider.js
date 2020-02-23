@@ -139,7 +139,7 @@ const ModelViewSlider = () => {
         // disabled
         style={{
           position: (appStatus.isMobile && !appStatus.isLandscape) || (!appStatus.isMobile && !appStatus.isLandscape)? "relative" : "absolute",
-          top: (appStatus.isMobile && !appStatus.isLandscape)  || (!appStatus.isMobile && !appStatus.isLandscape)? "" : `${40 + 64 + weathermapContext.wmRwdSize.height + 50}px`,
+          top: (appStatus.isMobile && !appStatus.isLandscape)  || (!appStatus.isMobile && !appStatus.isLandscape)? "" : `${60 + 64 + weathermapContext.wmRwdSize.height + 5}px`,
           // left: appStatus.isMobile && !appStatus.isLandscape? "" : "40%",
           // right: appStatus.isMobile && !appStatus.isLandscape? "" : "55%",
           height: "5px",

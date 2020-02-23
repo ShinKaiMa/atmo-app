@@ -38,7 +38,7 @@ const ModelView = props => {
       <div
         className="mainLayout container"
         id="container"
-        style={{ marginBottom: "46px", height: height }}
+        style={{ marginBottom: "46px", height: "100%", width: "100% - 10px" }}
       >
         <ModelViewBreadcrumbs props />
         <ModelViewPanel key="ModelViewPanel" />

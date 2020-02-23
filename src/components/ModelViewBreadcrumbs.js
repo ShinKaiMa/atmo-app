@@ -15,7 +15,7 @@ const ModelViewBreadcrumbs = props => {
   const [queryModel, setQueryModel] = useState();
   const [dropdownInstances, setDropdownInstances] = useState();
   const areas = useAreasFromAtmo(queryModel);
-  const THRESHOLD_WIDTH_PIXEL = 500;
+  const THRESHOLD_WIDTH_PIXEL = 680;
   const [width, height] = appStatus.windowSize
 
   useEffect(() => {

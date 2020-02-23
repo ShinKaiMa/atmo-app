@@ -21,15 +21,17 @@ const ModelViewSidePanel = props => {
       } else {
         newSidePanelSize.width = windowWidth * 0.85;
       }
+
+      if(newSidePanelSize.width < 300) newSidePanelSize.width = 300;
       setSidePanelSize(newSidePanelSize);
     } else {
       /**
        * width info:
-       * slider + pip + padding: 60
        * side navbar + padding: 220
        */
       newSidePanelSize.width =
-        (windowWidth - weathermapContext.wmRwdSize.width - 220 - 60) * 0.75;
+        (windowWidth - weathermapContext.wmRwdSize.width - 220 ) * 0.75;
+      if(newSidePanelSize.width < 300) newSidePanelSize.width = 300;
       setSidePanelSize(newSidePanelSize);
     }
   }, [weathermapContext.wmRwdSize.width, windowWidth]);
@@ -52,7 +54,7 @@ const ModelViewSidePanel = props => {
   ) : !weathermapContext.weathermapsResponse.availableFcstHour ? (
     <div
       className={`${
-        (appStatus.isLandscape)? "right" : ""
+        (appStatus.isLandscape)? "left" : ""
       }`}
       style={{
         width: appStatus.isMobile && !appStatus.isLandscape ? "100%" : "250px",

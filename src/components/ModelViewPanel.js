@@ -21,7 +21,7 @@ const ModelViewPanel = props => {
   const weathermapsResponse = useWeathermapsFromAtmo(queryWeathermapsInfoParam);
   const [isLandScapeMode, setIsLandScapeMode] = useState(true); //TODO: move to app context scope
   const [currentIMGIdx, setCurrentIMGIdx] = useState();
-  const {shouldStartLoading} = useLazyLoadingOrderForWeathermap(
+  const { shouldStartLoading } = useLazyLoadingOrderForWeathermap(
     weathermapsResponse,
     currentIMGIdx
   );
@@ -79,29 +79,43 @@ const ModelViewPanel = props => {
       weathermapsResponse.imageDimensions.height
     ) {
       // let imgHeight = isLandScapeMode ? height / 1.4 : undefined
-      let imgHeight = appStatus.isLandscape ? ( appStatus.isMobile? height / 1.4 : undefined ) : undefined
-      let imgWidth = appStatus.isLandscape ? undefined : (appStatus.isMobile? width / 1.05 : (width - 220) / 1.2)
+      let imgHeight = appStatus.isLandscape ? (appStatus.isMobile ? height / 1.4 : undefined) : undefined
+      let imgWidth = appStatus.isLandscape ? undefined : (appStatus.isMobile ? width / 1.1 : (width - 220) / 1.2)
 
-      // handle landscape mode && not mobile situation
-      if(!imgHeight && !imgWidth){
-        //east Asia weathermap (land scape image) situation
+      // handle landscape mode && not mobile situation (PC, iPad, iPad pro)
+      if (!imgHeight && !imgWidth) {
         let aspectRatio = weathermapsResponse.imageDimensions.width / weathermapsResponse.imageDimensions.height
-        if(aspectRatio > 1.15){
-          imgHeight = (height - 64 - 40) * 0.75;
-        } else {
-          imgWidth = (weathermapsResponse.imageDimensions.width - 220 ) * 0.6;
+        // 4:3 tablet
+        if (Math.abs(width / height) < 1.34) {
+          //east Asia weathermap (land scape image) situation
+          if (aspectRatio > 1.15) {
+            imgHeight = (height - 64 - 40) * 0.75;
+          } else {
+            //side nav: 220, side panel:300
+            imgWidth = (width - 220 - 300 - 70);
+          }
+        }
+        // desktop
+        else {
+          //east Asia weathermap (land scape image) situation
+          if (aspectRatio > 1.15) {
+            imgHeight = (height - 64 - 40) * 0.75;
+          } else {
+            // imgWidth = (width - 220) * 0.6;
+            imgHeight = (height - 64 - 40) * 0.75;
+          }
         }
       }
 
-      if(!imgHeight){
+      if (!imgHeight) {
         let adjustRatio = imgWidth / weathermapsResponse.imageDimensions.width;
         imgHeight = weathermapsResponse.imageDimensions.height * adjustRatio;
       }
-      if(!imgWidth){
+      if (!imgWidth) {
         let adjustRatio = imgHeight / weathermapsResponse.imageDimensions.height;
         imgWidth = weathermapsResponse.imageDimensions.width * adjustRatio;
       }
-      dispatchWeathermapInfo({type:"SET_WEATHERMAP_RWD_SIZE", payload: {height:imgHeight, width:imgWidth}})
+      dispatchWeathermapInfo({ type: "SET_WEATHERMAP_RWD_SIZE", payload: { height: imgHeight, width: imgWidth } })
     }
   }, [weathermapsResponse, width, height, isLandScapeMode]);
 
@@ -122,22 +136,22 @@ const ModelViewPanel = props => {
     <span>Oops! Something went wrong!</span>
   ) : weathermapsResponse.weathermapsInfo &&
     weathermapsResponse.weathermapsInfo.length > 0 ? (
-    weathermapsResponse.weathermapsInfo.map((info, idx) => {
-      let weathermapProps = {
-        shouldStartLoading:
-          shouldStartLoading.length > 0 ? shouldStartLoading[idx] : false,
-        rwdImgSize,
-        currentIMGIdx,
-        info,
-        idx,
-        isLandScapeMode,
-        height,
-        width
-      };
-      return <Weathermap {...weathermapProps} />;
-    })
-  ) : (
-    <span>No available weather map</span>
-  );
+          weathermapsResponse.weathermapsInfo.map((info, idx) => {
+            let weathermapProps = {
+              shouldStartLoading:
+                shouldStartLoading.length > 0 ? shouldStartLoading[idx] : false,
+              rwdImgSize,
+              currentIMGIdx,
+              info,
+              idx,
+              isLandScapeMode,
+              height,
+              width
+            };
+            return <Weathermap {...weathermapProps} />;
+          })
+        ) : (
+          <span>No available weather map</span>
+        );
 };
 export default ModelViewPanel;
