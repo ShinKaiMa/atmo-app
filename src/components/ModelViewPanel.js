@@ -78,8 +78,8 @@ const ModelViewPanel = props => {
       weathermapsResponse.imageDimensions.width &&
       weathermapsResponse.imageDimensions.height
     ) {
-      // let imgHeight = isLandScapeMode ? height / 1.4 : undefined
-      let imgHeight = appStatus.isLandscape ? (appStatus.isMobile ? height / 1.4 : undefined) : undefined
+      // let imgHeight = appStatus.isLandscape ? (appStatus.isMobile ? height / 1.4 : undefined) : undefined
+      let imgHeight = appStatus.isLandscape ? (appStatus.isMobile ? (height - 64 - 40) * 0.85 : undefined) : undefined
       let imgWidth = appStatus.isLandscape ? undefined : (appStatus.isMobile ? width / 1.1 : (width - 220) / 1.2)
 
       // handle landscape mode && not mobile situation (PC, iPad, iPad pro)
@@ -127,7 +127,7 @@ const ModelViewPanel = props => {
         highlightColor="rgba(240,240,240,1)"
       >
         <Skeleton
-          width={isLandScapeMode ? width / 3 : width / 1.8}
+          width={appStatus.isLandscape ? (appStatus.isMobile? width/1.5 : width/1.5) : (appStatus.isMobile? width/1.2 : width/1.5)}
           height={isLandScapeMode ? height - 200 : height / 3}
         />
       </SkeletonTheme>

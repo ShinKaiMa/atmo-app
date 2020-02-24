@@ -45,7 +45,7 @@ code {
   margin-left: 0;
   margin-right: 0;
   max-width: 100%;
-  width: 95%;
+  width: 96%;
 }
 
 /* #sideNavOption {
@@ -276,4 +276,8 @@ nav{
 
 .drag-target{
   width: 0px !important;
+}
+
+.card-panel{
+  border-radius: 20px !important;
 }

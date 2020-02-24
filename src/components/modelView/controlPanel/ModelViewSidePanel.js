@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import ModelInfoCard from "./ModelInfoCard";
 import ModelViewAnimationControlPanel from "./ModelViewAnimationControlPanel";
+import WeatherHeatMap from "./WeatherHeatmap"
+import WeatherLineChart from "./WeathermapLineChart"
 import { AppStatusContext } from "../../../contexts/AppStatusContext";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { WeathermapInfoContext } from "../../../contexts/WeathermapContext";
@@ -30,7 +32,7 @@ const ModelViewSidePanel = props => {
        * side navbar + padding: 220
        */
       newSidePanelSize.width =
-        (windowWidth - weathermapContext.wmRwdSize.width - 220 ) * 0.75;
+        (windowWidth - weathermapContext.wmRwdSize.width - 220 ) * 0.85;
       if(newSidePanelSize.width < 300) newSidePanelSize.width = 300;
       setSidePanelSize(newSidePanelSize);
     }
@@ -48,18 +50,21 @@ const ModelViewSidePanel = props => {
       }}
       // style={{ width: "550px" }}
     >
+      <ModelInfoCard {...sidePanelSize} />
       <ModelViewAnimationControlPanel />
-      <ModelInfoCard />
+      {/* <WeatherHeatMap {...sidePanelSize}/> */}
+      <WeatherLineChart {...sidePanelSize}/>
     </div>
   ) : !weathermapContext.weathermapsResponse.availableFcstHour ? (
     <div
       className={`${
-        (appStatus.isLandscape)? "left" : ""
+        (appStatus.isLandscape)? "right" : ""
       }`}
       style={{
-        width: appStatus.isMobile && !appStatus.isLandscape ? "100%" : "250px",
+        // width: appStatus.isLandscape ? (appStatus.isMobile? "100%" : "30%") : (appStatus.isMobile? "100%" : "30%"),
         paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "45px" : "",
-        paddingRight: "10px"
+        paddingRight: "10px",
+        // margin: appStatus.isLandscape ? (appStatus.isMobile? "0 auto" : "0 auto") : (appStatus.isMobile? "0 auto" : "0 auto")
       }}
       // style={{ width: "550px" }}
     >
@@ -69,15 +74,15 @@ const ModelViewSidePanel = props => {
         highlightColor="rgba(240,240,240,1)"
       >
         <Skeleton
-          width={appStatus.isLandscape ? windowWidth / 3 : windowWidth / 1.8}
+          width={appStatus.isLandscape ? (appStatus.isMobile? windowWidth/1.5 : windowWidth/1.5) : (appStatus.isMobile? windowWidth/1.2 : windowWidth/1.5)}
           height={windowHeight / 7}
         />
         <Skeleton
-          width={appStatus.isLandscape ? windowWidth / 3 : windowWidth / 1.8}
+          width={appStatus.isLandscape ? (appStatus.isMobile? windowWidth/1.5 : windowWidth/1.5) : (appStatus.isMobile? windowWidth/1.2 : windowWidth/1.5)}
           height={windowHeight / 7}
         />
         <Skeleton
-          width={appStatus.isLandscape ? windowWidth / 3 : windowWidth / 1.8}
+          width={appStatus.isLandscape ? (appStatus.isMobile? windowWidth/1.5 : windowWidth/1.5) : (appStatus.isMobile? windowWidth/1.2 : windowWidth/1.5)}
           height={windowHeight / 7}
         />
       </SkeletonTheme>

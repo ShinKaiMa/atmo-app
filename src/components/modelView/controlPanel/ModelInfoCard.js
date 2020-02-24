@@ -1,16 +1,25 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext } from "react";
 import cwbLogo from "../../../asset/CWB.png";
+import { AppStatusContext } from "../../../contexts/AppStatusContext";
 
-const ModelInfoCard = props => {
+const ModelInfoCard = ({sidePanelSize}) => {
+  const { appStatus } = useContext(AppStatusContext);
+  const [width, height] = appStatus.windowSize;
+
   return (
     <div>
-      <div className="tight card-panel grey lighten-5 z-depth-1 waves-effect waves-gray" style={{width: "100%"}}>
+      <div className="tight card-panel grey lighten-5 z-depth-1 waves-effect waves-gray"
+            style={{
+              width: "100%",
+              maxHeight: height <= 360 && appStatus.isLandscape ? "70px" : "100%",
+              overflowY: height <= 360 && appStatus.isLandscape ? "scroll" : "hiden",
+              }}>
         <div
         className="row valign-wrapper"
          style={{
              marging : "0px",
              padding: "0px",
-             margin: "0"
+             margin: "0",
          }}>
           <div className="col s2">
             <img src={cwbLogo} alt="" className="circle  responsive-img" />
@@ -20,7 +29,7 @@ const ModelInfoCard = props => {
               CWB WRF (3km)
             </h6>
             <span className="black-text">
-              These weathermaps are generated using grid data from the{" "}
+              These data are generated using grid data and forcast from the{" "}
               <a href="https://www.cwb.gov.tw/eng/" target="_blank">
                 CWB
               </a>

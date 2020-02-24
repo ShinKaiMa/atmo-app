@@ -19,7 +19,7 @@ const ModelViewAnimationControlPanel = props => {
           {/* play button */}
           <div className="col s7 tight">
               <a
-                className="btn-flat btn-floating  waves-effect waves-gray"
+                className="btn btn-flat btn-floating  waves-effect waves-gray"
                 style={{ backgroundColor: "transparent",border: "1px gray solid" }}
                 title="speed down"
               >
@@ -29,7 +29,7 @@ const ModelViewAnimationControlPanel = props => {
               </a>
               <a
                 title="play"
-                className="btn-flat btn-floating  waves-effect waves-gray"
+                className="btn btn-flat btn-floating  waves-effect waves-gray"
                 style={{
                   backgroundColor: "transparent",
                   border: "1px gray solid"
@@ -40,7 +40,7 @@ const ModelViewAnimationControlPanel = props => {
                 </i>
               </a>
               <a
-                className="btn-flat btn-floating  waves-effect waves-gray"
+                className="btn btn-flat btn-floating  waves-effect waves-gray"
                 style={{ backgroundColor: "transparent", border: "1px gray solid" }}
                 title="speed up"
               >
