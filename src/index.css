@@ -254,11 +254,11 @@ background-color: rgba(230,230,230,1) !important;
 
 
 nav{
-  transition: top 0.5s;
+  transition: top 0.7s;
 }
 
 .bottomNav-wrapper{
-  transition: bottom 0.5s;
+  transition: bottom 0.7s;
 }
 
 .card-panel.tight{

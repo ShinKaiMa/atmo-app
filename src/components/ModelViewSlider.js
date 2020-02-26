@@ -142,7 +142,7 @@ const ModelViewSlider = () => {
           top: (appStatus.isMobile && !appStatus.isLandscape)  || (!appStatus.isMobile && !appStatus.isLandscape)? "" : `${60 + 64 + weathermapContext.wmRwdSize.height + 5}px`,
           // left: appStatus.isMobile && !appStatus.isLandscape? "" : "40%",
           // right: appStatus.isMobile && !appStatus.isLandscape? "" : "55%",
-          height: "5px",
+          height: "10px",
           width: appStatus.isMobile? width*0.9 : weathermapContext.wmRwdSize.width,
           margin:"0 auto",
           // marginTop: appStatus.isMobile && !appStatus.isLandscape? "20px" : "0px",

@@ -127,8 +127,8 @@ const ModelViewPanel = props => {
         highlightColor="rgba(240,240,240,1)"
       >
         <Skeleton
-          width={appStatus.isLandscape ? (appStatus.isMobile? width/1.5 : width/1.5) : (appStatus.isMobile? width/1.2 : width/1.5)}
-          height={isLandScapeMode ? height - 200 : height / 3}
+          width={appStatus.isLandscape ? (appStatus.isMobile? width/1.5 : width/3.5) : (appStatus.isMobile? width/1.2 : width/1.5)}
+          height={isLandScapeMode ? (appStatus.isMobile? (height - 100) / 1.2 : (height - 200) /1.3) :  (appStatus.isMobile? (height - 100) / 1.2 : height / 3)}
         />
       </SkeletonTheme>
     </div>

@@ -11,7 +11,7 @@ const ModelViewSidePanel = props => {
   const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
   const { weathermapContext } = useContext(WeathermapInfoContext);
   const [windowWidth, windowHeight] = appStatus.windowSize;
-  const [sidePanelSize, setSidePanelSize] = useState({ height: 0, width: 0 });
+  const [sidePanelSize, setSidePanelSize] = useState({ height: 0, width: 300 });
 
   useEffect(() => {
     let newSidePanelSize = { height: weathermapContext.wmRwdSize.height };
@@ -48,23 +48,22 @@ const ModelViewSidePanel = props => {
         width: appStatus.isMobile ? (appStatus.isLandscape ? sidePanelSize.width : "100%") : (appStatus.isLandscape ? sidePanelSize.width : "100%"),
         paddingTop: (appStatus.isMobile && !appStatus.isLandscape) || (!appStatus.isMobile && !appStatus.isLandscape) ? "50px" : ""
       }}
-      // style={{ width: "550px" }}
     >
-      <ModelInfoCard {...sidePanelSize} />
+      {!appStatus.isMobile || !appStatus.isLandscape ? <WeatherHeatMap {...sidePanelSize}/> : ""}
       <ModelViewAnimationControlPanel />
-      {/* <WeatherHeatMap {...sidePanelSize}/> */}
-      <WeatherLineChart {...sidePanelSize}/>
+      <ModelInfoCard {...sidePanelSize} />
+      {/* <WeatherLineChart {...sidePanelSize}/> */}
     </div>
   ) : !weathermapContext.weathermapsResponse.availableFcstHour ? (
     <div
-      className={`${
-        (appStatus.isLandscape)? "right" : ""
+      className={`row ${
+        (appStatus.isLandscape)? "left" : ""
       }`}
       style={{
-        // width: appStatus.isLandscape ? (appStatus.isMobile? "100%" : "30%") : (appStatus.isMobile? "100%" : "30%"),
-        paddingTop: appStatus.isMobile && !appStatus.isLandscape ? "45px" : "",
-        paddingRight: "10px",
-        // margin: appStatus.isLandscape ? (appStatus.isMobile? "0 auto" : "0 auto") : (appStatus.isMobile? "0 auto" : "0 auto")
+        width: appStatus.isMobile ? (appStatus.isLandscape ? sidePanelSize.width : "100%") : (appStatus.isLandscape ? (windowWidth - 220 )/6 : "100%"),
+        paddingTop: (appStatus.isMobile && !appStatus.isLandscape) || (!appStatus.isMobile && !appStatus.isLandscape) ? "50px" : "",
+        marginLeft: "30px",
+        display: appStatus.isMobile ? "none" : "block"
       }}
       // style={{ width: "550px" }}
     >
@@ -74,17 +73,11 @@ const ModelViewSidePanel = props => {
         highlightColor="rgba(240,240,240,1)"
       >
         <Skeleton
-          width={appStatus.isLandscape ? (appStatus.isMobile? windowWidth/1.5 : windowWidth/1.5) : (appStatus.isMobile? windowWidth/1.2 : windowWidth/1.5)}
+          count={3}
+          width={appStatus.isMobile ? (appStatus.isLandscape ? sidePanelSize.width : "100%") : (appStatus.isLandscape ? 300 : "100%")}
           height={windowHeight / 7}
         />
-        <Skeleton
-          width={appStatus.isLandscape ? (appStatus.isMobile? windowWidth/1.5 : windowWidth/1.5) : (appStatus.isMobile? windowWidth/1.2 : windowWidth/1.5)}
-          height={windowHeight / 7}
-        />
-        <Skeleton
-          width={appStatus.isLandscape ? (appStatus.isMobile? windowWidth/1.5 : windowWidth/1.5) : (appStatus.isMobile? windowWidth/1.2 : windowWidth/1.5)}
-          height={windowHeight / 7}
-        />
+
       </SkeletonTheme>
     </div>
   ) : (

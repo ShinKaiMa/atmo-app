@@ -11,7 +11,7 @@ const WeatherHeatMap = ({ width, height }) => {
         name: "TPE",
         data: [
           {
-            x: "2/25 16",
+            x: "W1",
             y: 32
           },
           {
@@ -32,7 +32,7 @@ const WeatherHeatMap = ({ width, height }) => {
         name: "Series 2",
         data: [
           {
-            x: "2/25 16",
+            x: "W1",
             y: 20
           },
           {
@@ -53,7 +53,7 @@ const WeatherHeatMap = ({ width, height }) => {
         name: "Series 3",
         data: [
           {
-            x: "2/25 16",
+            x: "W1",
             y: 20
           },
           {
@@ -74,7 +74,7 @@ const WeatherHeatMap = ({ width, height }) => {
         name: "Series 4",
         data: [
           {
-            x: "2/25 16",
+            x: "W1",
             y: 27
           },
           {
@@ -95,7 +95,7 @@ const WeatherHeatMap = ({ width, height }) => {
         name: "Series 5",
         data: [
           {
-            x: "2/25 16",
+            x: "W1",
             y: 23
           },
           {
@@ -115,8 +115,11 @@ const WeatherHeatMap = ({ width, height }) => {
     ],
     options: {
       chart: {
+        toolbar: {
+          show: false
+        },
         type: "heatmap",
-        width : appStatus.isLandscape? width : "100%",
+        width : appStatus.isLandscape? appStatus.isMobile? "100%" : width : "100%",
       },
       dataLabels: {
         enabled: true
@@ -124,7 +127,7 @@ const WeatherHeatMap = ({ width, height }) => {
       colors: ["#14293D"],
       title: {
         text: "Temperature"
-      }
+      },
     }
   };
   return (

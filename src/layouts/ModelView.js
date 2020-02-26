@@ -8,7 +8,8 @@ import ModelViewPanel from "../components/ModelViewPanel";
 import { UserSelectedModelViewContext } from "../contexts/UserSelectedModelViewContext";
 import { WeathermapInfoContext } from "../contexts/WeathermapContext";
 import { AppStatusContext } from "../contexts/AppStatusContext";
-import ModelViewControlPanel from "../components/modelView/controlPanel/ModelViewSidePanel"
+import ModelViewSidePanel from "../components/modelView/controlPanel/ModelViewSidePanel"
+import MobileAdditionalLandscapePanel from "../components/modelView/mobileAdditionalControlPanel/MobileAdditionalLandscapePanel"
 
 const ModelView = props => {
   const { appStatus, dispatchAppStatus } = useContext(AppStatusContext);
@@ -43,7 +44,8 @@ const ModelView = props => {
         <ModelViewBreadcrumbs props />
         <ModelViewPanel key="ModelViewPanel" />
         <ModelViewSlider key="ModelViewSlider" />
-        <ModelViewControlPanel key="ModelViewControlPanel" />
+        <ModelViewSidePanel key="ModelViewSidePanel" />
+        <MobileAdditionalLandscapePanel key="MobileAdditionalLandscapePanel"/>
       </div>
       <ModelViewBottomNavbar props />
     </React.Fragment>
